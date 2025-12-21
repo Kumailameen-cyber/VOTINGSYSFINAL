@@ -27,34 +27,46 @@ namespace practice.Controllers
             return View();
         }
 
+
         // POST: Login
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginDto loginDto)
         {
+            // 1. Validate the input fields (Email/Password format)
             if (!ModelState.IsValid)
             {
                 return View(loginDto);
             }
 
+            // 2. Attempt to authenticate via the service
             var result = await _authService.LoginAsync(loginDto);
 
+            // 3. Check if the user exists/password matches
             if (result == null)
             {
                 ModelState.AddModelError(string.Empty, "Invalid email or password.");
                 return View(loginDto);
             }
 
-            // Store token in cookie
+            // 4. BLOCK LOGIN if the user is not verified by an Admin
+            // This prevents "bad cookies" from being created for unapproved users
+            if (!result.IsVerified)
+            {
+                ModelState.AddModelError(string.Empty, "Your account is pending admin verification. You cannot log in yet.");
+                return View(loginDto);
+            }
+
+            // 5. Store token in cookie (Only reached if the user is verified)
             Response.Cookies.Append("AuthToken", result.Token, new CookieOptions
             {
                 HttpOnly = true,
-                Secure = true,
+                Secure = true, // Ensure this is true if using HTTPS
                 SameSite = SameSiteMode.Strict,
                 Expires = DateTimeOffset.UtcNow.AddHours(24)
             });
 
-            // Store user info in session
+            // 6. Store user info in session
             HttpContext.Session.SetString("UserId", result.UserId.ToString());
             HttpContext.Session.SetString("FullName", result.FullName);
             HttpContext.Session.SetString("Email", result.Email);
@@ -63,10 +75,9 @@ namespace practice.Controllers
 
             TempData["SuccessMessage"] = $"Welcome back, {result.FullName}!";
 
-            // Redirect based on role
+            // 7. Redirect to the appropriate dashboard
             return RedirectToDashboard(result.Role);
         }
-
         // GET: Voter Registration Page
         [HttpGet]
         public IActionResult VoterRegister()
