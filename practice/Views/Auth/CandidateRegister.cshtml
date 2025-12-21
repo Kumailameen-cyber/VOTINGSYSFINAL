@@ -1,0 +1,136 @@
+@model practice.DTOs.RegisterCandidateDto
+@{
+    ViewData["Title"] = "Candidate Registration";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-5 mb-5">
+    <div class="row justify-content-center">
+        <div class="col-md-10 col-lg-9">
+            <div class="card shadow-lg border-0 rounded-lg">
+                <div class="card-header bg-info text-white text-center py-4">
+                    <h3 class="mb-0">
+                        <i class="fas fa-user-tie me-2"></i>Candidate Registration
+                    </h3>
+                    <p class="mb-0 mt-2 small">Register to contest in elections</p>
+                </div>
+                <div class="card-body p-4">
+                    <form asp-action="CandidateRegister" method="post">
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+                        <h5 class="border-bottom pb-2 mb-3 text-primary">
+                            <i class="fas fa-user-circle me-2"></i>Personal Information
+                        </h5>
+
+                        <div class="row">
+                            <div class="col-md-12 mb-3">
+                                <label asp-for="FullName" class="form-label fw-bold">Full Name</label>
+                                <input asp-for="FullName" class="form-control" placeholder="Enter your full name" />
+                                <span asp-validation-for="FullName" class="text-danger small"></span>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="Email" class="form-label fw-bold">Email</label>
+                                <input asp-for="Email" class="form-control" placeholder="your.email@example.com" />
+                                <span asp-validation-for="Email" class="text-danger small"></span>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="PhoneNumber" class="form-label fw-bold">Phone Number</label>
+                                <input asp-for="PhoneNumber" class="form-control" placeholder="10-digit number" />
+                                <span asp-validation-for="PhoneNumber" class="text-danger small"></span>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="AadharNumber" class="form-label fw-bold">Aadhar Number</label>
+                                <input asp-for="AadharNumber" class="form-control" placeholder="12-digit number" />
+                                <span asp-validation-for="AadharNumber" class="text-danger small"></span>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="VoterIdNumber" class="form-label fw-bold">Voter ID Number</label>
+                                <input asp-for="VoterIdNumber" class="form-control" placeholder="Enter Voter ID" />
+                                <span asp-validation-for="VoterIdNumber" class="text-danger small"></span>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="Password" class="form-label fw-bold">Password</label>
+                                <input asp-for="Password" type="password" class="form-control" placeholder="Minimum 6 characters" />
+                                <span asp-validation-for="Password" class="text-danger small"></span>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="ConfirmPassword" class="form-label fw-bold">Confirm Password</label>
+                                <input asp-for="ConfirmPassword" type="password" class="form-control" placeholder="Re-enter password" />
+                                <span asp-validation-for="ConfirmPassword" class="text-danger small"></span>
+                            </div>
+                        </div>
+
+                        <h5 class="border-bottom pb-2 mb-3 mt-4 text-primary">
+                            <i class="fas fa-flag me-2"></i>Political Information
+                        </h5>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="PartyName" class="form-label fw-bold">Party Name</label>
+                                <input asp-for="PartyName" class="form-control" placeholder="Your party name" />
+                                <span asp-validation-for="PartyName" class="text-danger small"></span>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="PartySymbol" class="form-label fw-bold">Party Symbol</label>
+                                <input asp-for="PartySymbol" class="form-control" placeholder="e.g., Lotus, Hand" />
+                                <span asp-validation-for="PartySymbol" class="text-danger small"></span>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Manifesto" class="form-label fw-bold">Manifesto</label>
+                            <textarea asp-for="Manifesto" class="form-control" rows="3" placeholder="Your election manifesto (max 500 characters)"></textarea>
+                            <span asp-validation-for="Manifesto" class="text-danger small"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Biography" class="form-label fw-bold">Biography (Optional)</label>
+                            <textarea asp-for="Biography" class="form-control" rows="3" placeholder="Brief biography"></textarea>
+                            <span asp-validation-for="Biography" class="text-danger small"></span>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="Education" class="form-label fw-bold">Education (Optional)</label>
+                                <input asp-for="Education" class="form-control" placeholder="Your educational qualifications" />
+                                <span asp-validation-for="Education" class="text-danger small"></span>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="PreviousExperience" class="form-label fw-bold">Previous Experience (Optional)</label>
+                                <input asp-for="PreviousExperience" class="form-control" placeholder="Political or relevant experience" />
+                                <span asp-validation-for="PreviousExperience" class="text-danger small"></span>
+                            </div>
+                        </div>
+
+                        <div class="alert alert-warning mb-3">
+                            <i class="fas fa-exclamation-triangle me-2"></i>
+                            <small>Your candidature will be reviewed and approved by admin before you can participate in elections.</small>
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-info btn-lg text-white">
+                                <i class="fas fa-user-tie me-2"></i>Register as Candidate
+                            </button>
+                            <a asp-action="Login" class="btn btn-outline-secondary">
+                                <i class="fas fa-arrow-left me-2"></i>Back to Login
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

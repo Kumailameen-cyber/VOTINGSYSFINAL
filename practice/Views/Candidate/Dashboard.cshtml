@@ -1,0 +1,209 @@
+@{
+    ViewData["Title"] = "Candidate Dashboard";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var user = ViewBag.User as practice.Models.User;
+    var candidate = ViewBag.Candidate as practice.Models.Candidate;
+    var activeElection = ViewBag.ActiveElection as practice.Models.Election;
+    var totalVotes = (int)ViewBag.TotalVotes;
+}
+
+<div class="container mt-4">
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card bg-gradient-info text-white shadow-lg border-0">
+                <div class="card-body py-5">
+                    <div class="row align-items-center">
+                        <div class="col-md-8">
+                            <h2 class="mb-2">
+                                <i class="fas fa-user-tie me-2"></i>@user?.FullName
+                            </h2>
+                            <h4 class="mb-2">
+                                <i class="fas fa-flag me-2"></i>@candidate?.PartyName
+                            </h4>
+                            <p class="mb-0">
+                                <i class="fas fa-envelope me-2"></i>@user?.Email
+                                @if (user?.IsVerified == true && candidate?.IsApproved == true)
+                                {
+                                    <span class="badge bg-success ms-2">
+                                        <i class="fas fa-check-circle me-1"></i>Approved
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-warning ms-2">
+                                        <i class="fas fa-clock me-1"></i>Pending Approval
+                                    </span>
+                                }
+                            </p>
+                        </div>
+                        <div class="col-md-4 text-md-end mt-3 mt-md-0">
+                            <div class="bg-white rounded p-3 shadow">
+                                <h6 class="text-muted mb-1">Total Votes Received</h6>
+                                <h1 class="text-primary mb-0">
+                                    <i class="fas fa-vote-yea me-2"></i>@totalVotes
+                                </h1>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @if (user?.IsVerified != true || candidate?.IsApproved != true)
+    {
+        <div class="alert alert-warning shadow mb-4">
+            <h5 class="alert-heading">
+                <i class="fas fa-exclamation-triangle me-2"></i>Candidature Pending Approval
+            </h5>
+            <p class="mb-0">Your candidature is currently under review by the admin. You will be notified once approved.</p>
+        </div>
+    }
+
+    <!-- Active Election Info -->
+    @if (activeElection != null && candidate?.IsApproved == true)
+    {
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card shadow border-0">
+                    <div class="card-header bg-primary text-white py-3">
+                        <h4 class="mb-0">
+                            <i class="fas fa-poll-h me-2"></i>Active Election
+                        </h4>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="mb-2">@activeElection.Title</h5>
+                        <p class="text-muted mb-3">@activeElection.Description</p>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <small class="text-muted">Start Date</small>
+                                <p class="fw-bold">@activeElection.StartDate.ToString("MMM dd, yyyy")</p>
+                            </div>
+                            <div class="col-md-3">
+                                <small class="text-muted">End Date</small>
+                                <p class="fw-bold">@activeElection.EndDate.ToString("MMM dd, yyyy")</p>
+                            </div>
+                            <div class="col-md-3">
+                                <small class="text-muted">Type</small>
+                                <p class="fw-bold">@activeElection.ElectionType</p>
+                            </div>
+                            <div class="col-md-3">
+                                <small class="text-muted">Status</small>
+                                <p class="fw-bold">
+                                    <span class="badge bg-success">
+                                        <i class="fas fa-check-circle me-1"></i>Active
+                                    </span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+    <!-- Candidate Profile Summary -->
+    <div class="row mb-4">
+        <div class="col-md-8">
+            <div class="card shadow border-0 h-100">
+                <div class="card-header bg-light py-3">
+                    <h5 class="mb-0">
+                        <i class="fas fa-id-card me-2"></i>Your Profile
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <p class="mb-2">
+                                <strong><i class="fas fa-flag me-2 text-primary"></i>Party Name:</strong><br/>
+                                @candidate?.PartyName
+                            </p>
+                        </div>
+                        <div class="col-md-6">
+                            <p class="mb-2">
+                                <strong><i class="fas fa-tag me-2 text-primary"></i>Party Symbol:</strong><br/>
+                                @candidate?.PartySymbol
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <p class="mb-2">
+                            <strong><i class="fas fa-scroll me-2 text-primary"></i>Manifesto:</strong>
+                        </p>
+                        <p class="text-muted">@candidate?.Manifesto</p>
+                    </div>
+
+                    @if (!string.IsNullOrEmpty(candidate?.Biography))
+                    {
+                        <div class="mb-3">
+                            <p class="mb-2">
+                                <strong><i class="fas fa-user me-2 text-primary"></i>Biography:</strong>
+                            </p>
+                            <p class="text-muted">@candidate?.Biography</p>
+                        </div>
+                    }
+
+                    <div class="row">
+                        @if (!string.IsNullOrEmpty(candidate?.Education))
+                        {
+                            <div class="col-md-6 mb-2">
+                                <p class="mb-1">
+                                    <strong><i class="fas fa-graduation-cap me-2 text-primary"></i>Education:</strong>
+                                </p>
+                                <p class="text-muted">@candidate?.Education</p>
+                            </div>
+                        }
+                        @if (!string.IsNullOrEmpty(candidate?.PreviousExperience))
+                        {
+                            <div class="col-md-6 mb-2">
+                                <p class="mb-1">
+                                    <strong><i class="fas fa-briefcase me-2 text-primary"></i>Experience:</strong>
+                                </p>
+                                <p class="text-muted">@candidate?.PreviousExperience</p>
+                            </div>
+                        }
+                    </div>
+
+                    <div class="text-center mt-3">
+                        <a asp-action="EditProfile" class="btn btn-primary">
+                            <i class="fas fa-edit me-2"></i>Edit Profile
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card shadow border-0 mb-4">
+                <div class="card-body text-center py-4">
+                    <i class="fas fa-chart-line fa-4x text-success mb-3"></i>
+                    <h5 class="card-title">View Results</h5>
+                    <p class="text-muted">Check your performance</p>
+                    <a asp-action="Results" class="btn btn-outline-success">
+                        <i class="fas fa-chart-bar me-2"></i>View Results
+                    </a>
+                </div>
+            </div>
+
+            <div class="card shadow border-0">
+                <div class="card-body text-center py-4">
+                    <i class="fas fa-info-circle fa-4x text-info mb-3"></i>
+                    <h5 class="card-title">Account Info</h5>
+                    <p class="mb-1 small"><strong>Voter ID:</strong> @user?.VoterIdNumber</p>
+                    <p class="mb-1 small"><strong>Phone:</strong> @user?.PhoneNumber</p>
+                    <p class="mb-0 small">
+                        <strong>Registered:</strong><br/>
+                        @candidate?.RegisteredAt.ToString("MMM dd, yyyy")
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .bg-gradient-info {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+</style>

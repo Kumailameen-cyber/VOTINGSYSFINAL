@@ -1,0 +1,211 @@
+@{
+    ViewData["Title"] = "Admin Dashboard";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var totalVoters = (int)ViewBag.TotalVoters;
+    var totalCandidates = (int)ViewBag.TotalCandidates;
+    var pendingVerifications = (int)ViewBag.PendingVerifications;
+    var pendingApprovals = (int)ViewBag.PendingApprovals;
+    var activeElections = (int)ViewBag.ActiveElections;
+    var totalVotesCast = (int)ViewBag.TotalVotesCast;
+}
+
+<div class="container-fluid mt-4">
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card bg-gradient-dark text-white shadow-lg border-0">
+                <div class="card-body py-4">
+                    <h2 class="mb-2">
+                        <i class="fas fa-tachometer-alt me-2"></i>Admin Dashboard
+                    </h2>
+                    <p class="mb-0">Manage and monitor the Online Voting System</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Statistics Cards -->
+    <div class="row mb-4">
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-0 shadow h-100">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="flex-grow-1">
+                            <div class="text-muted small">Total Voters</div>
+                            <div class="h2 mb-0">@totalVoters</div>
+                        </div>
+                        <div class="ms-3">
+                            <i class="fas fa-users fa-3x text-primary opacity-50"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer bg-primary text-white d-flex align-items-center justify-content-between">
+                    <a asp-action="ManageUsers" class="text-white small stretched-link">View Details</a>
+                    <i class="fas fa-arrow-right text-white"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-0 shadow h-100">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="flex-grow-1">
+                            <div class="text-muted small">Total Candidates</div>
+                            <div class="h2 mb-0">@totalCandidates</div>
+                        </div>
+                        <div class="ms-3">
+                            <i class="fas fa-user-tie fa-3x text-success opacity-50"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer bg-success text-white d-flex align-items-center justify-content-between">
+                    <a asp-action="ManageCandidates" class="text-white small stretched-link">View Details</a>
+                    <i class="fas fa-arrow-right text-white"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-0 shadow h-100">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="flex-grow-1">
+                            <div class="text-muted small">Pending Verifications</div>
+                            <div class="h2 mb-0">@pendingVerifications</div>
+                        </div>
+                        <div class="ms-3">
+                            <i class="fas fa-user-clock fa-3x text-warning opacity-50"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer bg-warning text-dark d-flex align-items-center justify-content-between">
+                    <a asp-action="ManageUsers" class="text-dark small stretched-link">View Details</a>
+                    <i class="fas fa-arrow-right text-dark"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-0 shadow h-100">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="flex-grow-1">
+                            <div class="text-muted small">Pending Approvals</div>
+                            <div class="h2 mb-0">@pendingApprovals</div>
+                        </div>
+                        <div class="ms-3">
+                            <i class="fas fa-user-check fa-3x text-info opacity-50"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer bg-info text-white d-flex align-items-center justify-content-between">
+                    <a asp-action="ManageCandidates" class="text-white small stretched-link">View Details</a>
+                    <i class="fas fa-arrow-right text-white"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mb-4">
+        <div class="col-xl-6 col-md-6 mb-4">
+            <div class="card border-0 shadow h-100">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="flex-grow-1">
+                            <div class="text-muted small">Active Elections</div>
+                            <div class="h2 mb-0">@activeElections</div>
+                        </div>
+                        <div class="ms-3">
+                            <i class="fas fa-poll fa-3x text-danger opacity-50"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer bg-danger text-white d-flex align-items-center justify-content-between">
+                    <a asp-action="ManageElections" class="text-white small stretched-link">Manage Elections</a>
+                    <i class="fas fa-arrow-right text-white"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-6 col-md-6 mb-4">
+            <div class="card border-0 shadow h-100">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="flex-grow-1">
+                            <div class="text-muted small">Total Votes Cast</div>
+                            <div class="h2 mb-0">@totalVotesCast</div>
+                        </div>
+                        <div class="ms-3">
+                            <i class="fas fa-vote-yea fa-3x text-secondary opacity-50"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer bg-secondary text-white d-flex align-items-center justify-content-between">
+                    <span class="small">System Statistics</span>
+                    <i class="fas fa-chart-bar text-white"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card shadow border-0">
+                <div class="card-header bg-dark text-white py-3">
+                    <h5 class="mb-0">
+                        <i class="fas fa-bolt me-2"></i>Quick Actions
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row text-center">
+                        <div class="col-md-3 mb-3">
+                            <a asp-action="ManageUsers" class="btn btn-outline-primary btn-lg w-100 h-100 py-4">
+                                <i class="fas fa-users fa-3x mb-2 d-block"></i>
+                                Manage Users
+                            </a>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <a asp-action="ManageCandidates" class="btn btn-outline-success btn-lg w-100 h-100 py-4">
+                                <i class="fas fa-user-tie fa-3x mb-2 d-block"></i>
+                                Manage Candidates
+                            </a>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <a asp-action="ManageElections" class="btn btn-outline-danger btn-lg w-100 h-100 py-4">
+                                <i class="fas fa-poll fa-3x mb-2 d-block"></i>
+                                Manage Elections
+                            </a>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <a asp-action="CreateElection" class="btn btn-outline-info btn-lg w-100 h-100 py-4">
+                                <i class="fas fa-plus-circle fa-3x mb-2 d-block"></i>
+                                Create Election
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .bg-gradient-dark {
+        background: linear-gradient(135deg, #232526 0%, #414345 100%);
+    }
+
+    .opacity-50 {
+        opacity: 0.5;
+    }
+
+    .stretched-link::after {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        z-index: 1;
+        content: "";
+    }
+</style>

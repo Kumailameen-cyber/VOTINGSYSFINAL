@@ -1,0 +1,92 @@
+@model IEnumerable<practice.Models.Election>
+@{
+    ViewData["Title"] = "Manage Elections";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid mt-4">
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h2><i class="fas fa-poll me-2"></i>Manage Elections</h2>
+                <a asp-action="CreateElection" class="btn btn-primary btn-lg">
+                    <i class="fas fa-plus-circle me-2"></i>Create New Election
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        @foreach (var election in Model)
+        {
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="card shadow border-0 h-100">
+                    <div class="card-header @(election.IsActive ? "bg-success" : "bg-secondary") text-white">
+                        <h5 class="mb-0">@election.Title</h5>
+                        <small>@election.ElectionType</small>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">@election.Description</p>
+                        <div class="mb-2">
+                            <small class="text-muted">
+                                <i class="fas fa-calendar-alt me-1"></i>
+                                @election.StartDate.ToString("MMM dd, yyyy") - @election.EndDate.ToString("MMM dd, yyyy")
+                            </small>
+                        </div>
+                        <div class="mb-2">
+                            @if (election.IsActive)
+                            {
+                                <span class="badge bg-success">
+                                    <i class="fas fa-check-circle"></i> Active
+                                </span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-secondary">Inactive</span>
+                            }
+                            @if (election.ResultsPublished)
+                            {
+                                <span class="badge bg-info">
+                                    <i class="fas fa-chart-bar"></i> Results Published
+                                </span>
+                            }
+                        </div>
+                    </div>
+                    <div class="card-footer bg-white">
+                        <div class="d-grid gap-2">
+                            <form asp-action="ToggleElectionStatus" method="post" class="d-inline">
+                                <input type="hidden" name="electionId" value="@election.Id" />
+                                <button type="submit" class="btn @(election.IsActive ? "btn-warning" : "btn-success") btn-sm w-100">
+                                    <i class="fas @(election.IsActive ? "fa-pause" : "fa-play") me-1"></i>
+                                    @(election.IsActive ? "Deactivate" : "Activate")
+                                </button>
+                            </form>
+                            @if (!election.ResultsPublished)
+                            {
+                                <form asp-action="PublishResults" method="post" class="d-inline">
+                                    <input type="hidden" name="electionId" value="@election.Id" />
+                                    <button type="submit" class="btn btn-info btn-sm w-100" onclick="return confirm('Publish results for this election?')">
+                                        <i class="fas fa-chart-line me-1"></i>Publish Results
+                                    </button>
+                                </form>
+                            }
+                            <a asp-action="ViewResults" asp-route-electionId="@election.Id" class="btn btn-outline-primary btn-sm w-100">
+                                <i class="fas fa-eye me-1"></i>View Results
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+    <div class="text-center mt-4">
+        <a asp-action="Dashboard" class="btn btn-outline-secondary btn-lg">
+            <i class="fas fa-arrow-left me-2"></i>Back to Dashboard
+        </a>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

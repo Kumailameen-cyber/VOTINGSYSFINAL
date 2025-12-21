@@ -1,0 +1,108 @@
+@model IEnumerable<practice.Models.Candidate>
+@{
+    ViewData["Title"] = "Manage Candidates";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid mt-4">
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card shadow border-0">
+                <div class="card-header bg-success text-white py-3">
+                    <h3 class="mb-0">
+                        <i class="fas fa-user-tie me-2"></i>Manage Candidates
+                    </h3>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Party</th>
+                                    <th>Symbol</th>
+                                    <th>Manifesto</th>
+                                    <th>Total Votes</th>
+                                    <th>Status</th>
+                                    <th>Registered</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var candidate in Model)
+                                {
+                                    <tr>
+                                        <td>@candidate.Id</td>
+                                        <td>@candidate.User.FullName</td>
+                                        <td>@candidate.User.Email</td>
+                                        <td>@candidate.PartyName</td>
+                                        <td>
+                                            @if (!string.IsNullOrEmpty(candidate.PartySymbol))
+                                            {
+                                                <span class="badge bg-info">@candidate.PartySymbol</span>
+                                            }
+                                        </td>
+                                        <td>
+                                            <small>@(candidate.Manifesto.Length > 50 ? candidate.Manifesto.Substring(0, 50) + "..." : candidate.Manifesto)</small>
+                                        </td>
+                                        <td>
+                                            <strong class="text-primary">@candidate.TotalVotes</strong>
+                                        </td>
+                                        <td>
+                                            @if (candidate.IsApproved && candidate.User.IsVerified)
+                                            {
+                                                <span class="badge bg-success">
+                                                    <i class="fas fa-check-circle"></i> Approved
+                                                </span>
+                                            }
+                                            else
+                                            {
+                                                <span class="badge bg-warning">
+                                                    <i class="fas fa-clock"></i> Pending
+                                                </span>
+                                            }
+                                            @if (!candidate.User.IsActive)
+                                            {
+                                                <span class="badge bg-danger">Rejected</span>
+                                            }
+                                        </td>
+                                        <td>@candidate.RegisteredAt.ToString("MMM dd, yyyy")</td>
+                                        <td>
+                                            @if (!candidate.IsApproved && candidate.User.IsActive)
+                                            {
+                                                <form asp-action="ApproveCandidate" method="post" class="d-inline">
+                                                    <input type="hidden" name="candidateId" value="@candidate.Id" />
+                                                    <button type="submit" class="btn btn-success btn-sm">
+                                                        <i class="fas fa-check"></i> Approve
+                                                    </button>
+                                                </form>
+                                                <form asp-action="RejectCandidate" method="post" class="d-inline">
+                                                    <input type="hidden" name="candidateId" value="@candidate.Id" />
+                                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Reject this candidate?')">
+                                                        <i class="fas fa-times"></i> Reject
+                                                    </button>
+                                                </form>
+                                            }
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="text-center">
+        <a asp-action="Dashboard" class="btn btn-outline-secondary btn-lg">
+            <i class="fas fa-arrow-left me-2"></i>Back to Dashboard
+        </a>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

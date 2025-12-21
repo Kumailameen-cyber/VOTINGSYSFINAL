@@ -1,0 +1,151 @@
+using Microsoft.AspNetCore.Mvc;
+using practice.DTOs;
+using practice.Services;
+
+namespace practice.Controllers
+{
+    public class AuthController : Controller
+    {
+        private readonly IAuthService _authService;
+
+        public AuthController(IAuthService authService)
+        {
+            _authService = authService;
+        }
+
+        // GET: Login Page
+        [HttpGet]
+        public IActionResult Login()
+        {
+            // If already logged in, redirect to appropriate dashboard
+            if (User.Identity?.IsAuthenticated == true)
+            {
+                var role = User.Claims.FirstOrDefault(c => c.Type == System.Security.Claims.ClaimTypes.Role)?.Value;
+                return RedirectToDashboard(role);
+            }
+
+            return View();
+        }
+
+        // POST: Login
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Login(LoginDto loginDto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(loginDto);
+            }
+
+            var result = await _authService.LoginAsync(loginDto);
+
+            if (result == null)
+            {
+                ModelState.AddModelError(string.Empty, "Invalid email or password.");
+                return View(loginDto);
+            }
+
+            // Store token in cookie
+            Response.Cookies.Append("AuthToken", result.Token, new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = true,
+                SameSite = SameSiteMode.Strict,
+                Expires = DateTimeOffset.UtcNow.AddHours(24)
+            });
+
+            // Store user info in session
+            HttpContext.Session.SetString("UserId", result.UserId.ToString());
+            HttpContext.Session.SetString("FullName", result.FullName);
+            HttpContext.Session.SetString("Email", result.Email);
+            HttpContext.Session.SetString("Role", result.Role);
+            HttpContext.Session.SetString("IsVerified", result.IsVerified.ToString());
+
+            TempData["SuccessMessage"] = $"Welcome back, {result.FullName}!";
+
+            // Redirect based on role
+            return RedirectToDashboard(result.Role);
+        }
+
+        // GET: Voter Registration Page
+        [HttpGet]
+        public IActionResult VoterRegister()
+        {
+            return View();
+        }
+
+        // POST: Voter Registration
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> VoterRegister(RegisterVoterDto registerDto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(registerDto);
+            }
+
+            var result = await _authService.RegisterVoterAsync(registerDto);
+
+            if (!result)
+            {
+                ModelState.AddModelError(string.Empty, "Registration failed. Email or Voter ID may already exist.");
+                return View(registerDto);
+            }
+
+            TempData["SuccessMessage"] = "Registration successful! Please wait for admin verification before logging in.";
+            return RedirectToAction(nameof(Login));
+        }
+
+        // GET: Candidate Registration Page
+        [HttpGet]
+        public IActionResult CandidateRegister()
+        {
+            return View();
+        }
+
+        // POST: Candidate Registration
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CandidateRegister(RegisterCandidateDto registerDto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(registerDto);
+            }
+
+            var result = await _authService.RegisterCandidateAsync(registerDto);
+
+            if (!result)
+            {
+                ModelState.AddModelError(string.Empty, "Registration failed. Email or Voter ID may already exist.");
+                return View(registerDto);
+            }
+
+            TempData["SuccessMessage"] = "Candidate registration successful! Please wait for admin approval before logging in.";
+            return RedirectToAction(nameof(Login));
+        }
+
+        // Logout
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Logout()
+        {
+            Response.Cookies.Delete("AuthToken");
+            HttpContext.Session.Clear();
+            TempData["SuccessMessage"] = "You have been logged out successfully.";
+            return RedirectToAction(nameof(Login));
+        }
+
+        // Helper method to redirect to appropriate dashboard
+        private IActionResult RedirectToDashboard(string? role)
+        {
+            return role switch
+            {
+                "Admin" => RedirectToAction("Dashboard", "Admin"),
+                "Candidate" => RedirectToAction("Dashboard", "Candidate"),
+                "Voter" => RedirectToAction("Dashboard", "Voter"),
+                _ => RedirectToAction("Index", "Home")
+            };
+        }
+    }
+}

@@ -1,0 +1,157 @@
+@model IEnumerable<practice.DTOs.VoteResultDto>
+@{
+    ViewData["Title"] = "Election Results";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var election = ViewBag.Election as practice.Models.Election;
+    var totalVotes = (int)ViewBag.TotalVotes;
+    var candidateId = (int)ViewBag.CandidateId;
+    var myVotes = (int)ViewBag.MyVotes;
+}
+
+<div class="container mt-4 mb-5">
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card bg-gradient-info text-white shadow-lg border-0">
+                <div class="card-body py-4">
+                    <h2 class="mb-2">
+                        <i class="fas fa-chart-line me-2"></i>Your Performance
+                    </h2>
+                    <h4 class="mb-2">@election?.Title</h4>
+                    <div class="row mt-3">
+                        <div class="col-md-4">
+                            <div class="bg-white rounded p-3 shadow text-center">
+                                <h6 class="text-muted mb-1">Your Votes</h6>
+                                <h2 class="text-primary mb-0">@myVotes</h2>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="bg-white rounded p-3 shadow text-center">
+                                <h6 class="text-muted mb-1">Total Votes Cast</h6>
+                                <h2 class="text-success mb-0">@totalVotes</h2>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="bg-white rounded p-3 shadow text-center">
+                                <h6 class="text-muted mb-1">Your Share</h6>
+                                <h2 class="text-warning mb-0">
+                                    @((totalVotes > 0 ? (myVotes * 100.0 / totalVotes) : 0).ToString("F2"))%
+                                </h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @if (Model != null && Model.Any())
+    {
+        <div class="row">
+            <div class="col-12">
+                <div class="card shadow-lg border-0">
+                    <div class="card-header bg-primary text-white py-3">
+                        <h4 class="mb-0">
+                            <i class="fas fa-trophy me-2"></i>Complete Results
+                        </h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Rank</th>
+                                        <th>Candidate</th>
+                                        <th>Party</th>
+                                        <th class="text-center">Total Votes</th>
+                                        <th class="text-center">Vote %</th>
+                                        <th>Progress</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @{
+                                        int rank = 1;
+                                    }
+                                    @foreach (var result in Model)
+                                    {
+                                        var badgeClass = rank == 1 ? "bg-warning" : rank == 2 ? "bg-secondary" : rank == 3 ? "bg-danger" : "bg-info";
+                                        var iconClass = rank == 1 ? "fa-trophy" : rank == 2 ? "fa-medal" : rank == 3 ? "fa-award" : "fa-user";
+                                        var isCurrentCandidate = result.CandidateId == candidateId;
+                                        var rowClass = isCurrentCandidate ? "table-success" : "";
+
+                                        <tr class="@rowClass">
+                                            <td>
+                                                <span class="badge @badgeClass fs-6">
+                                                    <i class="fas @iconClass me-1"></i>#@rank
+                                                </span>
+                                            </td>
+                                            <td class="fw-bold">
+                                                @result.CandidateName
+                                                @if (isCurrentCandidate)
+                                                {
+                                                    <span class="badge bg-success ms-2">
+                                                        <i class="fas fa-user me-1"></i>You
+                                                    </span>
+                                                }
+                                            </td>
+                                            <td>
+                                                <span class="text-muted">@result.PartyName</span>
+                                                @if (!string.IsNullOrEmpty(result.PartySymbol))
+                                                {
+                                                    <small class="badge bg-light text-dark ms-1">@result.PartySymbol</small>
+                                                }
+                                            </td>
+                                            <td class="text-center">
+                                                <strong class="fs-5 text-primary">@result.TotalVotes</strong>
+                                            </td>
+                                            <td class="text-center">
+                                                <strong class="text-success">@result.VotePercentage.ToString("F2")%</strong>
+                                            </td>
+                                            <td>
+                                                <div class="progress" style="height: 25px;">
+                                                    <div class="progress-bar @(rank == 1 ? "bg-success" : rank == 2 ? "bg-info" : "bg-secondary")" 
+                                                         role="progressbar" 
+                                                         style="width: @result.VotePercentage%" 
+                                                         aria-valuenow="@result.VotePercentage" 
+                                                         aria-valuemin="0" 
+                                                         aria-valuemax="100">
+                                                        @result.VotePercentage.ToString("F1")%
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        rank++;
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-info shadow">
+            <h5 class="alert-heading">
+                <i class="fas fa-info-circle me-2"></i>No Results Available
+            </h5>
+            <p class="mb-0">Results for this election are not available yet or voting hasn't started.</p>
+        </div>
+    }
+
+    <div class="text-center mt-4">
+        <a asp-action="Dashboard" class="btn btn-outline-primary btn-lg">
+            <i class="fas fa-arrow-left me-2"></i>Back to Dashboard
+        </a>
+    </div>
+</div>
+
+<style>
+    .bg-gradient-info {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+
+    .table-success {
+        background-color: #d1f4e0 !important;
+    }
+</style>

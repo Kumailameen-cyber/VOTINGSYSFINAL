@@ -1,0 +1,96 @@
+@model practice.DTOs.CandidateDto
+@{
+    ViewData["Title"] = "Edit Profile";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-4 mb-5">
+    <div class="row justify-content-center">
+        <div class="col-md-10">
+            <div class="card shadow-lg border-0">
+                <div class="card-header bg-info text-white py-3">
+                    <h3 class="mb-0">
+                        <i class="fas fa-user-edit me-2"></i>Edit Your Profile
+                    </h3>
+                </div>
+                <div class="card-body p-4">
+                    <form asp-action="EditProfile" method="post">
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="PartyName" class="form-label fw-bold">
+                                    <i class="fas fa-flag me-1"></i>Party Name
+                                </label>
+                                <input asp-for="PartyName" class="form-control" />
+                                <span asp-validation-for="PartyName" class="text-danger small"></span>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="PartySymbol" class="form-label fw-bold">
+                                    <i class="fas fa-tag me-1"></i>Party Symbol
+                                </label>
+                                <input asp-for="PartySymbol" class="form-control" />
+                                <span asp-validation-for="PartySymbol" class="text-danger small"></span>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Manifesto" class="form-label fw-bold">
+                                <i class="fas fa-scroll me-1"></i>Manifesto
+                            </label>
+                            <textarea asp-for="Manifesto" class="form-control" rows="4"></textarea>
+                            <span asp-validation-for="Manifesto" class="text-danger small"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Biography" class="form-label fw-bold">
+                                <i class="fas fa-user me-1"></i>Biography
+                            </label>
+                            <textarea asp-for="Biography" class="form-control" rows="4"></textarea>
+                            <span asp-validation-for="Biography" class="text-danger small"></span>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="Education" class="form-label fw-bold">
+                                    <i class="fas fa-graduation-cap me-1"></i>Education
+                                </label>
+                                <input asp-for="Education" class="form-control" />
+                                <span asp-validation-for="Education" class="text-danger small"></span>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="PreviousExperience" class="form-label fw-bold">
+                                    <i class="fas fa-briefcase me-1"></i>Previous Experience
+                                </label>
+                                <input asp-for="PreviousExperience" class="form-control" />
+                                <span asp-validation-for="PreviousExperience" class="text-danger small"></span>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="ProfileImageUrl" class="form-label fw-bold">
+                                <i class="fas fa-image me-1"></i>Profile Image URL
+                            </label>
+                            <input asp-for="ProfileImageUrl" class="form-control" placeholder="https://example.com/image.jpg" />
+                            <span asp-validation-for="ProfileImageUrl" class="text-danger small"></span>
+                            <small class="text-muted">Optional: Provide a URL to your profile image</small>
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-success btn-lg">
+                                <i class="fas fa-save me-2"></i>Save Changes
+                            </button>
+                            <a asp-action="Dashboard" class="btn btn-outline-secondary">
+                                <i class="fas fa-arrow-left me-2"></i>Back to Dashboard
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

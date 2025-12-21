@@ -1,0 +1,139 @@
+@model IEnumerable<practice.DTOs.CandidateDto>
+@{
+    ViewData["Title"] = "Cast Your Vote";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var election = ViewBag.Election as practice.Models.Election;
+}
+
+<div class="container mt-4 mb-5">
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card bg-primary text-white shadow-lg border-0">
+                <div class="card-body py-4">
+                    <h2 class="mb-2">
+                        <i class="fas fa-vote-yea me-2"></i>@election?.Title
+                    </h2>
+                    <p class="mb-0 fs-6">@election?.Description</p>
+                    <small>
+                        <i class="fas fa-calendar me-1"></i>
+                        @election?.StartDate.ToString("MMM dd, yyyy") - @election?.EndDate.ToString("MMM dd, yyyy")
+                    </small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="alert alert-info shadow mb-4">
+        <h5 class="alert-heading">
+            <i class="fas fa-info-circle me-2"></i>Voting Instructions
+        </h5>
+        <ul class="mb-0">
+            <li>Review all candidates carefully before casting your vote</li>
+            <li>You can only vote once in this election</li>
+            <li>Your vote is anonymous and secure</li>
+            <li>Click on "Vote for this Candidate" to submit your vote</li>
+        </ul>
+    </div>
+
+    <h3 class="mb-4 text-primary">
+        <i class="fas fa-users me-2"></i>Select Your Candidate
+    </h3>
+
+    <div class="row">
+        @if (Model != null && Model.Any())
+        {
+            @foreach (var candidate in Model)
+            {
+                <div class="col-md-6 col-lg-4 mb-4">
+                    <div class="card shadow-sm border-0 h-100 candidate-card">
+                        <div class="card-header bg-light text-center py-3">
+                            @if (!string.IsNullOrEmpty(candidate.ProfileImageUrl))
+                            {
+                                <img src="@candidate.ProfileImageUrl" class="rounded-circle mb-2" width="80" height="80" alt="@candidate.FullName" />
+                            }
+                            else
+                            {
+                                <div class="rounded-circle bg-secondary d-inline-flex align-items-center justify-content-center mb-2" style="width: 80px; height: 80px;">
+                                    <i class="fas fa-user fa-2x text-white"></i>
+                                </div>
+                            }
+                            <h5 class="card-title mb-1 fw-bold">@candidate.FullName</h5>
+                            <p class="text-muted mb-0 small">
+                                <i class="fas fa-flag me-1"></i>@candidate.PartyName
+                            </p>
+                            @if (!string.IsNullOrEmpty(candidate.PartySymbol))
+                            {
+                                <span class="badge bg-info mt-1">@candidate.PartySymbol</span>
+                            }
+                        </div>
+                        <div class="card-body">
+                            <h6 class="text-primary mb-2">
+                                <i class="fas fa-scroll me-1"></i>Manifesto
+                            </h6>
+                            <p class="card-text small text-justify">@candidate.Manifesto</p>
+
+                            @if (!string.IsNullOrEmpty(candidate.Education))
+                            {
+                                <p class="mb-1 small">
+                                    <strong><i class="fas fa-graduation-cap me-1"></i>Education:</strong> @candidate.Education
+                                </p>
+                            }
+
+                            @if (!string.IsNullOrEmpty(candidate.PreviousExperience))
+                            {
+                                <p class="mb-1 small">
+                                    <strong><i class="fas fa-briefcase me-1"></i>Experience:</strong> @candidate.PreviousExperience
+                                </p>
+                            }
+                        </div>
+                        <div class="card-footer bg-white border-0 text-center pb-3">
+                            <form asp-action="SubmitVote" asp-controller="Voter" method="post" onsubmit="return confirm('Are you sure you want to vote for @candidate.FullName? This action cannot be undone.');">
+                                <input type="hidden" name="ElectionId" value="@election?.Id" />
+                                <input type="hidden" name="CandidateId" value="@candidate.Id" />
+                                <button type="submit" class="btn btn-success btn-lg w-100">
+                                    <i class="fas fa-check-circle me-2"></i>Vote for this Candidate
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+            <div class="col-12">
+                <div class="alert alert-warning">
+                    <h5 class="alert-heading">
+                        <i class="fas fa-exclamation-triangle me-2"></i>No Candidates Available
+                    </h5>
+                    <p class="mb-0">There are currently no approved candidates for this election.</p>
+                </div>
+            </div>
+        }
+    </div>
+
+    <div class="text-center mt-4">
+        <a asp-action="Dashboard" class="btn btn-outline-secondary btn-lg">
+            <i class="fas fa-arrow-left me-2"></i>Back to Dashboard
+        </a>
+    </div>
+</div>
+
+<style>
+    .candidate-card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .candidate-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    }
+
+    .text-justify {
+        text-align: justify;
+    }
+</style>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
