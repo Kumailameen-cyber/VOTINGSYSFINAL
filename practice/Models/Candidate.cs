@@ -43,5 +43,9 @@ namespace practice.Models
         // Navigation properties
         public virtual User User { get; set; } = null!;
         public virtual ICollection<Vote> Votes { get; set; } = new List<Vote>();
+        public int? ElectionId { get; set; }  // New property to reference the Election
+
+        [ForeignKey("ElectionId")]
+        public Election Election { get; set; }  // Navigation property to Election
     }
 }

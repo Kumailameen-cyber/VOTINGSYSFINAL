@@ -59,6 +59,7 @@ namespace practice.Data
                 .HasIndex(v => new { v.ElectionId, v.VoterId })
                 .IsUnique();
 
+
             // Seed default admin user (password: Admin@123)
             modelBuilder.Entity<User>().HasData(
                 new User

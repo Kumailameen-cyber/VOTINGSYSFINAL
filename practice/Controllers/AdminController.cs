@@ -260,24 +260,24 @@ namespace practice.Controllers
         // POST: Delete Election
         [HttpPost]
         [ValidateAntiForgeryToken]
-        
-        public async Task<IActionResult> DeleteElection(int electionId)
-        {
-            var election = await _context.Elections.FindAsync(electionId);
-            if (election != null)
-            {
-                // Remove all votes associated with this election
-                var votes = _context.Votes.Where(v => v.ElectionId == electionId);
-                _context.Votes.RemoveRange(votes);
+       
+public async Task<IActionResult> DeleteElection(int electionId)
+{
+    var election = await _context.Elections.FindAsync(electionId);
+    if (election != null)
+    {
+        // Remove all votes associated with this election
+        var votes = _context.Votes.Where(v => v.ElectionId == electionId);
+        _context.Votes.RemoveRange(votes);
 
-                // Now remove the election
-                _context.Elections.Remove(election);
+        // Now remove the election
+        _context.Elections.Remove(election);
 
-                await _context.SaveChangesAsync();
-                TempData["SuccessMessage"] = $"Election {election.Title} deleted successfully.";
-            }
-            return RedirectToAction(nameof(ManageElections));
-        }
+        await _context.SaveChangesAsync();
+        TempData["SuccessMessage"] = $"Election {election.Title} deleted successfully.";
+    }
+    return RedirectToAction(nameof(ManageElections));
+}
 
 
         // GET: View Results

@@ -128,6 +128,25 @@ namespace practice.Controllers
             return RedirectToAction(nameof(Dashboard));
         }
 
+        //participate button
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Participate(int candidateId, int electionId)
+        {
+            var candidate = await _context.Candidates.FindAsync(candidateId);
+            if (candidate != null && candidate.ElectionId == null)  // Make sure the candidate hasn't already participated
+            {
+                candidate.ElectionId = electionId;
+                await _context.SaveChangesAsync();
+                TempData["SuccessMessage"] = "You have successfully participated in the election!";
+            }
+            else
+            {
+                TempData["ErrorMessage"] = "You are already participating in an election.";
+            }
+            return RedirectToAction(nameof(Dashboard));
+        }
+
         // GET: View Results
         public async Task<IActionResult> Results(int? electionId)
         {
