@@ -30,20 +30,27 @@ namespace practice.Controllers
                 return RedirectToAction("Login", "Auth");
             }
 
-            var activeElection = await _context.Elections
-                .Where(e => e.IsActive && e.StartDate <= DateTime.UtcNow && e.EndDate >= DateTime.UtcNow)
-                .FirstOrDefaultAsync();
+            var now = DateTime.Now;
 
-            var hasVoted = false;
-            if (activeElection != null)
-            {
-                hasVoted = await _context.Votes
-                    .AnyAsync(v => v.ElectionId == activeElection.Id && v.VoterId == userId);
-            }
+            // Get active elections
+            var activeElections = await _context.Elections
+                .Where(e =>
+                    e.IsActive &&
+                    e.StartDate <= now &&
+                    e.EndDate >= now
+                )
+                .OrderBy(e => e.StartDate)
+                .ToListAsync();
+
+            // Get IDs of elections the voter has already voted in
+            var votedElectionIds = await _context.Votes
+                .Where(v => v.VoterId == userId)
+                .Select(v => v.ElectionId)
+                .ToListAsync();
 
             ViewBag.User = user;
-            ViewBag.ActiveElection = activeElection;
-            ViewBag.HasVoted = hasVoted;
+            ViewBag.ActiveElection = activeElections;
+            ViewBag.VotedElectionIds = votedElectionIds;
 
             return View();
         }
@@ -61,15 +68,7 @@ namespace practice.Controllers
             }
 
             var election = await _context.Elections.FindAsync(electionId);
-
-            if (election == null || !election.IsActive)
-            {
-                TempData["ErrorMessage"] = "Election not found or not active.";
-                return RedirectToAction(nameof(Dashboard));
-            }
-
-            // Check if voting period is valid
-            if (DateTime.UtcNow < election.StartDate || DateTime.UtcNow > election.EndDate)
+            if (election == null || !election.IsActive || DateTime.Now < election.StartDate || DateTime.Now > election.EndDate)
             {
                 TempData["ErrorMessage"] = "Voting is not open for this election.";
                 return RedirectToAction(nameof(Dashboard));
@@ -78,7 +77,6 @@ namespace practice.Controllers
             // Check if already voted
             var hasVoted = await _context.Votes
                 .AnyAsync(v => v.ElectionId == electionId && v.VoterId == userId);
-
             if (hasVoted)
             {
                 TempData["ErrorMessage"] = "You have already voted in this election.";
@@ -115,32 +113,21 @@ namespace practice.Controllers
         {
             var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier) ?? "0");
 
-            // Verify election
             var election = await _context.Elections.FindAsync(voteDto.ElectionId);
-            if (election == null || !election.IsActive)
+            if (election == null || !election.IsActive || DateTime.Now < election.StartDate || DateTime.Now > election.EndDate)
             {
-                TempData["ErrorMessage"] = "Invalid election.";
+                TempData["ErrorMessage"] = "Invalid election or voting period.";
                 return RedirectToAction(nameof(Dashboard));
             }
 
-            // Check voting period
-            if (DateTime.UtcNow < election.StartDate || DateTime.UtcNow > election.EndDate)
-            {
-                TempData["ErrorMessage"] = "Voting period has ended or not started.";
-                return RedirectToAction(nameof(Dashboard));
-            }
-
-            // Check if already voted
             var hasVoted = await _context.Votes
                 .AnyAsync(v => v.ElectionId == voteDto.ElectionId && v.VoterId == userId);
-
             if (hasVoted)
             {
                 TempData["ErrorMessage"] = "You have already voted.";
                 return RedirectToAction(nameof(Dashboard));
             }
 
-            // Verify candidate
             var candidate = await _context.Candidates.FindAsync(voteDto.CandidateId);
             if (candidate == null || !candidate.IsApproved)
             {
@@ -154,14 +141,12 @@ namespace practice.Controllers
                 ElectionId = voteDto.ElectionId,
                 VoterId = userId,
                 CandidateId = voteDto.CandidateId,
-                VotedAt = DateTime.UtcNow,
+                VotedAt = DateTime.Now,
                 IpAddress = HttpContext.Connection.RemoteIpAddress?.ToString(),
                 IsVerified = true
             };
 
             _context.Votes.Add(vote);
-
-            // Update candidate vote count
             candidate.TotalVotes++;
 
             await _context.SaveChangesAsync();

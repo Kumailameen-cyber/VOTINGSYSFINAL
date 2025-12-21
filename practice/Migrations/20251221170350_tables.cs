@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace practice.Migrations
 {
     /// <inheritdoc />
-    public partial class tabl : Migration
+    public partial class tables : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -123,12 +123,12 @@ namespace practice.Migrations
             migrationBuilder.InsertData(
                 table: "Elections",
                 columns: new[] { "Id", "CreatedAt", "Description", "ElectionType", "EndDate", "IsActive", "ResultsPublished", "StartDate", "Title", "UpdatedAt" },
-                values: new object[] { 1, new DateTime(2025, 12, 21, 11, 53, 2, 122, DateTimeKind.Utc).AddTicks(6551), "National General Election for selecting representatives", "General", new DateTime(2026, 1, 21, 11, 53, 2, 122, DateTimeKind.Utc).AddTicks(6529), true, false, new DateTime(2025, 12, 21, 11, 53, 2, 122, DateTimeKind.Utc).AddTicks(6528), "General Election 2024", null });
+                values: new object[] { 1, new DateTime(2025, 12, 21, 17, 3, 49, 226, DateTimeKind.Utc).AddTicks(9607), "National General Election for selecting representatives", "General", new DateTime(2026, 1, 21, 17, 3, 49, 226, DateTimeKind.Utc).AddTicks(9576), true, false, new DateTime(2025, 12, 21, 17, 3, 49, 226, DateTimeKind.Utc).AddTicks(9575), "General Election 2024", null });
 
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "Id", "AadharNumber", "CreatedAt", "Email", "FullName", "IsActive", "IsVerified", "PasswordHash", "PhoneNumber", "Role", "UpdatedAt", "VoterIdNumber" },
-                values: new object[] { 1, null, new DateTime(2025, 12, 21, 11, 53, 2, 122, DateTimeKind.Utc).AddTicks(5899), "admin@votingsystem.com", "System Administrator", true, true, "$2a$11$hdUoCThRm/BEClWiOBqBO.muNWgh522Yz8hffM5aRGXqC0YTSPmGe", "9999999999", "Admin", null, null });
+                values: new object[] { 1, null, new DateTime(2025, 12, 21, 17, 3, 49, 226, DateTimeKind.Utc).AddTicks(8483), "admin@votingsystem.com", "System Administrator", true, true, "$2a$11$M6Uxt9orbVd4nIppFUwduewAceJloUUQuw6E/yZbiab2ua5h8c/H2", "9999999999", "Admin", null, null });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Candidates_UserId",

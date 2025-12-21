@@ -12,8 +12,8 @@ using practice.Data;
 namespace practice.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20251221115304_tabl")]
-    partial class tabl
+    [Migration("20251221170350_tables")]
+    partial class tables
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -132,13 +132,13 @@ namespace practice.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2025, 12, 21, 11, 53, 2, 122, DateTimeKind.Utc).AddTicks(6551),
+                            CreatedAt = new DateTime(2025, 12, 21, 17, 3, 49, 226, DateTimeKind.Utc).AddTicks(9607),
                             Description = "National General Election for selecting representatives",
                             ElectionType = "General",
-                            EndDate = new DateTime(2026, 1, 21, 11, 53, 2, 122, DateTimeKind.Utc).AddTicks(6529),
+                            EndDate = new DateTime(2026, 1, 21, 17, 3, 49, 226, DateTimeKind.Utc).AddTicks(9576),
                             IsActive = true,
                             ResultsPublished = false,
-                            StartDate = new DateTime(2025, 12, 21, 11, 53, 2, 122, DateTimeKind.Utc).AddTicks(6528),
+                            StartDate = new DateTime(2025, 12, 21, 17, 3, 49, 226, DateTimeKind.Utc).AddTicks(9575),
                             Title = "General Election 2024"
                         });
                 });
@@ -210,12 +210,12 @@ namespace practice.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2025, 12, 21, 11, 53, 2, 122, DateTimeKind.Utc).AddTicks(5899),
+                            CreatedAt = new DateTime(2025, 12, 21, 17, 3, 49, 226, DateTimeKind.Utc).AddTicks(8483),
                             Email = "admin@votingsystem.com",
                             FullName = "System Administrator",
                             IsActive = true,
                             IsVerified = true,
-                            PasswordHash = "$2a$11$hdUoCThRm/BEClWiOBqBO.muNWgh522Yz8hffM5aRGXqC0YTSPmGe",
+                            PasswordHash = "$2a$11$M6Uxt9orbVd4nIppFUwduewAceJloUUQuw6E/yZbiab2ua5h8c/H2",
                             PhoneNumber = "9999999999",
                             Role = "Admin"
                         });

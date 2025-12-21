@@ -2,8 +2,8 @@
     ViewData["Title"] = "Voter Dashboard";
     Layout = "~/Views/Shared/_Layout.cshtml";
     var user = ViewBag.User as practice.Models.User;
-    var activeElection = ViewBag.ActiveElection as practice.Models.Election;
-    var hasVoted = (bool)ViewBag.HasVoted;
+    var activeElections = ViewBag.ActiveElection as List<practice.Models.Election>;
+    var votedElectionIds = ViewBag.VotedElectionIds as List<int>;
 }
 
 <div class="container mt-4">
@@ -11,22 +11,16 @@
         <div class="col-12">
             <div class="card bg-gradient-primary text-white shadow-lg border-0">
                 <div class="card-body py-5">
-                    <h2 class="mb-2">
-                        <i class="fas fa-user-circle me-2"></i>Welcome, @user?.FullName!
-                    </h2>
+                    <h2 class="mb-2"><i class="fas fa-user-circle me-2"></i>Welcome, @user?.FullName!</h2>
                     <p class="mb-0 fs-5">
                         <i class="fas fa-envelope me-2"></i>@user?.Email
                         @if (user?.IsVerified == true)
                         {
-                            <span class="badge bg-success ms-2">
-                                <i class="fas fa-check-circle me-1"></i>Verified
-                            </span>
+                            <span class="badge bg-success ms-2"><i class="fas fa-check-circle me-1"></i>Verified</span>
                         }
                         else
                         {
-                            <span class="badge bg-warning ms-2">
-                                <i class="fas fa-clock me-1"></i>Pending Verification
-                            </span>
+                            <span class="badge bg-warning ms-2"><i class="fas fa-clock me-1"></i>Pending Verification</span>
                         }
                     </p>
                 </div>
@@ -37,70 +31,49 @@
     @if (user?.IsVerified != true)
     {
         <div class="alert alert-warning shadow">
-            <h5 class="alert-heading">
-                <i class="fas fa-exclamation-triangle me-2"></i>Account Pending Verification
-            </h5>
-            <p class="mb-0">Your account is currently under review by the admin. You will be able to vote once your account is verified.</p>
+            <h5 class="alert-heading"><i class="fas fa-exclamation-triangle me-2"></i>Account Pending Verification</h5>
+            <p class="mb-0">Your account is under review. You will be able to vote once verified.</p>
         </div>
     }
-    else
+    else if (activeElections != null && activeElections.Count > 0)
     {
-        @if (activeElection != null)
+        @foreach (var election in activeElections)
         {
+            bool hasVoted = votedElectionIds.Contains(election.Id);
             <div class="row mb-4">
                 <div class="col-12">
                     <div class="card shadow border-0">
                         <div class="card-header bg-primary text-white py-3">
-                            <h4 class="mb-0">
-                                <i class="fas fa-poll-h me-2"></i>@activeElection.Title
-                            </h4>
+                            <h4 class="mb-0"><i class="fas fa-poll-h me-2"></i>@election.Title</h4>
                         </div>
                         <div class="card-body">
-                            <p class="text-muted mb-3">@activeElection.Description</p>
+                            <p class="text-muted mb-3">@election.Description</p>
                             <div class="row">
-                                <div class="col-md-4 mb-3">
-                                    <div class="d-flex align-items-center">
-                                        <i class="fas fa-calendar-alt text-success fa-2x me-3"></i>
-                                        <div>
-                                            <small class="text-muted">Start Date</small>
-                                            <p class="mb-0 fw-bold">@activeElection.StartDate.ToString("MMM dd, yyyy")</p>
-                                        </div>
-                                    </div>
+                                <div class="col-md-4">
+                                    <small class="text-muted">Start Date</small>
+                                    <p class="fw-bold">@election.StartDate.ToString("MMM dd, yyyy")</p>
                                 </div>
-                                <div class="col-md-4 mb-3">
-                                    <div class="d-flex align-items-center">
-                                        <i class="fas fa-calendar-times text-danger fa-2x me-3"></i>
-                                        <div>
-                                            <small class="text-muted">End Date</small>
-                                            <p class="mb-0 fw-bold">@activeElection.EndDate.ToString("MMM dd, yyyy")</p>
-                                        </div>
-                                    </div>
+                                <div class="col-md-4">
+                                    <small class="text-muted">End Date</small>
+                                    <p class="fw-bold">@election.EndDate.ToString("MMM dd, yyyy")</p>
                                 </div>
-                                <div class="col-md-4 mb-3">
-                                    <div class="d-flex align-items-center">
-                                        <i class="fas fa-info-circle text-primary fa-2x me-3"></i>
-                                        <div>
-                                            <small class="text-muted">Type</small>
-                                            <p class="mb-0 fw-bold">@activeElection.ElectionType</p>
-                                        </div>
-                                    </div>
+                                <div class="col-md-4">
+                                    <small class="text-muted">Type</small>
+                                    <p class="fw-bold">@election.ElectionType</p>
                                 </div>
                             </div>
 
                             @if (hasVoted)
                             {
-                                <div class="alert alert-success mb-0">
-                                    <h5 class="alert-heading">
-                                        <i class="fas fa-check-circle me-2"></i>Vote Recorded Successfully
-                                    </h5>
-                                    <p class="mb-0">Thank you for participating in this election. Your vote has been securely recorded.</p>
+                                <div class="alert alert-success mt-3">
+                                    <i class="fas fa-check-circle me-2"></i>You have already voted in this election.
                                 </div>
                             }
                             else
                             {
                                 <div class="text-center mt-3">
-                                    <a asp-action="Vote" asp-route-electionId="@activeElection.Id" class="btn btn-success btn-lg px-5">
-                                        <i class="fas fa-vote-yea me-2"></i>Cast Your Vote Now
+                                    <a asp-action="Vote" asp-route-electionId="@election.Id" class="btn btn-success btn-lg px-5">
+                                        <i class="fas fa-vote-yea me-2"></i>Cast Your Vote
                                     </a>
                                 </div>
                             }
@@ -109,49 +82,12 @@
                 </div>
             </div>
         }
-        else
-        {
-            <div class="alert alert-info shadow">
-                <h5 class="alert-heading">
-                    <i class="fas fa-info-circle me-2"></i>No Active Elections
-                </h5>
-                <p class="mb-0">There are currently no active elections. Please check back later.</p>
-            </div>
-        }
-
-        <div class="row">
-            <div class="col-md-6 mb-4">
-                <div class="card shadow border-0 h-100">
-                    <div class="card-body text-center py-5">
-                        <i class="fas fa-chart-bar fa-4x text-primary mb-3"></i>
-                        <h4 class="card-title">View Results</h4>
-                        <p class="text-muted">Check published election results</p>
-                        <a asp-action="Results" class="btn btn-outline-primary">
-                            <i class="fas fa-chart-line me-2"></i>View Results
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6 mb-4">
-                <div class="card shadow border-0 h-100">
-                    <div class="card-body text-center py-5">
-                        <i class="fas fa-user-shield fa-4x text-info mb-3"></i>
-                        <h4 class="card-title">Your Profile</h4>
-                        <p class="text-muted mb-2"><strong>Voter ID:</strong> @user?.VoterIdNumber</p>
-                        <p class="text-muted mb-2"><strong>Phone:</strong> @user?.PhoneNumber</p>
-                        <p class="text-muted"><strong>Status:</strong> 
-                            @if (user?.IsActive == true)
-                            {
-                                <span class="badge bg-success">Active</span>
-                            }
-                            else
-                            {
-                                <span class="badge bg-danger">Inactive</span>
-                            }
-                        </p>
-                    </div>
-                </div>
-            </div>
+    }
+    else
+    {
+        <div class="alert alert-info shadow">
+            <h5 class="alert-heading"><i class="fas fa-info-circle me-2"></i>No Active Elections</h5>
+            <p class="mb-0">There are currently no active elections. Please check back later.</p>
         </div>
     }
 </div>

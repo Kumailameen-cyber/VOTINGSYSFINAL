@@ -39,11 +39,17 @@ namespace practice.Controllers
             {
                 TempData["WarningMessage"] = "Your profile is pending admin approval. You will be notified once approved.";
             }
+            var now = DateTime.Now;
 
-            // Get active election
             var activeElection = await _context.Elections
-                .Where(e => e.IsActive && e.StartDate <= DateTime.UtcNow && e.EndDate >= DateTime.UtcNow)
-                .FirstOrDefaultAsync();
+                .Where(e =>
+                    e.IsActive &&
+                    e.StartDate <= now &&
+                    e.EndDate >= now
+                )
+                .OrderBy(e => e.StartDate)
+                .ToListAsync();
+
 
             // Get vote statistics for this candidate
             var votesByElection = await _context.Votes
