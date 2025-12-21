@@ -219,6 +219,67 @@ namespace practice.Controllers
             return RedirectToAction(nameof(ManageElections));
         }
 
+        // GET: Edit Election
+        public async Task<IActionResult> EditElection(int id)
+        {
+            var election = await _context.Elections.FindAsync(id);
+            if (election == null)
+            {
+                TempData["ErrorMessage"] = "Election not found.";
+                return RedirectToAction(nameof(ManageElections));
+            }
+            return View(election);
+        }
+
+        // POST: Edit Election
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditElection(Election election)
+        {
+            if (!ModelState.IsValid)
+                return View(election);
+
+            var existingElection = await _context.Elections.FindAsync(election.Id);
+            if (existingElection == null)
+            {
+                TempData["ErrorMessage"] = "Election not found.";
+                return RedirectToAction(nameof(ManageElections));
+            }
+
+            existingElection.Title = election.Title;
+            existingElection.Description = election.Description;
+            existingElection.StartDate = election.StartDate;
+            existingElection.EndDate = election.EndDate;
+            existingElection.ElectionType = election.ElectionType;
+            existingElection.UpdatedAt = DateTime.UtcNow;
+
+            await _context.SaveChangesAsync();
+            TempData["SuccessMessage"] = "Election updated successfully!";
+            return RedirectToAction(nameof(ManageElections));
+        }
+        // POST: Delete Election
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        
+        public async Task<IActionResult> DeleteElection(int electionId)
+        {
+            var election = await _context.Elections.FindAsync(electionId);
+            if (election != null)
+            {
+                // Remove all votes associated with this election
+                var votes = _context.Votes.Where(v => v.ElectionId == electionId);
+                _context.Votes.RemoveRange(votes);
+
+                // Now remove the election
+                _context.Elections.Remove(election);
+
+                await _context.SaveChangesAsync();
+                TempData["SuccessMessage"] = $"Election {election.Title} deleted successfully.";
+            }
+            return RedirectToAction(nameof(ManageElections));
+        }
+
+
         // GET: View Results
         public async Task<IActionResult> ViewResults(int electionId)
         {
