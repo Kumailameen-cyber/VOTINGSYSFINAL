@@ -67,6 +67,7 @@ builder.Services.AddScoped<IElectionRepository, ElectionRepository>();
 builder.Services.AddScoped<IVoterRepository, VoterRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<ICandidateRepository, CandidateRepository>();
+builder.Services.AddScoped<IEmailService, EmailService>();
 
 
 // Add session support

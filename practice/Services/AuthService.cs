@@ -8,22 +8,24 @@ namespace practice.Services
 {
     public class AuthService : IAuthService
     {
-        
+
         private readonly ITokenService _tokenService;
         private readonly ICandidateRepository _repo_candidate;
         private readonly IUserRepository _repo_user;
+        private readonly IEmailService _emailService;
 
         public AuthService(ITokenService tokenService, IUserRepository userRepository,
-            ICandidateRepository candidateRepository)
+            ICandidateRepository candidateRepository, IEmailService emailService)
         {
             _tokenService = tokenService;
             _repo_user = userRepository;
             _repo_candidate = candidateRepository;
+            _emailService = emailService;
         }
 
         public async Task<LoginResponseDto?> LoginAsync(LoginDto loginDto)
         {
-            var user = await _repo_user.FindUserWithEmailAndActive (loginDto.Email);
+            var user = await _repo_user.FindUserWithEmailAndActive(loginDto.Email);
 
             if (user == null)
                 return null;
@@ -68,9 +70,30 @@ namespace practice.Services
                 CreatedAt = DateTime.UtcNow
             };
 
-             
 
-            return await _repo_user.AddUserAsync(user);
+
+            var isSaved = await _repo_user.AddUserAsync(user);
+
+            if (isSaved)
+            {
+                var subject = "Registration Successful - Verification Pending";
+                var body = $"Hello {user.FullName},\n\n" +
+                           "Thank you for registering on the Voting Portal.\n" +
+                           "Your account has been created successfully.\n\n" +
+                           "Please note: You cannot login yet. Your account is under review and will be verified within 2 business days.\n" +
+                           "You will receive an email once an Admin verifies your details.";
+
+                try
+                {
+                    await _emailService.SendEmailAsync(user.Email, subject, body);
+                }
+                catch
+                {
+                    // Email failed, but user is registered. We don't want to crash here.
+                }
+            }
+
+            return isSaved;
         }
 
         public async Task<bool> RegisterCandidateAsync(RegisterCandidateDto registerDto)
@@ -83,38 +106,56 @@ namespace practice.Services
             if (await _repo_user.checkVoterIdPreExisting(registerDto.VoterIdNumber))
                 return false;
 
-            
-                var user = new User
+
+            var user = new User
+            {
+                FullName = registerDto.FullName,
+                Email = registerDto.Email,
+                PhoneNumber = registerDto.PhoneNumber,
+                AadharNumber = registerDto.AadharNumber,
+                VoterIdNumber = registerDto.VoterIdNumber,
+                PasswordHash = BCrypt.Net.BCrypt.HashPassword(registerDto.Password),
+                Role = "Candidate",
+                IsVerified = false, // Will be verified by admin
+                IsActive = true,
+                CreatedAt = DateTime.UtcNow
+            };
+
+
+
+            var candidate = new Candidate
+            {
+                UserId = user.Id,
+                PartyName = registerDto.PartyName,
+                PartySymbol = registerDto.PartySymbol,
+                Manifesto = registerDto.Manifesto,
+                Biography = registerDto.Biography,
+                Education = registerDto.Education,
+                PreviousExperience = registerDto.PreviousExperience,
+                IsApproved = false, // Will be approved by admin
+                RegisteredAt = DateTime.UtcNow
+            };
+
+
+            var isSaved = await _repo_candidate.RegisterCandidateAsync(user, candidate);
+            if (isSaved)
+            {
+                var subject = "Candidate Application Received";
+                var body = $"Hello {user.FullName},\n\n" +
+                           "Your application to register as a Candidate has been received.\n" +
+                           "The Election Commission (Admin) will review your Manifesto and details.\n\n" +
+                           "This process may take up to 2 business days. You will be notified via email upon approval.";
+
+                try
                 {
-                    FullName = registerDto.FullName,
-                    Email = registerDto.Email,
-                    PhoneNumber = registerDto.PhoneNumber,
-                    AadharNumber = registerDto.AadharNumber,
-                    VoterIdNumber = registerDto.VoterIdNumber,
-                    PasswordHash = BCrypt.Net.BCrypt.HashPassword(registerDto.Password),
-                    Role = "Candidate",
-                    IsVerified = false, // Will be verified by admin
-                    IsActive = true,
-                    CreatedAt = DateTime.UtcNow
-                };
-
-               
-
-                var candidate = new Candidate
+                    await _emailService.SendEmailAsync(user.Email, subject, body);
+                }
+                catch
                 {
-                    UserId = user.Id,
-                    PartyName = registerDto.PartyName,
-                    PartySymbol = registerDto.PartySymbol,
-                    Manifesto = registerDto.Manifesto,
-                    Biography = registerDto.Biography,
-                    Education = registerDto.Education,
-                    PreviousExperience = registerDto.PreviousExperience,
-                    IsApproved = false, // Will be approved by admin
-                    RegisteredAt = DateTime.UtcNow
-                };
-
-
-            return await _repo_candidate.RegisterCandidateAsync(user, candidate);
+                    // Ignore email errors
+                }
+            }
+            return isSaved;
         }
 
         public async Task<User?> GetUserByEmailAsync(string email)
@@ -131,7 +172,41 @@ namespace practice.Services
             user.IsVerified = true;
             user.UpdatedAt = DateTime.UtcNow;
 
-            return await _repo_user.UpdateUserAsync(user);
+            var IsUpdated = await _repo_user.UpdateUserAsync(user);
+
+            if (IsUpdated)
+            {
+                if (user.Role == "Voter")
+                {
+                    var subject = "Account Verified - You Can Now Vote!";
+                    var body = $"Hello {user.FullName},\n\n" +
+                               "Good news! Your account documents have been verified by the Admin.\n\n" +
+                               "You can now login to the Voting Portal and cast your vote in the upcoming election.\n" +
+                               "Login here: http://localhost:3000/login"; // Put your frontend link here if you have one
+
+                    try
+                    {
+                        await _emailService.SendEmailAsync(user.Email, subject, body);
+                    }
+                    catch { }
+                }
+                else if (user.Role == "Candidate")
+                {
+                    var subject = "Candidate Account Verified - Awaiting Admin Approval";
+                    var body = $"Hello {user.FullName},\n\n" +
+                               "Your candidate account documents have been verified by the Admin.\n\n" +
+                               "However, your candidacy is still pending final approval from the Admin team.\n" +
+                               "You will receive another email once your candidacy is approved.";
+                    try
+                    {
+                        await _emailService.SendEmailAsync(user.Email, subject, body);
+                    }
+                    catch { }
+                }
+                
+            }
+            return IsUpdated;
         }
     }
 }
+
