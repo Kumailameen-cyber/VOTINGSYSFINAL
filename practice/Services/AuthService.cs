@@ -8,15 +8,14 @@ namespace practice.Services
 {
     public class AuthService : IAuthService
     {
-        private readonly ApplicationDbContext _context;
+        
         private readonly ITokenService _tokenService;
         private readonly ICandidateRepository _repo_candidate;
         private readonly IUserRepository _repo_user;
 
-        public AuthService(ApplicationDbContext context, ITokenService tokenService, IUserRepository userRepository,
+        public AuthService(ITokenService tokenService, IUserRepository userRepository,
             ICandidateRepository candidateRepository)
         {
-            _context = context;
             _tokenService = tokenService;
             _repo_user = userRepository;
             _repo_candidate = candidateRepository;
@@ -24,7 +23,7 @@ namespace practice.Services
 
         public async Task<LoginResponseDto?> LoginAsync(LoginDto loginDto)
         {
-            var user = await _repo_user.FindUser(loginDto.Email);
+            var user = await _repo_user.FindUserWithEmailAndActive (loginDto.Email);
 
             if (user == null)
                 return null;
@@ -52,7 +51,7 @@ namespace practice.Services
                 return false;
 
             // Check if voter ID already exists
-            if (await _context.Users.AnyAsync(u => u.VoterIdNumber == registerDto.VoterIdNumber))
+            if (await _repo_user.checkVoterIdPreExisting(registerDto.VoterIdNumber))
                 return false;
 
             var user = new User
@@ -69,26 +68,22 @@ namespace practice.Services
                 CreatedAt = DateTime.UtcNow
             };
 
-             _context.Users.Add(user);
-            await _context.SaveChangesAsync();
+             
 
-            return true;
+            return await _repo_user.AddUserAsync(user);
         }
 
         public async Task<bool> RegisterCandidateAsync(RegisterCandidateDto registerDto)
         {
             // Check if email already exists
-            if (await _context.Users.AnyAsync(u => u.Email == registerDto.Email))
+            if (await _repo_user.checkEmailPreExisting(registerDto.Email))
                 return false;
 
             // Check if voter ID already exists
-            if (await _context.Users.AnyAsync(u => u.VoterIdNumber == registerDto.VoterIdNumber))
+            if (await _repo_user.checkVoterIdPreExisting(registerDto.VoterIdNumber))
                 return false;
 
-            using var transaction = await _context.Database.BeginTransactionAsync();
-
-            try
-            {
+            
                 var user = new User
                 {
                     FullName = registerDto.FullName,
@@ -103,8 +98,7 @@ namespace practice.Services
                     CreatedAt = DateTime.UtcNow
                 };
 
-                _context.Users.Add(user);
-                await _context.SaveChangesAsync();
+               
 
                 var candidate = new Candidate
                 {
@@ -119,36 +113,25 @@ namespace practice.Services
                     RegisteredAt = DateTime.UtcNow
                 };
 
-                _context.Candidates.Add(candidate);
-                await _context.SaveChangesAsync();
 
-                await transaction.CommitAsync();
-                return true;
-            }
-            catch
-            {
-                await transaction.RollbackAsync();
-                return false;
-            }
+            return await _repo_candidate.RegisterCandidateAsync(user, candidate);
         }
 
         public async Task<User?> GetUserByEmailAsync(string email)
         {
-            return await _context.Users
-                .FirstOrDefaultAsync(u => u.Email == email);
+            return await _repo_user.FindUserWithEmail(email);
         }
 
         public async Task<bool> VerifyUserAsync(int userId)
         {
-            var user = await _context.Users.FindAsync(userId);
+            var user = await _repo_user.FindUserViaId(userId);
             if (user == null)
                 return false;
 
             user.IsVerified = true;
             user.UpdatedAt = DateTime.UtcNow;
 
-            await _context.SaveChangesAsync();
-            return true;
+            return await _repo_user.UpdateUserAsync(user);
         }
     }
 }

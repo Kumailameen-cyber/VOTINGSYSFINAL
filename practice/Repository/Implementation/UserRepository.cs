@@ -18,10 +18,69 @@ namespace practice.Repository.Implementation
             return await _context.Users.AnyAsync(u => u.Email == email);
         }
 
-        public async Task<User?> FindUser(string email)
+        public async Task<User?> FindUserWithEmailAndActive(string email)
         {
             return await _context.Users
                 .FirstOrDefaultAsync(u => u.Email == email && u.IsActive);
+        }
+
+        public async Task<bool> checkVoterIdPreExisting(string voterId)
+        {
+            return await _context.Users.AnyAsync(u => u.VoterIdNumber == voterId);
+        }
+
+        public async Task<bool> AddUserAsync(User user)
+        {
+            await _context.Users.AddAsync(user);
+            await _context.SaveChangesAsync();
+            return true;
+        }
+
+        public async Task<bool> AddUserAsyncTransaction(User user)
+        {
+            using var transaction = await _context.Database.BeginTransactionAsync();
+
+            try
+            {
+                // 2. Add to tracking
+                await _context.Users.AddAsync(user);
+
+                // 3. Save to DB (this might fail if email is duplicate, etc.)
+                await _context.SaveChangesAsync();
+
+                // 4. Commit transaction (Permanent Save)
+                await transaction.CommitAsync();
+
+                return true;
+            }
+            catch (Exception)
+            {
+                // 5. Rollback if anything went wrong
+                await transaction.RollbackAsync();
+
+                // Return false so the Service knows it failed
+                return false;
+            }
+        }
+
+        public async Task<User?> FindUserWithEmail(string email)
+        {
+            return await _context.Users
+                .FirstOrDefaultAsync(u => u.Email == email);
+        }
+
+        public async Task<User?> FindUserViaId(int Id)
+        {
+            return await _context.Users.FindAsync(Id);
+        }
+
+        public async Task<bool> UpdateUserAsync(User user)
+        {
+            // This forces EF Core to see the object as "Modified"
+            _context.Users.Update(user);
+
+            // Save changes and return true if rows were affected
+            return await _context.SaveChangesAsync() > 0;
         }
     }
 }
