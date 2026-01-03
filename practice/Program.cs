@@ -62,7 +62,13 @@ builder.Services.AddAuthorization();
 // Register services
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
-builder.Services.AddScoped<IEmailService, EmailService>();
+// ADD THESE
+// 1. Connect JSON settings to your C# class
+builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
+
+// 2. Register EmailService as Transient (Better for MailKit/SMTP connections)
+builder.Services.AddTransient<IEmailService, EmailService>();
+
 builder.Services.AddScoped<IAdminService, AdminService>();
 builder.Services.AddScoped<IVoterService, VoterService>();
 builder.Services.AddScoped<ICandidateService, CandidateService>();
