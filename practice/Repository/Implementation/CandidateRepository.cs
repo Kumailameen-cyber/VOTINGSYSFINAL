@@ -1,4 +1,5 @@
-﻿using practice.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using practice.Data;
 using practice.Models;
 using practice.Repository.Interface;
 
@@ -40,5 +41,24 @@ namespace practice.Repository.Implementation
                 return false;
             }
         }
+        public async Task<Candidate?> GetCandidateByIdAsync(int id)
+        {
+            return await _context.Candidates
+                .Include(c => c.User)
+                .FirstOrDefaultAsync(c => c.Id == id);
+        }
+
+        public async Task<bool> UpdateCandidateAsync(Candidate candidate)
+        {
+            _context.Candidates.Update(candidate);
+            return await _context.SaveChangesAsync() > 0;
+        }
+
+        public async Task<bool> AddCandidateAsync(Candidate candidate)
+        {
+            _context.Candidates.Add(candidate);
+            return await _context.SaveChangesAsync() > 0;
+        }
+
     }
 }

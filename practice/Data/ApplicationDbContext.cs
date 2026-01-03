@@ -25,8 +25,9 @@ namespace practice.Data
                 .IsUnique();
 
             modelBuilder.Entity<User>()
-                .HasIndex(u => u.VoterIdNumber)
-                .IsUnique();
+                   .HasIndex(u => u.VoterIdNumber)
+                   .IsUnique();
+
 
             // Candidate configuration
             modelBuilder.Entity<Candidate>()
