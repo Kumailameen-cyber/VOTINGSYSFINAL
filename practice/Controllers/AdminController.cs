@@ -65,6 +65,18 @@ namespace practice.Controllers
             return View(users);
         }
 
+        // GET: Manage Voters (ONLY voters)
+        public async Task<IActionResult> ManageVoters()
+        {
+            var voters = await _context.Users
+                .Where(u => u.Role == "Voter")
+                .OrderByDescending(u => u.CreatedAt)
+                .ToListAsync();
+
+            return View(voters);
+        }
+
+
         // POST: Verify User
         [HttpPost]
         [ValidateAntiForgeryToken]
