@@ -104,16 +104,32 @@ namespace practice.Services
 
         public async Task<bool> ParticipateInElectionAsync(int candidateId, int electionId)
         {
-            var election = await _electionRepo.GetElectionByIdAsync(electionId);
-            if(election == null || !election.IsActive)
-                throw new InvalidOperationException("Election is not active or does not exist.");
+            var candidate = await _candidateRepo.GetCandidateByIdAsync(candidateId);
+            if (candidate == null || !candidate.IsApproved) return false;
+
             
-           bool alreadyParticipating = await _candidateRepo.IsCandidateInElectionAsync(candidateId, electionId);
-            if (alreadyParticipating) return false;
-            bool success = await _candidateRepo.AddCandidateToElectionAsync(candidateId, electionId);
-            return success;
+            if (candidate.ElectionId != null)
+            {
+                var currentElection = await _electionRepo.GetElectionByIdAsync(candidate.ElectionId.Value);
+
+                
+                if (currentElection != null && currentElection.EndDate > DateTime.UtcNow)
+                {
+                    return false;
+                }
+            }
+
+           
+            var newElection = await _electionRepo.GetElectionByIdAsync(electionId);
+            if (newElection == null || !newElection.IsActive) return false;
+
+           
+            if (candidate.ElectionId == electionId) return false;
+
+            
+            return await _candidateRepo.AddCandidateToElectionAsync(candidateId, electionId);
         }
 
-        
+
     }
 }

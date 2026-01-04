@@ -51,7 +51,7 @@ namespace practice.Services
                 return (null, new List<CandidateDto>()); // Or handle differently if you want specific error
 
             // 3. Get Candidates
-            var candidates = await _candidateRepo.GetApprovedCandidatesAsync();
+            var candidates = await _candidateRepo.AllCandidateInElectionAsync(electionId);
 
             var candidateDtos = candidates.Select(c => new CandidateDto
             {

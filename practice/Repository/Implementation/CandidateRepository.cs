@@ -115,5 +115,13 @@ namespace practice.Repository.Implementation
                 .Select(c => c.Id)
                 .FirstOrDefaultAsync();
         }
+
+        public async Task<List<Candidate>> AllCandidateInElectionAsync(int electionId)
+        {
+            return await _context.Candidates
+                .Include(c => c.User)
+                .Where(c => c.ElectionId == electionId && c.IsApproved)
+                .ToListAsync();
+        }
     }
 }

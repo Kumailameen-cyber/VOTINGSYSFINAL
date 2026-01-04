@@ -42,19 +42,19 @@ namespace practice.Controllers
         }
 
         
-        public async Task<IActionResult> Vote(int electionId)
-        {
-            var (election, candidates) = await _voterService.GetVotingPageAsync(GetUserId(), electionId);
-
-            if (election == null)
+            public async Task<IActionResult> Vote(int electionId)
             {
-                TempData["ErrorMessage"] = "Voting not available (Closed or already voted).";
-                return RedirectToAction(nameof(Dashboard));
-            }
+                var (election, candidates) = await _voterService.GetVotingPageAsync(GetUserId(), electionId);
 
-            ViewBag.Election = election;
-            return View(candidates);
-        }
+                if (election == null)
+                {
+                    TempData["ErrorMessage"] = "Voting not available (Closed or already voted).";
+                    return RedirectToAction(nameof(Dashboard));
+                }
+
+                ViewBag.Election = election;
+                return View(candidates);
+            }
 
         // POST: Submit Vote
         [HttpPost]
