@@ -4,97 +4,109 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="container-fluid mt-4">
-    <div class="row mb-4">
-        <div class="col-12">
-            <div class="card shadow border-0">
-                <div class="card-header bg-primary text-white py-3">
-                    <h3 class="mb-0">
-                        <i class="fas fa-users me-2"></i>Manage Voters
-                    </h3>
-                </div>
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table table-hover">
-                            <thead class="table-light">
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Name</th>
-                                    <th>Email</th>
-                                    <th>Phone</th>
-                                    <th>Voter ID</th>
-                                    <th>Role</th>
-                                    <th>Status</th>
-                                    <th>Registered</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (var user in Model)
-                                {
-                                    <tr>
-                                        <td>@user.Id</td>
-                                        <td>@user.FullName</td>
-                                        <td>@user.Email</td>
-                                        <td>@user.PhoneNumber</td>
-                                        <td>@user.VoterIdNumber</td>
-                                        <td>
-                                            <span class="badge bg-secondary">@user.Role</span>
-                                        </td>
-                                        <td>
-                                            @if (user.IsVerified)
-                                            {
-                                                <span class="badge bg-success">
-                                                    <i class="fas fa-check-circle"></i> Verified
-                                                </span>
-                                            }
-                                            else
-                                            {
-                                                <span class="badge bg-warning">
-                                                    <i class="fas fa-clock"></i> Pending
-                                                </span>
-                                            }
-                                            @if (!user.IsActive)
-                                            {
-                                                <span class="badge bg-danger">Inactive</span>
-                                            }
-                                        </td>
-                                        <td>@user.CreatedAt.ToString("MMM dd, yyyy")</td>
-                                        <td>
-                                            @if (!user.IsVerified)
-                                            {
-                                                <form asp-action="VerifyUser" method="post" class="d-inline">
-                                                    <input type="hidden" name="userId" value="@user.Id" />
-                                                    <button type="submit" class="btn btn-success btn-sm">
-                                                        <i class="fas fa-check"></i> Verify
-                                                    </button>
-                                                </form>
-                                            }
-                                            @if (user.IsActive)
-                                            {
-                                                <form asp-action="DeactivateUser" method="post" class="d-inline">
-                                                    <input type="hidden" name="userId" value="@user.Id" />
-                                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Deactivate this user?')">
-                                                        <i class="fas fa-ban"></i> Deactivate
-                                                    </button>
-                                                </form>
-                                            }
-                                        </td>
-                                    </tr>
-                                }
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
+<div class="container-fluid py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="fw-bold text-primary mb-1">
+                <i class="fas fa-users me-2"></i>Manage Voters
+            </h2>
+            <p class="text-muted small">Verify and manage registered voters</p>
         </div>
-    </div>
-
-    <div class="text-center">
-        <a asp-action="Dashboard" class="btn btn-outline-secondary btn-lg">
-            <i class="fas fa-arrow-left me-2"></i>Back to Dashboard
+        <a asp-action="Dashboard" class="btn btn-outline-secondary rounded-pill btn-sm">
+            <i class="fas fa-arrow-left me-2"></i>Back
         </a>
     </div>
+
+    @if (!Model.Any())
+    {
+        <div class="text-center py-5">
+            <div class="mb-3">
+                <i class="fas fa-users-slash fa-3x text-muted"></i>
+            </div>
+            <h5 class="text-muted">No voters found</h5>
+        </div>
+    }
+    else
+    {
+        <div class="row g-4">
+            @foreach (var user in Model)
+            {
+                <div class="col-md-6 col-lg-4 col-xl-3">
+                    <div class="card border-0 shadow-sm rounded-4 h-100 card-hover">
+                        <div class="card-body p-4">
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <div class="bg-light rounded-circle p-3">
+                                    <i class="fas fa-user text-primary fa-lg"></i>
+                                </div>
+                                <div class="text-end">
+                                    @if (user.IsVerified)
+                                    {
+                                        <span class="badge bg-success bg-opacity-10 text-success rounded-pill px-3">
+                                            <i class="fas fa-check-circle me-1"></i>Verified
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-warning bg-opacity-10 text-warning rounded-pill px-3">
+                                            <i class="fas fa-clock me-1"></i>Pending
+                                        </span>
+                                    }
+                                </div>
+                            </div>
+
+                            <h5 class="fw-bold text-dark mb-1">@user.FullName</h5>
+                            <p class="text-muted small mb-3">@user.Email</p>
+
+                            <div class="mb-3">
+                                <div class="d-flex justify-content-between small mb-1">
+                                    <span class="text-muted">Voter ID:</span>
+                                    <span class="fw-bold">@user.VoterIdNumber</span>
+                                </div>
+                                <div class="d-flex justify-content-between small mb-1">
+                                    <span class="text-muted">Phone:</span>
+                                    <span class="fw-bold">@user.PhoneNumber</span>
+                                </div>
+                                <div class="d-flex justify-content-between small">
+                                    <span class="text-muted">Registered:</span>
+                                    <span>@user.CreatedAt.ToString("MMM dd, yyyy")</span>
+                                </div>
+                            </div>
+
+                            <hr class="border-light my-3">
+
+                            <div class="d-grid gap-2">
+                                @if (!user.IsVerified)
+                                {
+                                    <form asp-action="VerifyUser" method="post">
+                                        <input type="hidden" name="userId" value="@user.Id" />
+                                        <button type="submit" class="btn btn-success btn-sm w-100 rounded-pill shadow-sm">
+                                            <i class="fas fa-check me-2"></i>Verify User
+                                        </button>
+                                    </form>
+                                }
+                                
+                                @if (user.IsActive)
+                                {
+                                    <form asp-action="DeactivateUser" method="post">
+                                        <input type="hidden" name="userId" value="@user.Id" />
+                                        <button type="submit" class="btn btn-outline-danger btn-sm w-100 rounded-pill" onclick="return confirm('Deactivate this user?')">
+                                            <i class="fas fa-ban me-2"></i>Deactivate
+                                        </button>
+                                    </form>
+                                }
+                                else
+                                {
+                                     <button disabled class="btn btn-danger btn-sm w-100 rounded-pill opacity-50">
+                                        Inactive
+                                    </button>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
 </div>
 
 @section Scripts {

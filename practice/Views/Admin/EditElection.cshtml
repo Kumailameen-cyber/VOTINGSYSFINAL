@@ -4,75 +4,90 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="container mt-4 mb-5">
+<div class="container py-5 animate__animated animate__fadeIn">
     <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card shadow-lg border-0">
-                <div class="card-header bg-warning text-dark py-3">
-                    <h3 class="mb-0">
+        <div class="col-lg-8">
+            <div class="card shadow-lg border-0 rounded-4 overflow-hidden">
+                <div class="card-header bg-warning text-dark text-center py-4">
+                    <h3 class="fw-bold mb-1">
                         <i class="fas fa-edit me-2"></i>Edit Election
                     </h3>
+                    <p class="text-dark-50 small mb-0">Modify election details</p>
                 </div>
-                <div class="card-body p-4">
+                <div class="card-body p-5">
                     <form asp-action="EditElection" method="post">
                         <input type="hidden" asp-for="Id" />
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger rounded-3 shadow-sm border-0 mb-4"></div>
 
-                        <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
-
-                        <div class="mb-3">
-                            <label asp-for="Title" class="form-label fw-bold">Election Title</label>
-                            <input asp-for="Title" class="form-control" />
-                            <span asp-validation-for="Title" class="text-danger small"></span>
-                        </div>
-
-                        <div class="mb-3">
-                            <label asp-for="Description" class="form-label fw-bold">Description</label>
-                            <textarea asp-for="Description" class="form-control" rows="4"></textarea>
-                            <span asp-validation-for="Description" class="text-danger small"></span>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label asp-for="StartDate" class="form-label fw-bold">Start Date</label>
-                                <input asp-for="StartDate" type="datetime-local" class="form-control" id="StartDate"
-                                       disabled="@(Model.IsActive ? "disabled" : null)" />
-                                <span asp-validation-for="StartDate" class="text-danger small"></span>
+                        <div class="mb-4">
+                            <label asp-for="Title" class="form-label fw-bold text-secondary small text-uppercase">Election Title</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light border-end-0 rounded-start-pill ps-3"><i class="fas fa-heading text-muted"></i></span>
+                                <input asp-for="Title" class="form-control border-start-0 ps-2 rounded-end-pill py-2" />
                             </div>
-                            <div class="col-md-6 mb-3">
-                                <label asp-for="EndDate" class="form-label fw-bold">End Date</label>
-                                <input asp-for="EndDate" type="datetime-local" class="form-control" />
-                                <span asp-validation-for="EndDate" class="text-danger small"></span>
+                            <span asp-validation-for="Title" class="text-danger small ms-2"></span>
+                        </div>
+
+                        <div class="mb-4">
+                            <label asp-for="Description" class="form-label fw-bold text-secondary small text-uppercase">Description</label>
+                             <div class="input-group">
+                                 <span class="input-group-text bg-light border-end-0 rounded-start-4 ps-3"><i class="fas fa-align-left text-muted"></i></span>
+                                <textarea asp-for="Description" class="form-control border-start-0 ps-2 rounded-end-4" rows="4"></textarea>
+                            </div>
+                            <span asp-validation-for="Description" class="text-danger small ms-2"></span>
+                        </div>
+
+                        <div class="card bg-light border-0 rounded-4 p-3 mb-4">
+                            <div class="form-check form-switch d-flex align-items-center">
+                                <input asp-for="IsActive" class="form-check-input me-3" type="checkbox" role="switch" style="width: 3em; height: 1.5em;" 
+                                      onchange="document.getElementById('StartDate').disabled = this.checked;" />
+                                <div>
+                                    <label asp-for="IsActive" class="form-check-label fw-bold text-dark d-block">Is Active?</label>
+                                    <small class="text-muted">If active, start date will be ignored/disabled.</small>
+                                </div>
                             </div>
                         </div>
 
-                        <div class="mb-3">
-                            <label asp-for="ElectionType" class="form-label fw-bold">Election Type</label>
-                            <select asp-for="ElectionType" class="form-control">
-                                <option value="General">General</option>
-                                <option value="Local">Local</option>
-                                <option value="Regional">Regional</option>
-                                <option value="Special">Special</option>
-                            </select>
-                            <span asp-validation-for="ElectionType" class="text-danger small"></span>
-                        </div>
-
-                        <div class="mb-3">
-                            <div class="form-check form-switch">
-                                <input asp-for="IsActive" class="form-check-input" type="checkbox"
-                                       onchange="document.getElementById('StartDate').disabled = this.checked;" />
-                                <label asp-for="IsActive" class="form-check-label fw-bold">
-                                    Is Active?
-                                </label>
+                        <div class="row g-4 mb-4">
+                            <div class="col-md-6">
+                                <label asp-for="StartDate" class="form-label fw-bold text-secondary small text-uppercase">Start Date</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light border-end-0 rounded-start-pill ps-3"><i class="fas fa-calendar-alt text-muted"></i></span>
+                                    <input asp-for="StartDate" type="datetime-local" class="form-control border-start-0 ps-2 rounded-end-pill py-2" id="StartDate"
+                                           disabled="@(Model.IsActive ? "disabled" : null)" />
+                                </div>
+                                <span asp-validation-for="StartDate" class="text-danger small ms-2"></span>
                             </div>
-                            <small class="text-muted">Disabling start date if active.</small>
+                            <div class="col-md-6">
+                                <label asp-for="EndDate" class="form-label fw-bold text-secondary small text-uppercase">End Date</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light border-end-0 rounded-start-pill ps-3"><i class="fas fa-calendar-times text-muted"></i></span>
+                                    <input asp-for="EndDate" type="datetime-local" class="form-control border-start-0 ps-2 rounded-end-pill py-2" />
+                                </div>
+                                <span asp-validation-for="EndDate" class="text-danger small ms-2"></span>
+                            </div>
                         </div>
 
-                        <div class="d-grid gap-2">
-                            <button type="submit" class="btn btn-warning btn-lg">
-                                <i class="fas fa-save me-2"></i>Save Changes
+                        <div class="mb-5">
+                            <label asp-for="ElectionType" class="form-label fw-bold text-secondary small text-uppercase">Election Type</label>
+                             <div class="input-group">
+                                <span class="input-group-text bg-light border-end-0 rounded-start-pill ps-3"><i class="fas fa-tag text-muted"></i></span>
+                                <select asp-for="ElectionType" class="form-select border-start-0 ps-2 rounded-end-pill py-2">
+                                    <option value="General">General</option>
+                                    <option value="Local">Local</option>
+                                    <option value="Regional">Regional</option>
+                                    <option value="Special">Special</option>
+                                </select>
+                            </div>
+                            <span asp-validation-for="ElectionType" class="text-danger small ms-2"></span>
+                        </div>
+
+                        <div class="d-grid gap-3">
+                            <button type="submit" class="btn btn-warning rounded-pill btn-lg shadow-sm font-monospace fw-bold">
+                                <i class="fas fa-save me-2"></i>SAVE CHANGES
                             </button>
-                            <a asp-action="ManageElections" class="btn btn-outline-secondary">
-                                Cancel
+                            <a asp-action="ManageElections" class="btn btn-outline-secondary rounded-pill btn-lg">
+                                Cancel & Back
                             </a>
                         </div>
                     </form>

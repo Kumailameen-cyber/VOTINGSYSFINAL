@@ -4,93 +4,84 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="container mt-5 mb-5">
+<div class="container py-5">
     <div class="row justify-content-center">
-        <div class="col-md-8 col-lg-7">
-            <div class="card shadow-lg border-0 rounded-lg">
-                <div class="card-header bg-success text-white text-center py-4">
-                    <h3 class="mb-0">
-                        <i class="fas fa-user-plus me-2"></i>Voter Registration
-                    </h3>
-                    <p class="mb-0 mt-2 small">Register to participate in elections</p>
+        <div class="col-md-10 col-lg-8 animate__animated animate__fadeInUp">
+            <div class="card shadow-lg border-0 rounded-4 overflow-hidden">
+                <div class="card-header bg-white text-center pt-5 pb-0 border-0">
+                    <div class="mb-2">
+                        <span class="badge bg-success bg-opacity-10 text-success rounded-pill px-3 py-2 mb-2">Voter Access</span>
+                    </div>
+                    <h2 class="fw-bold text-primary mb-1">Create Voter Account</h2>
+                    <p class="text-muted">Join the platform to cast your secure vote</p>
                 </div>
-                <div class="card-body p-4">
+                <div class="card-body p-4 p-md-5 pt-3">
                     <form asp-action="VoterRegister" method="post">
-                        <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger rounded-3 shadow-sm border-0"></div>
 
-                        <div class="row">
-                            <div class="col-md-12 mb-3">
-                                <label asp-for="FullName" class="form-label fw-bold">
-                                    <i class="fas fa-user me-1"></i>Full Name
-                                </label>
-                                <input asp-for="FullName" class="form-control" placeholder="Enter your full name" />
-                                <span asp-validation-for="FullName" class="text-danger small"></span>
+                        <div class="row g-4 mb-4">
+                            <div class="col-12">
+                                <label asp-for="FullName" class="form-label fw-bold small text-uppercase text-secondary">Full Name</label>
+                                <input asp-for="FullName" class="form-control rounded-pill py-2 px-3" placeholder="John Doe" />
+                                <span asp-validation-for="FullName" class="text-danger small ms-2"></span>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label asp-for="Email" class="form-label fw-bold small text-uppercase text-secondary">Email Address</label>
+                                <input asp-for="Email" class="form-control rounded-pill py-2 px-3" placeholder="name@example.com" />
+                                <span asp-validation-for="Email" class="text-danger small ms-2"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="PhoneNumber" class="form-label fw-bold small text-uppercase text-secondary">Phone Number</label>
+                                <input asp-for="PhoneNumber" class="form-control rounded-pill py-2 px-3" placeholder="0300 1234567" />
+                                <span asp-validation-for="PhoneNumber" class="text-danger small ms-2"></span>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label asp-for="cnic" class="form-label fw-bold small text-uppercase text-secondary">CNIC Number</label>
+                                <input asp-for="cnic" class="form-control rounded-pill py-2 px-3" placeholder="35202-1234567-8" />
+                                <span asp-validation-for="cnic" class="text-danger small ms-2"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="VoterIdNumber" class="form-label fw-bold small text-uppercase text-secondary">Voter ID</label>
+                                <input asp-for="VoterIdNumber" class="form-control rounded-pill py-2 px-3" placeholder="Unique Voter ID" />
+                                <span asp-validation-for="VoterIdNumber" class="text-danger small ms-2"></span>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label asp-for="Password" class="form-label fw-bold small text-uppercase text-secondary">Password</label>
+                                <div class="input-group">
+                                    <input asp-for="Password" type="password" class="form-control rounded-start-pill py-2 px-3" placeholder="Minimum 6 characters" />
+                                    <span class="input-group-text bg-light rounded-end-pill border-start-0 px-3"><i class="fas fa-lock text-muted"></i></span>
+                                </div>
+                                <span asp-validation-for="Password" class="text-danger small ms-2"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="ConfirmPassword" class="form-label fw-bold small text-uppercase text-secondary">Confirm Password</label>
+                                <div class="input-group">
+                                    <input asp-for="ConfirmPassword" type="password" class="form-control rounded-start-pill py-2 px-3" placeholder="Re-enter password" />
+                                    <span class="input-group-text bg-light rounded-end-pill border-start-0 px-3"><i class="fas fa-check text-muted"></i></span>
+                                </div>
+                                <span asp-validation-for="ConfirmPassword" class="text-danger small ms-2"></span>
                             </div>
                         </div>
 
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label asp-for="Email" class="form-label fw-bold">
-                                    <i class="fas fa-envelope me-1"></i>Email
-                                </label>
-                                <input asp-for="Email" class="form-control" placeholder="your.email@example.com" />
-                                <span asp-validation-for="Email" class="text-danger small"></span>
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label asp-for="PhoneNumber" class="form-label fw-bold">
-                                    <i class="fas fa-phone me-1"></i>Phone Number
-                                </label>
-                                <input asp-for="PhoneNumber" class="form-control" placeholder="10-digit number" />
-                                <span asp-validation-for="PhoneNumber" class="text-danger small"></span>
+                        <div class="alert alert-light border border-secondary border-opacity-10 rounded-3 shadow-sm mb-4">
+                            <div class="d-flex">
+                                <i class="fas fa-info-circle text-primary mt-1 me-3"></i>
+                                <span class="small text-muted">For security reasons, your account will require administrative verification before you can access the voting dashboard.</span>
                             </div>
                         </div>
 
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label asp-for="cnic" class="form-label fw-bold">
-                                    <i class="fas fa-id-card me-1"></i>CNIC Number
-                                </label>
-                                <input asp-for="cnic" class="form-control" placeholder="12-digit CNIC number" />
-                                <span asp-validation-for="cnic" class="text-danger small"></span>
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label asp-for="VoterIdNumber" class="form-label fw-bold">
-                                    <i class="fas fa-id-badge me-1"></i>Voter ID Number
-                                </label>
-                                <input asp-for="VoterIdNumber" class="form-control" placeholder="Enter Voter ID" />
-                                <span asp-validation-for="VoterIdNumber" class="text-danger small"></span>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label asp-for="Password" class="form-label fw-bold">
-                                    <i class="fas fa-lock me-1"></i>Password
-                                </label>
-                                <input asp-for="Password" type="password" class="form-control" placeholder="Minimum 6 characters" />
-                                <span asp-validation-for="Password" class="text-danger small"></span>
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label asp-for="ConfirmPassword" class="form-label fw-bold">
-                                    <i class="fas fa-lock me-1"></i>Confirm Password
-                                </label>
-                                <input asp-for="ConfirmPassword" type="password" class="form-control" placeholder="Re-enter password" />
-                                <span asp-validation-for="ConfirmPassword" class="text-danger small"></span>
-                            </div>
-                        </div>
-
-                        <div class="alert alert-info mb-3">
-                            <i class="fas fa-info-circle me-2"></i>
-                            <small>Your account will be verified by admin before you can login and vote.</small>
-                        </div>
-
-                        <div class="d-grid gap-2">
-                            <button type="submit" class="btn btn-success btn-lg">
-                                <i class="fas fa-user-plus me-2"></i>Register as Voter
+                        <div class="d-grid gap-3">
+                            <button type="submit" class="btn btn-success rounded-pill btn-lg shadow-sm fw-bold">
+                                Create Account
                             </button>
-                            <a asp-action="Login" class="btn btn-outline-secondary">
-                                <i class="fas fa-arrow-left me-2"></i>Back to Login
-                            </a>
+                            <div class="text-center">
+                                <a asp-action="Login" class="text-decoration-none text-muted small fw-bold">
+                                    Already have an account? <span class="text-primary">Sign in</span>
+                                </a>
+                            </div>
                         </div>
                     </form>
                 </div>

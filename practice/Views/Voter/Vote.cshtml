@@ -5,93 +5,125 @@
     var election = ViewBag.Election as practice.Models.Election;
 }
 
-<div class="container mt-4 mb-5">
-    <div class="row mb-4">
+<div class="container py-4 animate__animated animate__fadeIn">
+    <!-- Election Header -->
+    <div class="row mb-5">
         <div class="col-12">
-            <div class="card bg-primary text-white shadow-lg border-0">
-                <div class="card-body py-4">
-                    <h2 class="mb-2">
-                        <i class="fas fa-vote-yea me-2"></i>@election?.Title
-                    </h2>
-                    <p class="mb-0 fs-6">@election?.Description</p>
-                    <small>
-                        <i class="fas fa-calendar me-1"></i>
-                        @election?.StartDate.ToString("MMM dd, yyyy") - @election?.EndDate.ToString("MMM dd, yyyy")
-                    </small>
+            <div class="card bg-primary text-white shadow-lg border-0 rounded-4 overflow-hidden position-relative stats-card">
+                 <!-- Decorative elements -->
+                <div class="position-absolute start-0 top-0 h-100 w-100 opacity-10" 
+                     style="background: repeating-linear-gradient(45deg, transparent, transparent 10px, #fff 10px, #fff 20px);"></div>
+                
+                <div class="card-body py-5 text-center position-relative z-1">
+                    <span class="badge bg-white text-primary rounded-pill mb-3 px-3 py-2 fw-bold text-uppercase">Official Ballot</span>
+                    <h1 class="display-5 fw-bold mb-2">@election?.Title</h1>
+                    <p class="fs-5 opacity-75 mb-4 mx-auto" style="max-width: 700px;">@election?.Description</p>
+                    
+                    <div class="d-inline-flex bg-white bg-opacity-10 rounded-pill px-4 py-2 border border-white border-opacity-25 backdrop-blur">
+                        <span class="text-white">
+                            <i class="fas fa-calendar-alt me-2"></i>Voting Period: 
+                            <span class="fw-bold">@election?.StartDate.ToString("MMM dd") - @election?.EndDate.ToString("MMM dd, yyyy")</span>
+                        </span>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="alert alert-info shadow mb-4">
-        <h5 class="alert-heading">
-            <i class="fas fa-info-circle me-2"></i>Voting Instructions
-        </h5>
-        <ul class="mb-0">
-            <li>Review all candidates carefully before casting your vote</li>
-            <li>You can only vote once in this election</li>
-            <li>Your vote is anonymous and secure</li>
-            <li>Click on "Vote for this Candidate" to submit your vote</li>
-        </ul>
+    <!-- Instructions -->
+    <div class="alert alert-light border-0 shadow-sm rounded-4 p-4 mb-5">
+        <div class="d-flex">
+            <div class="me-3 text-primary">
+                <i class="fas fa-info-circle fa-2x"></i>
+            </div>
+            <div>
+                <h5 class="fw-bold text-dark">Voting Instructions</h5>
+                <ul class="mb-0 text-muted ps-3">
+                    <li>Review each candidate's profile and manifesto carefully.</li>
+                    <li>Select candidates that align with your values.</li>
+                    <li><strong class="text-dark">You can only vote once.</strong> This action is irreversible.</li>
+                </ul>
+            </div>
+        </div>
     </div>
 
-    <h3 class="mb-4 text-primary">
-        <i class="fas fa-users me-2"></i>Select Your Candidate
-    </h3>
+    <div class="d-flex align-items-center mb-4">
+        <h3 class="fw-bold text-dark mb-0">
+            <i class="fas fa-users-cog me-2 text-primary"></i>Candidates
+        </h3>
+        <span class="badge bg-light text-secondary ms-3 rounded-pill border">@Model?.Count() contending</span>
+    </div>
 
-    <div class="row">
+    <!-- Candidates Grid -->
+    <div class="row g-4">
         @if (Model != null && Model.Any())
         {
             @foreach (var candidate in Model)
             {
-                <div class="col-md-6 col-lg-4 mb-4">
-                    <div class="card shadow-sm border-0 h-100 candidate-card">
-                        <div class="card-header bg-light text-center py-3">
-                            @if (!string.IsNullOrEmpty(candidate.ProfileImageUrl))
+                <div class="col-md-6 col-lg-4">
+                    <div class="card h-100 shadow-sm hover-up border-0 rounded-4 overflow-hidden candidate-card-modern">
+                        
+                        <!-- Candidate Header / Image -->
+                        <div class="card-header bg-light border-0 pt-4 pb-0 text-center position-relative">
+                             @if (!string.IsNullOrEmpty(candidate.ProfileImageUrl))
                             {
-                                <img src="@candidate.ProfileImageUrl" class="rounded-circle mb-2" width="80" height="80" alt="@candidate.FullName" />
+                                <img src="@candidate.ProfileImageUrl" class="rounded-circle shadow-sm border border-4 border-white object-fit-cover" 
+                                     width="120" height="120" alt="@candidate.FullName" style="margin-bottom: -60px; position: relative; z-index: 2;" />
                             }
                             else
                             {
-                                <div class="rounded-circle bg-secondary d-inline-flex align-items-center justify-content-center mb-2" style="width: 80px; height: 80px;">
-                                    <i class="fas fa-user fa-2x text-white"></i>
+                                <div class="rounded-circle bg-white shadow-sm border border-4 border-white d-inline-flex align-items-center justify-content-center text-secondary" 
+                                     style="width: 120px; height: 120px; margin-bottom: -60px; position: relative; z-index: 2;">
+                                    <i class="fas fa-user fa-3x opacity-25"></i>
                                 </div>
                             }
-                            <h5 class="card-title mb-1 fw-bold">@candidate.FullName</h5>
-                            <p class="text-muted mb-0 small">
-                                <i class="fas fa-flag me-1"></i>@candidate.PartyName
-                            </p>
+                            <!-- Party Badge -->
                             @if (!string.IsNullOrEmpty(candidate.PartySymbol))
                             {
-                                <span class="badge bg-info mt-1">@candidate.PartySymbol</span>
+                                <span class="position-absolute top-0 end-0 m-3 badge bg-white text-dark shadow-sm border rounded-pill">
+                                    @candidate.PartySymbol
+                                </span>
                             }
                         </div>
-                        <div class="card-body">
-                            <h6 class="text-primary mb-2">
-                                <i class="fas fa-scroll me-1"></i>Manifesto
-                            </h6>
-                            <p class="card-text small text-justify">@candidate.Manifesto</p>
 
-                            @if (!string.IsNullOrEmpty(candidate.Education))
-                            {
-                                <p class="mb-1 small">
-                                    <strong><i class="fas fa-graduation-cap me-1"></i>Education:</strong> @candidate.Education
-                                </p>
-                            }
+                        <div class="card-body pt-5 px-4 pb-4 mt-4 text-center">
+                            <h4 class="fw-bold text-dark mb-1">@candidate.FullName</h4>
+                            <p class="text-primary fw-bold mb-3 small text-uppercase letter-spacing-1">
+                                <i class="fas fa-flag me-1"></i>@candidate.PartyName
+                            </p>
 
-                            @if (!string.IsNullOrEmpty(candidate.PreviousExperience))
-                            {
-                                <p class="mb-1 small">
-                                    <strong><i class="fas fa-briefcase me-1"></i>Experience:</strong> @candidate.PreviousExperience
+                            <hr class="opacity-10 my-3">
+
+                            <div class="text-start mb-3">
+                                <h6 class="text-secondary small text-uppercase fw-bold mb-2">Manifesto</h6>
+                                <p class="text-muted small line-clamp-3 mb-3">
+                                    @candidate.Manifesto
                                 </p>
-                            }
+                                
+                                <div class="d-flex flex-wrap gap-2 mb-2">
+                                     @if (!string.IsNullOrEmpty(candidate.Education))
+                                    {
+                                        <span class="badge bg-light text-secondary border fw-normal" title="Education">
+                                            <i class="fas fa-graduation-cap me-1"></i>@candidate.Education
+                                        </span>
+                                    }
+                                     @if (!string.IsNullOrEmpty(candidate.PreviousExperience))
+                                    {
+                                        <span class="badge bg-light text-secondary border fw-normal" title="Experience">
+                                            <i class="fas fa-briefcase me-1"></i>@candidate.PreviousExperience
+                                        </span>
+                                    }
+                                </div>
+                            </div>
                         </div>
-                        <div class="card-footer bg-white border-0 text-center pb-3">
-                            <form asp-action="SubmitVote" asp-controller="Voter" method="post" onsubmit="return confirm('Are you sure you want to vote for @candidate.FullName? This action cannot be undone.');">
+
+                        <div class="card-footer bg-white border-0 px-4 pb-4 pt-0">
+                            <form asp-action="SubmitVote" asp-controller="Voter" method="post" 
+                                  onsubmit="return confirm('CONFIRM VOTE:\n\nAre you sure you want to cast your vote for @candidate.FullName?\n\nThis action cannot be undone.');">
                                 <input type="hidden" name="ElectionId" value="@election?.Id" />
                                 <input type="hidden" name="CandidateId" value="@candidate.Id" />
-                                <button type="submit" class="btn btn-success btn-lg w-100">
-                                    <i class="fas fa-check-circle me-2"></i>Vote for this Candidate
+                                <button type="submit" class="btn btn-primary w-100 rounded-pill py-3 fw-bold shadow-sm btn-vote">
+                                    <i class="fas fa-vote-yea me-2"></i>VOTE FOR CANDIDATE
                                 </button>
                             </form>
                         </div>
@@ -102,37 +134,59 @@
         else
         {
             <div class="col-12">
-                <div class="alert alert-warning">
-                    <h5 class="alert-heading">
-                        <i class="fas fa-exclamation-triangle me-2"></i>No Candidates Available
-                    </h5>
-                    <p class="mb-0">There are currently no approved candidates for this election.</p>
+                <div class="text-center py-5">
+                    <div class="mb-3 text-muted opacity-25">
+                         <i class="fas fa-users-slash fa-4x"></i>
+                    </div>
+                    <h4 class="fw-bold text-secondary">No Candidates Found</h4>
+                    <p class="text-muted">There are clearly no approved candidates for this election yet.</p>
                 </div>
             </div>
         }
     </div>
 
-    <div class="text-center mt-4">
-        <a asp-action="Dashboard" class="btn btn-outline-secondary btn-lg">
-            <i class="fas fa-arrow-left me-2"></i>Back to Dashboard
+    <div class="text-center mt-5 mb-5">
+        <a asp-action="Dashboard" class="btn btn-outline-secondary rounded-pill px-4">
+            <i class="fas fa-arrow-left me-2"></i>Return to Dashboard
         </a>
     </div>
 </div>
 
 <style>
-    .candidate-card {
+    .backdrop-blur {
+        backdrop-filter: blur(5px);
+    }
+    .hover-up {
         transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
-
-    .candidate-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    .hover-up:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 15px 30px rgba(0,0,0,0.1) !important;
     }
-
-    .text-justify {
-        text-align: justify;
+    .line-clamp-3 {
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+    .object-fit-cover {
+        object-fit: cover;
+    }
+    .letter-spacing-1 {
+        letter-spacing: 1px;
+    }
+    .btn-vote {
+        transition: all 0.2s;
+    }
+    .btn-vote:hover {
+        transform: scale(1.02);
+        box-shadow: 0 5px 15px rgba(13, 110, 253, 0.3) !important;
     }
 </style>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
