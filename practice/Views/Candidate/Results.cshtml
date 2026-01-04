@@ -8,36 +8,49 @@
     var myVotes = (int)ViewBag.MyVotes;
 }
 
-<div class="container mt-4 mb-5">
-    <div class="row mb-4">
+<div class="container py-4 animate__animated animate__fadeIn">
+    <!-- Stats Header -->
+    <div class="row mb-5">
         <div class="col-12">
-            <div class="card bg-gradient-info text-white shadow-lg border-0">
-                <div class="card-body py-4">
-                    <h2 class="mb-2">
-                        <i class="fas fa-chart-line me-2"></i>Your Performance
-                    </h2>
-                    <h4 class="mb-2">@election?.Title</h4>
-                    <div class="row mt-3">
-                        <div class="col-md-4">
-                            <div class="bg-white rounded p-3 shadow text-center">
-                                <h6 class="text-muted mb-1">Your Votes</h6>
-                                <h2 class="text-primary mb-0">@myVotes</h2>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="bg-white rounded p-3 shadow text-center">
-                                <h6 class="text-muted mb-1">Total Votes Cast</h6>
-                                <h2 class="text-success mb-0">@totalVotes</h2>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="bg-white rounded p-3 shadow text-center">
-                                <h6 class="text-muted mb-1">Your Share</h6>
-                                <h2 class="text-warning mb-0">
-                                    @((totalVotes > 0 ? (myVotes * 100.0 / totalVotes) : 0).ToString("F2"))%
-                                </h2>
-                            </div>
-                        </div>
+            <div class="card bg-primary text-white shadow-lg border-0 rounded-4 overflow-hidden position-relative">
+                 <!-- Background decoration -->
+                 <div class="position-absolute top-0 end-0 p-4 opacity-25">
+                     <i class="fas fa-chart-pie fa-8x transform-rotate-n15"></i>
+                 </div>
+                 
+                <div class="card-body py-5 px-4 position-relative z-1">
+                    <div class="row align-items-center">
+                         <div class="col-lg-6 mb-4 mb-lg-0">
+                            <h6 class="text-uppercase letter-spacing-2 opacity-75 mb-2">Performance Analytics</h6>
+                            <h2 class="display-6 fw-bold mb-1">
+                                <i class="fas fa-chart-line me-2"></i>@election?.Title
+                            </h2>
+                            <p class="fs-5 opacity-90 mb-0">Track your standing in real-time</p>
+                         </div>
+                         <div class="col-lg-6">
+                             <div class="row g-3">
+                                 <div class="col-4">
+                                     <div class="bg-white bg-opacity-10 backdrop-blur rounded-3 p-3 text-center border border-white border-opacity-25">
+                                         <h6 class="text-white opacity-75 small text-uppercase fw-bold mb-1">Your Votes</h6>
+                                         <h3 class="mb-0 fw-bold">@myVotes</h3>
+                                     </div>
+                                 </div>
+                                 <div class="col-4">
+                                     <div class="bg-white bg-opacity-10 backdrop-blur rounded-3 p-3 text-center border border-white border-opacity-25">
+                                         <h6 class="text-white opacity-75 small text-uppercase fw-bold mb-1">Total Cast</h6>
+                                         <h3 class="mb-0 fw-bold">@totalVotes</h3>
+                                     </div>
+                                 </div>
+                                 <div class="col-4">
+                                     <div class="bg-white text-primary rounded-3 p-3 text-center shadow-sm">
+                                         <h6 class="text-primary opacity-75 small text-uppercase fw-bold mb-1">Your Share</h6>
+                                         <h3 class="mb-0 fw-bold">
+                                             @((totalVotes > 0 ? (myVotes * 100.0 / totalVotes) : 0).ToString("F1"))<small>%</small>
+                                         </h3>
+                                     </div>
+                                 </div>
+                             </div>
+                         </div>
                     </div>
                 </div>
             </div>
@@ -48,73 +61,75 @@
     {
         <div class="row">
             <div class="col-12">
-                <div class="card shadow-lg border-0">
-                    <div class="card-header bg-primary text-white py-3">
-                        <h4 class="mb-0">
-                            <i class="fas fa-trophy me-2"></i>Complete Results
+                <div class="card shadow-sm border-0 rounded-4 overflow-hidden">
+                    <div class="card-header bg-white py-4 border-0 d-flex justify-content-between align-items-center px-4">
+                        <h4 class="mb-0 fw-bold text-dark">
+                            <i class="fas fa-list-ol me-2 text-primary"></i>Leaderboard
                         </h4>
+                        <span class="badge bg-light text-secondary rounded-pill border">
+                            Updated: @DateTime.Now.ToString("HH:mm")
+                        </span>
                     </div>
-                    <div class="card-body">
+                    <div class="card-body p-0">
                         <div class="table-responsive">
-                            <table class="table table-hover">
-                                <thead class="table-light">
+                            <table class="table table-hover align-middle mb-0">
+                                <thead class="bg-light text-secondary small text-uppercase">
                                     <tr>
-                                        <th>Rank</th>
-                                        <th>Candidate</th>
-                                        <th>Party</th>
-                                        <th class="text-center">Total Votes</th>
-                                        <th class="text-center">Vote %</th>
-                                        <th>Progress</th>
+                                        <th class="ps-4 py-3 border-0">Rank</th>
+                                        <th class="py-3 border-0">Candidate</th>
+                                        <th class="py-3 border-0">Party</th>
+                                        <th class="text-center py-3 border-0">Votes</th>
+                                        <th class="text-center py-3 border-0">Share</th>
+                                        <th class="pe-4 py-3 border-0" style="width: 25%;">Progress</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @{
-                                        int rank = 1;
-                                    }
+                                    @{ int rank = 1; }
                                     @foreach (var result in Model)
                                     {
-                                        var badgeClass = rank == 1 ? "bg-warning" : rank == 2 ? "bg-secondary" : rank == 3 ? "bg-danger" : "bg-info";
-                                        var iconClass = rank == 1 ? "fa-trophy" : rank == 2 ? "fa-medal" : rank == 3 ? "fa-award" : "fa-user";
+                                        var badgeClass = rank == 1 ? "bg-warning text-dark" : rank == 2 ? "bg-secondary text-white" : rank == 3 ? "bg-danger text-white" : "bg-light text-muted";
+                                        var iconClass = rank == 1 ? "fa-trophy" : rank == 2 ? "fa-medal" : rank == 3 ? "fa-award" : "fa-hashtag";
                                         var isCurrentCandidate = result.CandidateId == candidateId;
-                                        var rowClass = isCurrentCandidate ? "table-success" : "";
+                                        var rowClass = isCurrentCandidate ? "bg-primary bg-opacity-10 border-start border-primary border-4" : "";
 
                                         <tr class="@rowClass">
-                                            <td>
-                                                <span class="badge @badgeClass fs-6">
+                                            <td class="ps-4">
+                                                <span class="badge @badgeClass rounded-pill px-3 py-2">
                                                     <i class="fas @iconClass me-1"></i>#@rank
                                                 </span>
                                             </td>
-                                            <td class="fw-bold">
-                                                @result.CandidateName
+                                            <td>
+                                                <span class="fw-bold @(isCurrentCandidate ? "text-primary" : "text-dark")">
+                                                    @result.CandidateName
+                                                </span>
                                                 @if (isCurrentCandidate)
                                                 {
-                                                    <span class="badge bg-success ms-2">
+                                                    <span class="badge bg-primary ms-2 rounded-pill">
                                                         <i class="fas fa-user me-1"></i>You
                                                     </span>
                                                 }
                                             </td>
                                             <td>
-                                                <span class="text-muted">@result.PartyName</span>
+                                                <span class="text-muted small">@result.PartyName</span>
                                                 @if (!string.IsNullOrEmpty(result.PartySymbol))
                                                 {
-                                                    <small class="badge bg-light text-dark ms-1">@result.PartySymbol</small>
+                                                    <span class="badge bg-light text-dark border ms-1 rounded-pill">@result.PartySymbol</span>
                                                 }
                                             </td>
                                             <td class="text-center">
-                                                <strong class="fs-5 text-primary">@result.TotalVotes</strong>
+                                                <strong class="fs-5 @(isCurrentCandidate ? "text-primary" : "text-dark")">@result.TotalVotes</strong>
                                             </td>
                                             <td class="text-center">
-                                                <strong class="text-success">@result.VotePercentage.ToString("F2")%</strong>
+                                                <span class="fw-bold text-success">@result.VotePercentage.ToString("F1")%</span>
                                             </td>
-                                            <td>
-                                                <div class="progress" style="height: 25px;">
-                                                    <div class="progress-bar @(rank == 1 ? "bg-success" : rank == 2 ? "bg-info" : "bg-secondary")" 
+                                            <td class="pe-4">
+                                                <div class="progress shadow-sm" style="height: 10px; border-radius: 5px;">
+                                                    <div class="progress-bar @(isCurrentCandidate ? "bg-primary" : (rank == 1 ? "bg-success" : "bg-secondary"))" 
                                                          role="progressbar" 
                                                          style="width: @result.VotePercentage%" 
                                                          aria-valuenow="@result.VotePercentage" 
                                                          aria-valuemin="0" 
                                                          aria-valuemax="100">
-                                                        @result.VotePercentage.ToString("F1")%
                                                     </div>
                                                 </div>
                                             </td>
@@ -131,27 +146,30 @@
     }
     else
     {
-        <div class="alert alert-info shadow">
-            <h5 class="alert-heading">
-                <i class="fas fa-info-circle me-2"></i>No Results Available
-            </h5>
-            <p class="mb-0">Results for this election are not available yet or voting hasn't started.</p>
+        <div class="alert alert-info shadow-sm rounded-4 border-0 p-5 text-center mt-4">
+            <div class="mb-3">
+                <i class="fas fa-hourglass-start fa-3x text-info opacity-50"></i>
+            </div>
+            <h4 class="alert-heading fw-bold">No Results Yet</h4>
+            <p class="mb-0 text-muted fs-5">Voting has not effectively started or no votes have been cast.</p>
         </div>
     }
 
-    <div class="text-center mt-4">
-        <a asp-action="Dashboard" class="btn btn-outline-primary btn-lg">
+    <div class="text-center mt-5">
+        <a asp-action="Dashboard" class="btn btn-outline-secondary rounded-pill px-4">
             <i class="fas fa-arrow-left me-2"></i>Back to Dashboard
         </a>
     </div>
 </div>
 
 <style>
-    .bg-gradient-info {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    .transform-rotate-n15 {
+        transform: rotate(-15deg);
     }
-
-    .table-success {
-        background-color: #d1f4e0 !important;
+    .letter-spacing-2 {
+        letter-spacing: 2px;
+    }
+    .backdrop-blur {
+        backdrop-filter: blur(5px);
     }
 </style>

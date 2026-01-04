@@ -2,98 +2,189 @@
     ViewData["Title"] = "Voter Dashboard";
     Layout = "~/Views/Shared/_Layout.cshtml";
     var user = ViewBag.User as practice.Models.User;
-    var activeElections = ViewBag.ActiveElection as List<practice.Models.Election>;
+    var activeElections = ViewBag.ActiveElection as List<Election>;
     var votedElectionIds = ViewBag.VotedElectionIds as List<int>;
 }
 
-<div class="container mt-4">
-    <div class="row mb-4">
+<div class="container py-4 animate__animated animate__fadeIn">
+    <!-- Welcome Section -->
+    <div class="row mb-5">
         <div class="col-12">
-            <div class="card bg-gradient-primary text-white shadow-lg border-0">
-                <div class="card-body py-5">
-                    <h2 class="mb-2"><i class="fas fa-user-circle me-2"></i>Welcome, @user?.FullName!</h2>
-                    <p class="mb-0 fs-5">
-                        <i class="fas fa-envelope me-2"></i>@user?.Email
-                        @if (user?.IsVerified == true)
-                        {
-                            <span class="badge bg-success ms-2"><i class="fas fa-check-circle me-1"></i>Verified</span>
-                        }
-                        else
-                        {
-                            <span class="badge bg-warning ms-2"><i class="fas fa-clock me-1"></i>Pending Verification</span>
-                        }
-                    </p>
+            <div class="card bg-primary text-white shadow-lg border-0 rounded-4 overflow-hidden position-relative">
+                 <!-- Background decoration -->
+                <div class="position-absolute top-0 end-0 p-3 opacity-25">
+                    <i class="fas fa-vote-yea fa-10x transform-rotate-n15"></i>
                 </div>
-            </div>
-        </div>
-    </div>
-
-    @if (user?.IsVerified != true)
-    {
-        <div class="alert alert-warning shadow">
-            <h5 class="alert-heading"><i class="fas fa-exclamation-triangle me-2"></i>Account Pending Verification</h5>
-            <p class="mb-0">Your account is under review. You will be able to vote once verified.</p>
-        </div>
-    }
-    else if (activeElections != null && activeElections.Count > 0)
-    {
-        @foreach (var election in activeElections)
-        {
-            bool hasVoted = votedElectionIds.Contains(election.Id);
-            <div class="row mb-4">
-                <div class="col-12">
-                    <div class="card shadow border-0">
-                        <div class="card-header bg-primary text-white py-3">
-                            <h4 class="mb-0"><i class="fas fa-poll-h me-2"></i>@election.Title</h4>
+                
+                <div class="card-body py-5 px-4 position-relative z-1">
+                    <div class="d-flex flex-column flex-md-row justify-content-between align-items-center">
+                        <div class="mb-3 mb-md-0">
+                            <h6 class="text-uppercase letter-spacing-2 opacity-75 mb-2">Voter Dashboard</h6>
+                            <h2 class="display-5 fw-bold mb-1">Welcome, @user?.FullName!</h2>
+                            <p class="fs-5 mb-0 opacity-90">
+                                <i class="fas fa-envelope me-2"></i>@user?.Email
+                            </p>
                         </div>
-                        <div class="card-body">
-                            <p class="text-muted mb-3">@election.Description</p>
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <small class="text-muted">Start Date</small>
-                                    <p class="fw-bold">@election.StartDate.ToString("MMM dd, yyyy")</p>
-                                </div>
-                                <div class="col-md-4">
-                                    <small class="text-muted">End Date</small>
-                                    <p class="fw-bold">@election.EndDate.ToString("MMM dd, yyyy")</p>
-                                </div>
-                                <div class="col-md-4">
-                                    <small class="text-muted">Type</small>
-                                    <p class="fw-bold">@election.ElectionType</p>
-                                </div>
-                            </div>
-
-                            @if (hasVoted)
+                        <div class="d-flex flex-column align-items-end">
+                            @if (user?.IsVerified == true)
                             {
-                                <div class="alert alert-success mt-3">
-                                    <i class="fas fa-check-circle me-2"></i>You have already voted in this election.
+                                <div class="bg-white text-success rounded-pill px-4 py-2 shadow-sm d-flex align-items-center">
+                                    <i class="fas fa-check-circle fa-lg me-2"></i>
+                                    <span class="fw-bold">Verified Account</span>
                                 </div>
                             }
                             else
                             {
-                                <div class="text-center mt-3">
-                                    <a asp-action="Vote" asp-route-electionId="@election.Id" class="btn btn-success btn-lg px-5">
-                                        <i class="fas fa-vote-yea me-2"></i>Cast Your Vote
-                                    </a>
+                                <div class="bg-white text-warning rounded-pill px-4 py-2 shadow-sm d-flex align-items-center mb-2">
+                                    <i class="fas fa-clock fa-lg me-2"></i>
+                                    <span class="fw-bold">Verification Pending</span>
                                 </div>
+                                <small class="text-white opacity-75 text-end" style="max-width: 250px;">
+                                    You can browse but must be verified to vote.
+                                </small>
                             }
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <!-- Stats / Active Elections Header -->
+    <div class="d-flex align-items-center justify-content-between mb-4">
+        <h3 class="fw-bold text-primary mb-0">
+            <i class="fas fa-calendar-check me-2"></i>Active Elections
+        </h3>
+        @if (activeElections?.Count > 0)
+        {
+            <span class="badge bg-primary rounded-pill px-3 py-2">@activeElections.Count Active</span>
         }
+    </div>
+
+    @if (user?.IsVerified != true)
+    {
+        <div class="alert alert-warning border-0 shadow-sm rounded-4 p-4 mb-5 d-flex align-items-center">
+            <div class="bg-warning bg-opacity-25 p-3 rounded-circle me-3 text-warning">
+                <i class="fas fa-lock fa-2x"></i>
+            </div>
+            <div>
+                <h5 class="alert-heading fw-bold mb-1">Account Under Review</h5>
+                <p class="mb-0 text-muted">Your registration is being verified by our administrators. You will be notified once you are eligible to vote.</p>
+            </div>
+        </div>
+    }
+
+    <!-- Elections Grid -->
+    @if (activeElections != null && activeElections.Count > 0)
+    {
+        <div class="row g-4">
+            @foreach (var election in activeElections)
+            {
+                bool hasVoted = votedElectionIds.Contains(election.Id);
+                var statusClass = hasVoted ? "border-success" : "border-primary";
+                var opacityClass = hasVoted ? "opacity-75" : "";
+
+                <div class="col-md-6 col-lg-4">
+                    <div class="card h-100 shadow-sm hover-shadow border-0 rounded-4 overflow-hidden transaction-card @opacityClass">
+                        <div class="card-header bg-white border-0 pt-4 pb-0 px-4">
+                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                <span class="badge bg-light text-secondary rounded-pill text-uppercase small fw-bold">
+                                    @election.ElectionType
+                                </span>
+                                @if (hasVoted)
+                                {
+                                    <span class="badge bg-success rounded-pill">
+                                        <i class="fas fa-check me-1"></i>Voted
+                                    </span>
+                                }
+                                else if (user?.IsVerified == true)
+                                {
+                                    <span class="badge bg-primary rounded-pill animate__animated animate__pulse animate__infinite">
+                                        Live Now
+                                    </span>
+                                }
+                            </div>
+                            <h4 class="card-title fw-bold text-dark mb-1">@election.Title</h4>
+                        </div>
+                        
+                        <div class="card-body px-4 pt-2">
+                            <p class="text-muted small mb-4 line-clamp-2" style="min-height: 2.5em;">
+                                @election.Description
+                            </p>
+                            
+                            <div class="bg-light rounded-3 p-3 mb-3">
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span class="text-muted small"><i class="fas fa-hourglass-start me-1"></i>Starts</span>
+                                    <span class="fw-bold small">@election.StartDate.ToString("MMM dd")</span>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <span class="text-muted small"><i class="fas fa-hourglass-end me-1"></i>Ends</span>
+                                    <span class="fw-bold small">@election.EndDate.ToString("MMM dd, yyyy")</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card-footer bg-white border-0 px-4 pb-4 pt-0">
+                            @if (hasVoted)
+                            {
+                                <button class="btn btn-outline-success w-100 rounded-pill py-2 disabled" disabled>
+                                    <i class="fas fa-check-circle me-2"></i>Vote Cast
+                                </button>
+                                <div class="text-center mt-2">
+                                     <small class="text-muted">Thanks for participating!</small>
+                                </div>
+                            }
+                            else if (user?.IsVerified == true)
+                            {
+                                <a asp-action="Vote" asp-route-electionId="@election.Id" class="btn btn-primary w-100 rounded-pill py-2 shadow-sm btn-hover-scale">
+                                    Start Voting <i class="fas fa-arrow-right ms-2"></i>
+                                </a>
+                            }
+                            else
+                            {
+                                <button class="btn btn-secondary w-100 rounded-pill py-2 disabled" disabled>
+                                    Verify to Vote
+                                </button>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
     }
     else
     {
-        <div class="alert alert-info shadow">
-            <h5 class="alert-heading"><i class="fas fa-info-circle me-2"></i>No Active Elections</h5>
-            <p class="mb-0">There are currently no active elections. Please check back later.</p>
+        <div class="text-center py-5">
+            <div class="mb-3">
+                <i class="fas fa-folder-open fa-4x text-muted opacity-25"></i>
+            </div>
+            <h4 class="text-muted fw-bold">No Active Elections</h4>
+            <p class="text-muted">Please check back later for upcoming voting events.</p>
         </div>
     }
 </div>
 
 <style>
-    .bg-gradient-primary {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    .transform-rotate-n15 {
+        transform: rotate(-15deg);
+    }
+    .letter-spacing-2 {
+        letter-spacing: 2px;
+    }
+    .line-clamp-2 {
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+    .hover-shadow:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 1rem 3rem rgba(0,0,0,.1) !important;
+    }
+    .transaction-card {
+        transition: all 0.3s ease;
+    }
+    .btn-hover-scale:hover {
+        transform: scale(1.02);
     }
 </style>

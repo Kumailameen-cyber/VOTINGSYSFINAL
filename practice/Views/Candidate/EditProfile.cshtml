@@ -4,85 +4,112 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="container mt-4 mb-5">
+<div class="container py-4 animate__animated animate__fadeIn">
     <div class="row justify-content-center">
-        <div class="col-md-10">
-            <div class="card shadow-lg border-0">
-                <div class="card-header bg-info text-white py-3">
-                    <h3 class="mb-0">
-                        <i class="fas fa-user-edit me-2"></i>Edit Your Profile
-                    </h3>
+        <div class="col-md-8 col-lg-7">
+            <div class="card shadow-lg border-0 rounded-4 overflow-hidden">
+                <div class="card-header bg-gradient-primary text-center py-4 border-0">
+                    <div class="mb-2">
+                        <div class="d-inline-flex bg-white text-primary rounded-circle p-3 shadow-lg mb-2">
+                            <i class="fas fa-user-edit fa-2x"></i>
+                        </div>
+                    </div>
+                    <h3 class="fw-bold text-white mb-0">Update Profile</h3>
+                    <p class="text-white-50 mb-0 small">Keep your candidate information up to date</p>
                 </div>
-                <div class="card-body p-4">
-                    <form asp-action="EditProfile" method="post">
-                        <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+                
+                <div class="card-body p-4 p-md-5">
+                    <form asp-action="EditProfile" method="post" class="needs-validation">
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger shadow-sm rounded-3 border-0 mb-4"></div>
 
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label asp-for="PartyName" class="form-label fw-bold">
-                                    <i class="fas fa-flag me-1"></i>Party Name
-                                </label>
-                                <input asp-for="PartyName" class="form-control" />
-                                <span asp-validation-for="PartyName" class="text-danger small"></span>
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label asp-for="PartySymbol" class="form-label fw-bold">
-                                    <i class="fas fa-tag me-1"></i>Party Symbol
-                                </label>
-                                <input asp-for="PartySymbol" class="form-control" />
-                                <span asp-validation-for="PartySymbol" class="text-danger small"></span>
-                            </div>
-                        </div>
-
-                        <div class="mb-3">
-                            <label asp-for="Manifesto" class="form-label fw-bold">
-                                <i class="fas fa-scroll me-1"></i>Manifesto
-                            </label>
-                            <textarea asp-for="Manifesto" class="form-control" rows="4"></textarea>
-                            <span asp-validation-for="Manifesto" class="text-danger small"></span>
-                        </div>
-
-                        <div class="mb-3">
-                            <label asp-for="Biography" class="form-label fw-bold">
-                                <i class="fas fa-user me-1"></i>Biography
-                            </label>
-                            <textarea asp-for="Biography" class="form-control" rows="4"></textarea>
-                            <span asp-validation-for="Biography" class="text-danger small"></span>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label asp-for="Education" class="form-label fw-bold">
-                                    <i class="fas fa-graduation-cap me-1"></i>Education
-                                </label>
-                                <input asp-for="Education" class="form-control" />
-                                <span asp-validation-for="Education" class="text-danger small"></span>
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label asp-for="PreviousExperience" class="form-label fw-bold">
-                                    <i class="fas fa-briefcase me-1"></i>Previous Experience
-                                </label>
-                                <input asp-for="PreviousExperience" class="form-control" />
-                                <span asp-validation-for="PreviousExperience" class="text-danger small"></span>
+                        <!-- Party Information Section -->
+                        <h6 class="text-uppercase text-secondary fw-bold small mb-3 letter-spacing-1">
+                            <i class="fas fa-flag me-2"></i>Party / Political Details
+                        </h6>
+                        <div class="bg-light rounded-4 p-4 mb-4">
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label asp-for="PartyName" class="form-label fw-bold small text-muted">Party Name</label>
+                                    <div class="input-group shadow-sm">
+                                        <span class="input-group-text bg-white border-end-0 rounded-start-pill text-muted ps-3"><i class="fas fa-flag"></i></span>
+                                        <input asp-for="PartyName" class="form-control border-start-0 rounded-end-pill py-2" placeholder="e.g. Liberty Party" />
+                                    </div>
+                                    <span asp-validation-for="PartyName" class="text-danger small ms-2"></span>
+                                </div>
+                                <div class="col-md-6">
+                                    <label asp-for="PartySymbol" class="form-label fw-bold small text-muted">Party Symbol</label>
+                                    <div class="input-group shadow-sm">
+                                        <span class="input-group-text bg-white border-end-0 rounded-start-pill text-muted ps-3"><i class="fas fa-tag"></i></span>
+                                        <input asp-for="PartySymbol" class="form-control border-start-0 rounded-end-pill py-2" placeholder="e.g. Eagle" />
+                                    </div>
+                                    <span asp-validation-for="PartySymbol" class="text-danger small ms-2"></span>
+                                </div>
                             </div>
                         </div>
 
-                        <div class="mb-3">
-                            <label asp-for="ProfileImageUrl" class="form-label fw-bold">
-                                <i class="fas fa-image me-1"></i>Profile Image URL
-                            </label>
-                            <input asp-for="ProfileImageUrl" class="form-control" placeholder="https://example.com/image.jpg" />
-                            <span asp-validation-for="ProfileImageUrl" class="text-danger small"></span>
-                            <small class="text-muted">Optional: Provide a URL to your profile image</small>
+                        <!-- Manifesto & Bio Section -->
+                        <h6 class="text-uppercase text-secondary fw-bold small mb-3 letter-spacing-1">
+                            <i class="fas fa-scroll me-2"></i>Platform & Bio
+                        </h6>
+                        <div class="bg-light rounded-4 p-4 mb-4">
+                            <div class="mb-3">
+                                <label asp-for="Manifesto" class="form-label fw-bold small text-muted">Manifesto / Campaign Promise</label>
+                                <textarea asp-for="Manifesto" class="form-control shadow-sm rounded-3 border-0 p-3" rows="4" placeholder="Describe your goals..."></textarea>
+                                <span asp-validation-for="Manifesto" class="text-danger small ms-2"></span>
+                            </div>
+
+                            <div class="mb-0">
+                                <label asp-for="Biography" class="form-label fw-bold small text-muted">Biography (Optional)</label>
+                                <textarea asp-for="Biography" class="form-control shadow-sm rounded-3 border-0 p-3" rows="3" placeholder="Tell voters about yourself..."></textarea>
+                                <span asp-validation-for="Biography" class="text-danger small ms-2"></span>
+                            </div>
                         </div>
 
-                        <div class="d-grid gap-2">
-                            <button type="submit" class="btn btn-success btn-lg">
-                                <i class="fas fa-save me-2"></i>Save Changes
-                            </button>
-                            <a asp-action="Dashboard" class="btn btn-outline-secondary">
+                        <!-- Qualifications Section -->
+                        <h6 class="text-uppercase text-secondary fw-bold small mb-3 letter-spacing-1">
+                            <i class="fas fa-graduation-cap me-2"></i>Qualifications
+                        </h6>
+                        <div class="bg-light rounded-4 p-4 mb-4">
+                            <div class="row g-3">
+                                <div class="col-12">
+                                    <label asp-for="Education" class="form-label fw-bold small text-muted">Education</label>
+                                    <div class="input-group shadow-sm">
+                                        <span class="input-group-text bg-white border-end-0 rounded-start-pill text-muted ps-3"><i class="fas fa-university"></i></span>
+                                        <input asp-for="Education" class="form-control border-start-0 rounded-end-pill py-2" placeholder="e.g. BSc Political Science" />
+                                    </div>
+                                    <span asp-validation-for="Education" class="text-danger small ms-2"></span>
+                                </div>
+                                <div class="col-12">
+                                    <label asp-for="PreviousExperience" class="form-label fw-bold small text-muted">Previous Experience</label>
+                                    <div class="input-group shadow-sm">
+                                        <span class="input-group-text bg-white border-end-0 rounded-start-pill text-muted ps-3"><i class="fas fa-briefcase"></i></span>
+                                        <input asp-for="PreviousExperience" class="form-control border-start-0 rounded-end-pill py-2" placeholder="e.g. City Council Member (2018-2022)" />
+                                    </div>
+                                    <span asp-validation-for="PreviousExperience" class="text-danger small ms-2"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Image Section -->
+                        <h6 class="text-uppercase text-secondary fw-bold small mb-3 letter-spacing-1">
+                            <i class="fas fa-image me-2"></i>Profile Image
+                        </h6>
+                        <div class="bg-light rounded-4 p-4 mb-4">
+                            <label asp-for="ProfileImageUrl" class="form-label fw-bold small text-muted">Image URL (Optional)</label>
+                            <div class="input-group shadow-sm">
+                                <span class="input-group-text bg-white border-end-0 rounded-start-pill text-muted ps-3"><i class="fas fa-link"></i></span>
+                                <input asp-for="ProfileImageUrl" class="form-control border-start-0 rounded-end-pill py-2" placeholder="https://..." />
+                            </div>
+                            <span asp-validation-for="ProfileImageUrl" class="text-danger small ms-2"></span>
+                        </div>
+
+                        <div class="d-grid gap-3 d-md-flex justify-content-md-between mt-5">
+                            <a asp-action="Dashboard" class="btn btn-outline-secondary rounded-pill px-4 py-2 fw-bold order-md-1">
                                 <i class="fas fa-arrow-left me-2"></i>Back to Dashboard
                             </a>
+                            <button type="submit" class="btn btn-primary rounded-pill px-5 py-2 fw-bold shadow-lg btn-hover-scale order-md-2">
+                                <i class="fas fa-save me-2"></i>Save Updates
+                            </button>
                         </div>
                     </form>
                 </div>
@@ -90,6 +117,18 @@
         </div>
     </div>
 </div>
+
+<style>
+    .bg-gradient-primary {
+         background: linear-gradient(135deg, #0f172a 0%, #334155 100%);
+    }
+    .letter-spacing-1 {
+        letter-spacing: 1px;
+    }
+    .btn-hover-scale:hover {
+        transform: scale(1.02);
+    }
+</style>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />

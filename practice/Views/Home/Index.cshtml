@@ -2,62 +2,74 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card shadow-lg border-0 bg-gradient-primary text-white text-center p-5">
-                <h1 class="display-4 mb-3">
-                    <i class="fas fa-vote-yea me-2"></i>Welcome to Online Voting System
-                </h1>
-                <p class="lead mb-4">
-                    Securely vote and track election results with ease.
-                </p>
-               
-            </div>
+<div class="container mt-4 animate__animated animate__fadeIn">
+    <!-- Hero Section -->
+    <div class="hero-section rounded-4 shadow-lg p-5 mb-5 text-center position-relative overflow-hidden">
+        <div class="position-relative z-1">
+            <h1 class="display-3 fw-bold mb-3 text-white">
+                Secure & Transparent <span class="text-success">Voting</span>
+            </h1>
+            <p class="lead text-white-50 mb-4 mx-auto" style="max-width: 600px;">
+                Experience the future of democracy with our blockchain-inspired secure voting platform. 
+                Fast, reliable, and accessible from anywhere.
+            </p>
+            @if (User.Identity?.IsAuthenticated == false)
+            {
+                <div class="d-flex gap-3 justify-content-center">
+                    <a asp-controller="Auth" asp-action="Login" class="btn btn-light rounded-pill px-4 py-2 fw-bold shadow-sm">
+                        <i class="fas fa-sign-in-alt me-2"></i>Get Started
+                    </a>
+                    <a asp-controller="Auth" asp-action="VoterRegister" class="btn btn-outline-light rounded-pill px-4 py-2 fw-bold">
+                        Register Now
+                    </a>
+                </div>
+            }
         </div>
+        <!-- Decorative Circle -->
+        <div class="position-absolute top-0 start-0 translate-middle rounded-circle bg-white opacity-10" style="width: 300px; height: 300px; filter: blur(50px);"></div>
+        <div class="position-absolute bottom-0 end-0 translate-middle-x rounded-circle bg-success opacity-25" style="width: 400px; height: 400px; filter: blur(60px);"></div>
     </div>
 
-    <div class="row mt-5">
-        <div class="col-md-4 mb-4">
-            <div class="card shadow border-0 h-100">
-                <div class="card-body text-center p-4">
-                    <i class="fas fa-info-circle fa-3x text-primary mb-3"></i>
-                    <h5 class="card-title mb-2">About the System</h5>
-                    <p class="text-muted">Learn how the Online Voting System ensures fair and secure elections.</p>
+    <!-- Features Section -->
+    <div class="row g-4 mb-5">
+        <div class="col-md-4">
+            <div class="card h-100 border-0 shadow-sm rounded-4 card-hover">
+                <div class="card-body p-4 text-center">
+                    <div class="bg-primary bg-opacity-10 rounded-circle d-inline-flex p-3 mb-4">
+                        <i class="fas fa-shield-alt fa-2x text-primary"></i>
+                    </div>
+                    <h4 class="fw-bold mb-3">Secure Integrity</h4>
+                    <p class="text-muted mb-0">
+                        Advanced encryption ensures that every vote is counted exactly as cast, with zero tampering possibility.
+                    </p>
                 </div>
             </div>
         </div>
-        <div class="col-md-4 mb-4">
-            <div class="card shadow border-0 h-100">
-                <div class="card-body text-center p-4">
-                    <i class="fas fa-poll-h fa-3x text-success mb-3"></i>
-                    <h5 class="card-title mb-2">Active Elections</h5>
-                    <p class="text-muted">Check ongoing elections and participate once you're verified.</p>
+        <div class="col-md-4">
+            <div class="card h-100 border-0 shadow-sm rounded-4 card-hover">
+                <div class="card-body p-4 text-center">
+                    <div class="bg-success bg-opacity-10 rounded-circle d-inline-flex p-3 mb-4">
+                        <i class="fas fa-globe fa-2x text-success"></i>
+                    </div>
+                    <h4 class="fw-bold mb-3">Accessible Anywhere</h4>
+                    <p class="text-muted mb-0">
+                        Vote from the comfort of your home or on the go. Our platform is optimized for all devices.
+                    </p>
                 </div>
             </div>
         </div>
-        <div class="col-md-4 mb-4">
-            <div class="card shadow border-0 h-100">
-                <div class="card-body text-center p-4">
-                    <i class="fas fa-chart-bar fa-3x text-warning mb-3"></i>
-                    <h5 class="card-title mb-2">View Results</h5>
-                    <p class="text-muted">Track election results in real-time once published by the admin.</p>
+        <div class="col-md-4">
+            <div class="card h-100 border-0 shadow-sm rounded-4 card-hover">
+                <div class="card-body p-4 text-center">
+                    <div class="bg-info bg-opacity-10 rounded-circle d-inline-flex p-3 mb-4">
+                        <i class="fas fa-chart-pie fa-2x text-info"></i>
+                    </div>
+                    <h4 class="fw-bold mb-3">Real-time Results</h4>
+                    <p class="text-muted mb-0">
+                        Transparent result tracking allows you to see election progress as it happens (when published).
+                    </p>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
-<style>
-    .bg-gradient-primary {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    }
-
-    .card.shadow {
-        border-radius: 1rem;
-    }
-
-    .card-title {
-        font-weight: 600;
-    }
-</style>

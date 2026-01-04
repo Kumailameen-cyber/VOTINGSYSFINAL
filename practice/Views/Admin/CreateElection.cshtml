@@ -4,80 +4,87 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="container mt-4 mb-5">
+<div class="container py-5 animate__animated animate__fadeIn">
     <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card shadow-lg border-0">
-                <div class="card-header bg-primary text-white py-3">
-                    <h3 class="mb-0">
+        <div class="col-lg-8">
+            <div class="card shadow-lg border-0 rounded-4 overflow-hidden">
+                <div class="card-header bg-primary text-white text-center py-4">
+                    <h3 class="fw-bold mb-1">
                         <i class="fas fa-plus-circle me-2"></i>Create New Election
                     </h3>
+                    <p class="text-white-50 small mb-0">Set up a new secure voting event</p>
                 </div>
-                <div class="card-body p-4">
+                <div class="card-body p-5">
                     <form asp-action="CreateElection" method="post">
-                        <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger rounded-3 shadow-sm border-0 mb-4"></div>
 
-                        <div class="mb-3">
-                            <label asp-for="Title" class="form-label fw-bold">
-                                <i class="fas fa-heading me-1"></i>Election Title
-                            </label>
-                            <input asp-for="Title" class="form-control" placeholder="Enter election title" />
-                            <span asp-validation-for="Title" class="text-danger small"></span>
+                        <div class="mb-4">
+                            <label asp-for="Title" class="form-label fw-bold text-secondary small text-uppercase">Election Title</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light border-end-0 rounded-start-pill ps-3"><i class="fas fa-heading text-muted"></i></span>
+                                <input asp-for="Title" class="form-control border-start-0 ps-2 rounded-end-pill py-2" placeholder="e.g. 2024 Presidential Election" />
+                            </div>
+                            <span asp-validation-for="Title" class="text-danger small ms-2"></span>
                         </div>
 
-                        <div class="mb-3">
-                            <label asp-for="Description" class="form-label fw-bold">
-                                <i class="fas fa-align-left me-1"></i>Description
-                            </label>
-                            <textarea asp-for="Description" class="form-control" rows="4" placeholder="Enter election description"></textarea>
-                            <span asp-validation-for="Description" class="text-danger small"></span>
+                        <div class="mb-4">
+                            <label asp-for="Description" class="form-label fw-bold text-secondary small text-uppercase">Description</label>
+                             <div class="input-group">
+                                 <span class="input-group-text bg-light border-end-0 rounded-start-4 ps-3"><i class="fas fa-align-left text-muted"></i></span>
+                                <textarea asp-for="Description" class="form-control border-start-0 ps-2 rounded-end-4" rows="4" placeholder="Enter a detailed description..."></textarea>
+                            </div>
+                            <span asp-validation-for="Description" class="text-danger small ms-2"></span>
                         </div>
-                        <div class="mb-3">
-                            <div class="form-check form-switch">
-                                <input asp-for="IsActive" class="form-check-input" type="checkbox" />
-                                <label asp-for="IsActive" class="form-check-label fw-bold">
-                                    Make election active immediately
-                                </label>
-                            </div>
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label asp-for="StartDate" class="form-label fw-bold">
-                                    <i class="fas fa-calendar-alt me-1"></i>Start Date
-                                </label>
-                                <input asp-for="StartDate" type="datetime-local" class="form-control" />
-                                <span asp-validation-for="StartDate" class="text-danger small"></span>
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label asp-for="EndDate" class="form-label fw-bold">
-                                    <i class="fas fa-calendar-times me-1"></i>End Date
-                                </label>
-                                <input asp-for="EndDate" type="datetime-local" class="form-control" />
-                                <span asp-validation-for="EndDate" class="text-danger small"></span>
+
+                        <div class="card bg-light border-0 rounded-4 p-3 mb-4">
+                            <div class="form-check form-switch d-flex align-items-center">
+                                <input asp-for="IsActive" class="form-check-input me-3" type="checkbox" role="switch" style="width: 3em; height: 1.5em;" />
+                                <div>
+                                    <label asp-for="IsActive" class="form-check-label fw-bold text-dark d-block">Activate Immediately</label>
+                                    <small class="text-muted">If enabled, the election will start automatically (overriding start date logic if applicable).</small>
+                                </div>
                             </div>
                         </div>
 
-                        <div class="mb-3">
-                            <label asp-for="ElectionType" class="form-label fw-bold">
-                                <i class="fas fa-tag me-1"></i>Election Type
-                            </label>
-                            <select asp-for="ElectionType" class="form-control">
-                                <option value="General">General</option>
-                                <option value="Local">Local</option>
-                                <option value="Regional">Regional</option>
-                                <option value="Special">Special</option>
-                            </select>
-                            <span asp-validation-for="ElectionType" class="text-danger small"></span>
+                        <div class="row g-4 mb-4">
+                            <div class="col-md-6">
+                                <label asp-for="StartDate" class="form-label fw-bold text-secondary small text-uppercase">Start Date</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light border-end-0 rounded-start-pill ps-3"><i class="fas fa-calendar-alt text-muted"></i></span>
+                                    <input asp-for="StartDate" type="datetime-local" class="form-control border-start-0 ps-2 rounded-end-pill py-2" />
+                                </div>
+                                <span asp-validation-for="StartDate" class="text-danger small ms-2"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="EndDate" class="form-label fw-bold text-secondary small text-uppercase">End Date</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light border-end-0 rounded-start-pill ps-3"><i class="fas fa-calendar-times text-muted"></i></span>
+                                    <input asp-for="EndDate" type="datetime-local" class="form-control border-start-0 ps-2 rounded-end-pill py-2" />
+                                </div>
+                                <span asp-validation-for="EndDate" class="text-danger small ms-2"></span>
+                            </div>
                         </div>
 
-                      
+                        <div class="mb-5">
+                            <label asp-for="ElectionType" class="form-label fw-bold text-secondary small text-uppercase">Election Type</label>
+                             <div class="input-group">
+                                <span class="input-group-text bg-light border-end-0 rounded-start-pill ps-3"><i class="fas fa-tag text-muted"></i></span>
+                                <select asp-for="ElectionType" class="form-select border-start-0 ps-2 rounded-end-pill py-2">
+                                    <option value="General">General</option>
+                                    <option value="Local">Local</option>
+                                    <option value="Regional">Regional</option>
+                                    <option value="Special">Special</option>
+                                </select>
+                            </div>
+                            <span asp-validation-for="ElectionType" class="text-danger small ms-2"></span>
                         </div>
 
-                        <div class="d-grid gap-2">
-                            <button type="submit" class="btn btn-primary btn-lg">
-                                <i class="fas fa-check-circle me-2"></i>Create Election
+                        <div class="d-grid gap-3">
+                            <button type="submit" class="btn btn-primary rounded-pill btn-lg shadow-sm font-monospace fw-bold">
+                                <i class="fas fa-rocket me-2"></i>CREATE ELECTION
                             </button>
-                            <a asp-action="ManageElections" class="btn btn-outline-secondary">
-                                <i class="fas fa-arrow-left me-2"></i>Back to Elections
+                            <a asp-action="ManageElections" class="btn btn-outline-secondary rounded-pill btn-lg">
+                                Cancel & Back
                             </a>
                         </div>
                     </form>
@@ -87,35 +94,23 @@
     </div>
 </div>
 
-@section Scripts {
-    <partial name="_ValidationScriptsPartial" />
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        var isActiveCheckbox = document.getElementById("IsActive");
+        var startDateInput = document.getElementById("StartDate");
 
-    
-
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            // Get references to the elements
-            var isActiveCheckbox = document.getElementById("IsActive");
-            var startDateInput = document.getElementById("StartDate");
-
-            // Function to toggle the disabled state
-            function toggleStartDate() {
-                if (isActiveCheckbox.checked) {
-                    startDateInput.disabled = true;
-                    startDateInput.value = ""; // Optional: Clear the value
-                    startDateInput.classList.add("bg-light"); // Optional: Add grey background style
-                } else {
-                    startDateInput.disabled = false;
-                    startDateInput.classList.remove("bg-light");
-                }
+        function toggleStartDate() {
+            if (isActiveCheckbox.checked) {
+                startDateInput.disabled = true;
+                startDateInput.classList.add("bg-secondary", "bg-opacity-10", "text-muted");
+            } else {
+                startDateInput.disabled = false;
+                startDateInput.classList.remove("bg-secondary", "bg-opacity-10", "text-muted");
             }
+        }
 
-            // Run on page load (in case user returns to form with error)
-            toggleStartDate();
-
-            // Run whenever the checkbox changes
-            isActiveCheckbox.addEventListener("change", toggleStartDate);
-        });
-    </script>
-}
+        toggleStartDate();
+        isActiveCheckbox.addEventListener("change", toggleStartDate);
+    });
+</script>
 
