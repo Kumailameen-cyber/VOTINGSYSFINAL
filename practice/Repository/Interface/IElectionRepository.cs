@@ -10,7 +10,8 @@ namespace practice.Repository.Interface
         public Task<int> ActiveElectionAsync();
 
         public Task<int> TotalVotesCast();
-
+      
+        Task<bool> DeleteElectionAsync(int id);
         public Task<List<Election>> GetAllElectionsAsync();
         public Task<Election?> GetElectionByIdAsync(int id);
         public Task<bool> AddElectionAsync(Election election);

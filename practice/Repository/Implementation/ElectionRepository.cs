@@ -44,6 +44,14 @@ namespace practice.Repository.Implementation
             await _context.Elections.AddAsync(election);
             return await _context.SaveChangesAsync() > 0;
         }
+        public async Task<bool> DeleteElectionAsync(int id)
+        {
+            var election = await _context.Elections.FindAsync(id);
+            if (election == null) return false;
+
+            _context.Elections.Remove(election);
+            return await _context.SaveChangesAsync() > 0;
+        }
 
         public async Task<bool> UpdateElectionAsync(Election election)
         {

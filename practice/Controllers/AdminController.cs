@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using practice.Models;
 using practice.Services;
 
@@ -139,8 +140,79 @@ namespace practice.Controllers
                     TempData["SuccessMessage"] = "Election created successfully!";
                     return RedirectToAction(nameof(ManageElections));
                 }
+                else
+                {
+                    TempData["ErrorMessage"] = "Failed to create Election";
+                }
             }
             return View(election);
+        }
+        // ==========================================
+        // EDIT ELECTION
+        // ==========================================
+
+        // GET: Edit Election
+        public async Task<IActionResult> EditElection(int id)
+        {
+            var election = await _adminService.GetElectionByIdAsync(id);
+            if (election == null)
+            {
+                TempData["ErrorMessage"] = "Election not found.";
+                return RedirectToAction(nameof(ManageElections));
+            }
+            return View(election);
+        }
+
+        // POST: Edit Election
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditElection(Election election)
+        {
+            // Handle the disabled StartDate logic (same as Create)
+            if (election.IsActive && election.StartDate == default)
+            {
+                // Retrieve original start date if needed, or keep existing logic
+                // But usually, if editing an active election, we just ensure validation passes
+                ModelState.Remove("StartDate");
+            }
+
+            if (ModelState.IsValid)
+            {
+                var success = await _adminService.UpdateElectionAsync(election);
+                if (success)
+                {
+                    TempData["SuccessMessage"] = "Election updated successfully!";
+                    return RedirectToAction(nameof(ManageElections));
+                }
+                else
+                {
+                    TempData["ErrorMessage"] = "Failed to update election.";
+                }
+            }
+            return View(election);
+        }
+
+        // ==========================================
+        // DELETE ELECTION
+        // ==========================================
+
+
+
+        // POST: Delete Election (Called directly via popup)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteElection(int id)
+        {
+            var success = await _adminService.DeleteElectionAsync(id);
+            if (success)
+            {
+                TempData["SuccessMessage"] = "Election deleted successfully.";
+            }
+            else
+            {
+                TempData["ErrorMessage"] = "Failed to delete election.";
+            }
+            return RedirectToAction(nameof(ManageElections));
         }
 
         // POST: Publish Results

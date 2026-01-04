@@ -32,7 +32,13 @@
                             <textarea asp-for="Description" class="form-control" rows="4" placeholder="Enter election description"></textarea>
                             <span asp-validation-for="Description" class="text-danger small"></span>
                         </div>
-
+                        <div class="mb-3">
+                            <div class="form-check form-switch">
+                                <input asp-for="IsActive" class="form-check-input" type="checkbox" />
+                                <label asp-for="IsActive" class="form-check-label fw-bold">
+                                    Make election active immediately
+                                </label>
+                            </div>
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label asp-for="StartDate" class="form-label fw-bold">
@@ -63,13 +69,7 @@
                             <span asp-validation-for="ElectionType" class="text-danger small"></span>
                         </div>
 
-                        <div class="mb-3">
-                            <div class="form-check form-switch">
-                                <input asp-for="IsActive" class="form-check-input" type="checkbox" />
-                                <label asp-for="IsActive" class="form-check-label fw-bold">
-                                    Make election active immediately
-                                </label>
-                            </div>
+                      
                         </div>
 
                         <div class="d-grid gap-2">
@@ -89,4 +89,33 @@
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+
+    
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Get references to the elements
+            var isActiveCheckbox = document.getElementById("IsActive");
+            var startDateInput = document.getElementById("StartDate");
+
+            // Function to toggle the disabled state
+            function toggleStartDate() {
+                if (isActiveCheckbox.checked) {
+                    startDateInput.disabled = true;
+                    startDateInput.value = ""; // Optional: Clear the value
+                    startDateInput.classList.add("bg-light"); // Optional: Add grey background style
+                } else {
+                    startDateInput.disabled = false;
+                    startDateInput.classList.remove("bg-light");
+                }
+            }
+
+            // Run on page load (in case user returns to form with error)
+            toggleStartDate();
+
+            // Run whenever the checkbox changes
+            isActiveCheckbox.addEventListener("change", toggleStartDate);
+        });
+    </script>
 }
+

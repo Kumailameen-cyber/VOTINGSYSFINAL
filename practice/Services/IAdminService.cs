@@ -10,7 +10,8 @@ namespace practice.Services
 
         public Task<List<User>> GetAllUsersAsync();
 
-        
+        Task<bool> UpdateElectionAsync(Election election);
+        Task<bool> DeleteElectionAsync(int id);
         public Task<List<Candidate>> GetAllCandidatesAsync();
 
         public Task<List<Election>> GetAllElectionsAsync();
