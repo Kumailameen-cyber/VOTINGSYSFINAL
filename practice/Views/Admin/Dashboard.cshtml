@@ -39,7 +39,7 @@
                     </div>
                 </div>
                 <div class="card-footer bg-primary text-white d-flex align-items-center justify-content-between">
-                    <a asp-action="ManageUsers" class="text-white small stretched-link">View Details</a>
+                    <a asp-action="ManageVoters" class="text-white small stretched-link">View Details</a>
                     <i class="fas fa-arrow-right text-white"></i>
                 </div>
             </div>
@@ -65,45 +65,9 @@
             </div>
         </div>
 
-        <div class="col-xl-3 col-md-6 mb-4">
-            <div class="card border-0 shadow h-100">
-                <div class="card-body">
-                    <div class="d-flex align-items-center">
-                        <div class="flex-grow-1">
-                            <div class="text-muted small">Pending Verifications</div>
-                            <div class="h2 mb-0">@pendingVerifications</div>
-                        </div>
-                        <div class="ms-3">
-                            <i class="fas fa-user-clock fa-3x text-warning opacity-50"></i>
-                        </div>
-                    </div>
-                </div>
-                <div class="card-footer bg-warning text-dark d-flex align-items-center justify-content-between">
-                    <a asp-action="ManageUsers" class="text-dark small stretched-link">View Details</a>
-                    <i class="fas fa-arrow-right text-dark"></i>
-                </div>
-            </div>
-        </div>
+       
 
-        <div class="col-xl-3 col-md-6 mb-4">
-            <div class="card border-0 shadow h-100">
-                <div class="card-body">
-                    <div class="d-flex align-items-center">
-                        <div class="flex-grow-1">
-                            <div class="text-muted small">Pending Approvals</div>
-                            <div class="h2 mb-0">@pendingApprovals</div>
-                        </div>
-                        <div class="ms-3">
-                            <i class="fas fa-user-check fa-3x text-info opacity-50"></i>
-                        </div>
-                    </div>
-                </div>
-                <div class="card-footer bg-info text-white d-flex align-items-center justify-content-between">
-                    <a asp-action="ManageCandidates" class="text-white small stretched-link">View Details</a>
-                    <i class="fas fa-arrow-right text-white"></i>
-                </div>
-            </div>
-        </div>
+        
     </div>
 
     <div class="row mb-4">

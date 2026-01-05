@@ -22,6 +22,7 @@ namespace practice.Repository.Interface
 
         public Task<int> GetCandidateIdByUserIdAsync(int id);
         public Task<List<Candidate>> AllCandidateInElectionAsync(int electionId);
+        public Task<bool> RemoveCandidateAsync(int candidateId);
 
     }
 }

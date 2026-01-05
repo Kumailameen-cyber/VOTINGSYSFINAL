@@ -46,6 +46,10 @@ namespace practice.Services
         {
             return await _userRepo.GetAllUsersExcludingAdminAsync();
         }
+        public async Task<List<User>> GetAllVotersAsync()
+        {
+            return await _userRepo.GetAllUsersVotersAsync();
+        }
 
         public async Task<List<Candidate>> GetAllCandidatesAsync()
         {

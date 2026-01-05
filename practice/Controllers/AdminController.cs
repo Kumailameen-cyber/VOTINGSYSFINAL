@@ -41,9 +41,9 @@ namespace practice.Controllers
         }
 
         // GET: Manage Users
-        public async Task<IActionResult> ManageUsers()
+        public async Task<IActionResult> ManageVoters()
         {
-            var users = await _adminService.GetAllUsersAsync();
+            var users = await _adminService.GetAllVotersAsync();
             return View(users);
         }
 
@@ -57,7 +57,7 @@ namespace practice.Controllers
             if (success) TempData["SuccessMessage"] = "User verified successfully. Email sent.";
             else TempData["ErrorMessage"] = "Verification failed.";
 
-            return RedirectToAction(nameof(ManageUsers));
+            return RedirectToAction(nameof(ManageVoters));
         }
 
         // POST: Deactivate User
@@ -70,7 +70,7 @@ namespace practice.Controllers
             if (success) TempData["SuccessMessage"] = "User deactivated successfully.";
             else TempData["ErrorMessage"] = "Deactivation failed.";
 
-            return RedirectToAction(nameof(ManageUsers));
+            return RedirectToAction(nameof(ManageVoters));
         }
 
         // ==========================================

@@ -22,5 +22,6 @@ namespace practice.Services
 
         // Results (Moves that complex query out of Controller)
         public Task<List<VoteResultDto>> GetElectionResultsAsync(int electionId);
+        public Task<List<User>> GetAllVotersAsync();
     }
 }

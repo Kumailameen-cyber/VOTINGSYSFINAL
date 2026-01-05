@@ -70,21 +70,30 @@
                                         </td>
                                         <td>@candidate.RegisteredAt.ToString("MMM dd, yyyy")</td>
                                         <td>
+                                            @* --- FIX START: Logic matching ManageVoters --- *@
+
+                                            @* 1. Only show 'Verify' if NOT approved yet *@
                                             @if (!candidate.IsApproved && candidate.User.IsActive)
                                             {
                                                 <form asp-action="ApproveCandidate" method="post" class="d-inline">
                                                     <input type="hidden" name="candidateId" value="@candidate.Id" />
                                                     <button type="submit" class="btn btn-success btn-sm">
-                                                        <i class="fas fa-check"></i> Approve
-                                                    </button>
-                                                </form>
-                                                <form asp-action="RejectCandidate" method="post" class="d-inline">
-                                                    <input type="hidden" name="candidateId" value="@candidate.Id" />
-                                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Reject this candidate?')">
-                                                        <i class="fas fa-times"></i> Reject
+                                                        <i class="fas fa-check"></i> Verify
                                                     </button>
                                                 </form>
                                             }
+
+                                            @* 2. Only show 'Deactivate' if Active *@
+                                            @if (candidate.User.IsActive)
+                                            {
+                                                <form asp-action="RejectCandidate" method="post" class="d-inline">
+                                                    <input type="hidden" name="candidateId" value="@candidate.Id" />
+                                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Reject this candidate?')">
+                                                        <i class="fas fa-times"></i> Deactivate
+                                                    </button>
+                                                </form>
+                                            }
+                                            @* --- FIX END --- *@
                                         </td>
                                     </tr>
                                 }
@@ -104,5 +113,7 @@
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

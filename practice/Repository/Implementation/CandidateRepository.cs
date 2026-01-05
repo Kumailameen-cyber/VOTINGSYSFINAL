@@ -45,7 +45,9 @@ namespace practice.Repository.Implementation
         //Admin Methods
 
         // Implement the methods similar to UserRepository, using _context.Candidates
-        public async Task<int> GetTotalCandidatesCountAsync() => await _context.Candidates.CountAsync();
+        public async Task<int> GetTotalCandidatesCountAsync() => await _context.Candidates.CountAsync(
+            u => u.User.Role == "Candidate"
+            && u.User.IsActive == true);
 
         public async Task<int> GetPendingApprovalsCountAsync() => await _context.Candidates.CountAsync(c => !c.IsApproved);
 
@@ -122,6 +124,19 @@ namespace practice.Repository.Implementation
                 .Include(c => c.User)
                 .Where(c => c.ElectionId == electionId && c.IsApproved)
                 .ToListAsync();
+        }
+
+        public async Task<bool> RemoveCandidateAsync(int candidateId)
+        {
+            var candidate = await _context.Candidates.FindAsync(candidateId);
+
+            // Always check for null!
+            if (candidate == null) return false;
+
+            _context.Candidates.Remove(candidate);
+
+            // SaveChanges returns the number of rows affected
+            return await _context.SaveChangesAsync() > 0;
         }
     }
 }

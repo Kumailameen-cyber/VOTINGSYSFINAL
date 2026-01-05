@@ -246,31 +246,23 @@ namespace practice.Services
             if (candidate == null) return false;
 
             // Logic: Maybe deactivate the user or just leave IsApproved = false
-            candidate.User.IsActive = false;
-
-            var isSaved = await _repo_candidate.UpdateCandidateAsync(candidate);
-
-            if (isSaved)
-            {
-                // Optional: Send Rejection Email
-                try
-                {
-                    await _emailService.SendEmailAsync(candidate.User.Email, "Application Update", "Your candidacy was not approved.");
-                }
-                catch { }
-            }
+            
+            await _emailService.SendEmailAsync(candidate.User.Email, "Application Update", "Your candidacy was not approved.");
+               
+            var isSaved = await _repo_candidate.RemoveCandidateAsync(candidateId);
             return isSaved;
         }
 
         public async Task<bool> DeactivateUserAsync(int userId)
         {
             var user = await _repo_user.FindUserViaId(userId);
-            if (user == null) return false;
+            await _emailService.SendEmailAsync(user.Email, "Application Update", "Your candidacy was not approved.");
 
-            user.IsActive = false;
-            user.UpdatedAt = DateTime.UtcNow;
 
-            return await _repo_user.UpdateUserAsync(user);
+
+            var isSaved = await _repo_user.RemoveVoterAsync(userId);
+            return isSaved;
+            
         }
     }
 }

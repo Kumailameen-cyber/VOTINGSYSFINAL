@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace practice.Migrations
 {
     /// <inheritdoc />
-    public partial class candele : Migration
+    public partial class initalcreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -72,7 +72,7 @@ namespace practice.Migrations
                     TotalVotes = table.Column<int>(type: "int", nullable: false),
                     IsApproved = table.Column<bool>(type: "bit", nullable: false),
                     RegisteredAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ElectionId = table.Column<int>(type: "int", nullable: false)
+                    ElectionId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -81,8 +81,7 @@ namespace practice.Migrations
                         name: "FK_Candidates_Elections_ElectionId",
                         column: x => x.ElectionId,
                         principalTable: "Elections",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Candidates_Users_UserId",
                         column: x => x.UserId,
@@ -130,12 +129,12 @@ namespace practice.Migrations
             migrationBuilder.InsertData(
                 table: "Elections",
                 columns: new[] { "Id", "CreatedAt", "Description", "ElectionType", "EndDate", "IsActive", "ResultsPublished", "StartDate", "Title", "UpdatedAt" },
-                values: new object[] { 1, new DateTime(2026, 1, 3, 20, 41, 25, 126, DateTimeKind.Utc).AddTicks(1351), "National General Election for selecting representatives", "General", new DateTime(2026, 2, 3, 20, 41, 25, 126, DateTimeKind.Utc).AddTicks(1318), true, false, new DateTime(2026, 1, 3, 20, 41, 25, 126, DateTimeKind.Utc).AddTicks(1317), "General Election 2024", null });
+                values: new object[] { 1, new DateTime(2026, 1, 4, 16, 20, 8, 3, DateTimeKind.Utc).AddTicks(6634), "National General Election for selecting representatives", "General", new DateTime(2026, 2, 4, 16, 20, 8, 3, DateTimeKind.Utc).AddTicks(6584), true, false, new DateTime(2026, 1, 4, 16, 20, 8, 3, DateTimeKind.Utc).AddTicks(6582), "General Election 2024", null });
 
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "Id", "CreatedAt", "Email", "FullName", "IsActive", "IsVerified", "PasswordHash", "PhoneNumber", "Role", "UpdatedAt", "VoterIdNumber", "cnic" },
-                values: new object[] { 1, new DateTime(2026, 1, 3, 20, 41, 25, 126, DateTimeKind.Utc).AddTicks(374), "admin@votingsystem.com", "System Administrator", true, true, "$2a$11$7mXMkFU8k/FpIatnZhb7TOte4U9EcbUtzRlay1.srLJeeiZ8LmG8G", "9999999999", "Admin", null, null, null });
+                values: new object[] { 1, new DateTime(2026, 1, 4, 16, 20, 8, 3, DateTimeKind.Utc).AddTicks(5092), "admin@votingsystem.com", "System Administrator", true, true, "$2a$11$DNUvhkLXv9dQW6Uh2UFgEuf0mGEGMqDkIUif5RDCiZIeIk11HCmIW", "9999999999", "Admin", null, null, null });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Candidates_ElectionId",

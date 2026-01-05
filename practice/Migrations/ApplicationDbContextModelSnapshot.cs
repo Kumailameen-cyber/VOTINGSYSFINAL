@@ -134,13 +134,13 @@ namespace practice.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2026, 1, 4, 14, 16, 24, 697, DateTimeKind.Utc).AddTicks(4572),
+                            CreatedAt = new DateTime(2026, 1, 4, 16, 20, 8, 3, DateTimeKind.Utc).AddTicks(6634),
                             Description = "National General Election for selecting representatives",
                             ElectionType = "General",
-                            EndDate = new DateTime(2026, 2, 4, 14, 16, 24, 697, DateTimeKind.Utc).AddTicks(4539),
+                            EndDate = new DateTime(2026, 2, 4, 16, 20, 8, 3, DateTimeKind.Utc).AddTicks(6584),
                             IsActive = true,
                             ResultsPublished = false,
-                            StartDate = new DateTime(2026, 1, 4, 14, 16, 24, 697, DateTimeKind.Utc).AddTicks(4538),
+                            StartDate = new DateTime(2026, 1, 4, 16, 20, 8, 3, DateTimeKind.Utc).AddTicks(6582),
                             Title = "General Election 2024"
                         });
                 });
@@ -212,12 +212,12 @@ namespace practice.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2026, 1, 4, 14, 16, 24, 697, DateTimeKind.Utc).AddTicks(3451),
+                            CreatedAt = new DateTime(2026, 1, 4, 16, 20, 8, 3, DateTimeKind.Utc).AddTicks(5092),
                             Email = "admin@votingsystem.com",
                             FullName = "System Administrator",
                             IsActive = true,
                             IsVerified = true,
-                            PasswordHash = "$2a$11$4ALuvHO86P8KYBwStm4cz.plxQCC51UyTXnLLfxwFaxOhS6KCBFtK",
+                            PasswordHash = "$2a$11$DNUvhkLXv9dQW6Uh2UFgEuf0mGEGMqDkIUif5RDCiZIeIk11HCmIW",
                             PhoneNumber = "9999999999",
                             Role = "Admin"
                         });

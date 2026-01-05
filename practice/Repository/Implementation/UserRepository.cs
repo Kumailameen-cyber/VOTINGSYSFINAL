@@ -88,7 +88,8 @@ namespace practice.Repository.Implementation
 
         public async Task<int> GetTotalVotersCountAsync()
         {
-            return await _context.Users.CountAsync(u => u.Role == "Voter");
+            return await _context.Users.CountAsync(u => u.Role == "Voter"
+            && u.IsActive == true);
         }
 
         public async Task<int> GetPendingVerificationsCountAsync()
@@ -112,6 +113,27 @@ namespace practice.Repository.Implementation
                 .Where(u => u.Role != "Admin")
                 .OrderByDescending(u => u.CreatedAt)
                 .ToListAsync();
+        }
+
+        public async Task<List<User>> GetAllUsersVotersAsync()
+        {
+            return await _context.Users
+                .Where(u => u.Role != "Admin" && u.Role != "Candidate")
+                .OrderByDescending(u => u.CreatedAt)
+                .ToListAsync();
+        }
+
+        public async Task<bool> RemoveVoterAsync(int userId)
+        {
+            var Voter = await _context.Users.FindAsync(userId);
+
+            // Always check for null!
+            if (Voter == null) return false;
+
+            _context.Users.Remove(Voter);
+
+            // SaveChanges returns the number of rows affected
+            return await _context.SaveChangesAsync() > 0;
         }
     }
 }
