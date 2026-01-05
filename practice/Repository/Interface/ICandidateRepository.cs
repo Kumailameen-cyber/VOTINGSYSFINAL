@@ -18,7 +18,8 @@ namespace practice.Repository.Interface
         public Task<List<Candidate>> GetApprovedCandidatesAsync();
         public Task<bool> IsCandidateInElectionAsync(int candidateId, int electionId);
         public Task<bool> AddCandidateToElectionAsync(int candidateId, int electionId);
-        
+        public Task<bool> AddCandidateAsync(Candidate candidate);
+
 
         public Task<int> GetCandidateIdByUserIdAsync(int id);
         public Task<List<Candidate>> AllCandidateInElectionAsync(int electionId);

@@ -12,23 +12,19 @@ namespace practice.DTOs
         [Required]
         [EmailAddress]
         [RegularExpression(@"^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$",
-    ErrorMessage = "Invalid email format. Use standard characters (a-z, 0-9, _, ., -) and a valid domain.")]
+            ErrorMessage = "Invalid email format. Use standard characters (a-z, 0-9, _, ., -) and a valid domain.")]
         public string Email { get; set; } = string.Empty;
 
         [Required]
         [StringLength(20)]
         [Phone]
-        [RegularExpression(@"^92\d{10}$", ErrorMessage = "Please enter a valid 10-digit Pakistan mobile number (starting with 9-2)")]
+        [RegularExpression(@"^92\d{10}$", ErrorMessage = "Please enter a valid Pakistan mobile number in format 92XXXXXXXXXX")]
         public string PhoneNumber { get; set; } = string.Empty;
 
         [Required]
         [StringLength(13)]
         [RegularExpression(@"^\d{13}$", ErrorMessage = "CNIC Number must be exactly 13 digits")]
         public string cnic { get; set; } = string.Empty;
-
-        [Required]
-        [StringLength(20)]
-        public string VoterIdNumber { get; set; } = string.Empty;
 
         [Required]
         [MinLength(6)]

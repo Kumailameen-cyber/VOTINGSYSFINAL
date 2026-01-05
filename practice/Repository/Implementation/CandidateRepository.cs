@@ -109,7 +109,13 @@ namespace practice.Repository.Implementation
             return await _context.SaveChangesAsync() > 0;
         }
 
-       
+        public async Task<bool> AddCandidateAsync(Candidate candidate)
+        {
+            _context.Candidates.Add(candidate);
+            return await _context.SaveChangesAsync() > 0;
+        }
+
+
         public async Task<int> GetCandidateIdByUserIdAsync(int id)
         {
            return await _context.Candidates

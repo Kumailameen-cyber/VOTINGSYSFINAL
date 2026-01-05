@@ -52,9 +52,10 @@ namespace practice.Services
             if (await _repo_user.checkEmailPreExisting(registerDto.Email))
                 return false;
 
-            // Check if voter ID already exists
-            if (await _repo_user.checkVoterIdPreExisting(registerDto.VoterIdNumber))
-                return false;
+            // also prevent duplicate CNIC
+            // If you don't have this method, comment this out or implement it in repository.
+            // if (await _repo_user.checkCnicPreExisting(registerDto.cnic))
+            //     return false;
 
             var user = new User
             {
@@ -62,39 +63,47 @@ namespace practice.Services
                 Email = registerDto.Email,
                 PhoneNumber = registerDto.PhoneNumber,
                 cnic = registerDto.cnic,
-                VoterIdNumber = registerDto.VoterIdNumber,
+                VoterIdNumber = "", // temp, will be generated after saving
                 PasswordHash = BCrypt.Net.BCrypt.HashPassword(registerDto.Password),
                 Role = "Voter",
-                IsVerified = false, // Will be verified by admin
+                IsVerified = false,
                 IsActive = true,
                 CreatedAt = DateTime.UtcNow
             };
 
-
-
+            // 1) Save user first so SQL generates user.Id
             var isSaved = await _repo_user.AddUserAsync(user);
+            if (!isSaved) return false;
 
-            if (isSaved)
+            // 2) Generate voter id using generated Id
+            user.VoterIdNumber = $"VOT-{user.Id:D6}";
+
+            // 3) Update user with voter id
+            var isUpdated = await _repo_user.UpdateUserAsync(user);
+            if (!isUpdated) return false;
+
+            // Email (optional)
+            var subject = "Registration Successful - Verification Pending";
+            var body = $"Hello {user.FullName},\n\n" +
+                       "Thank you for registering on the Voting Portal.\n" +
+                       "Your account has been created successfully.\n\n" +
+                       "Please note: You cannot login yet. Your account is under review and will be verified within 2 business days.\n" +
+                       "You will receive an email once an Admin verifies your details.\n\n" +
+                       $"Your Voter ID is: {user.VoterIdNumber}";
+
+            try
             {
-                var subject = "Registration Successful - Verification Pending";
-                var body = $"Hello {user.FullName},\n\n" +
-                           "Thank you for registering on the Voting Portal.\n" +
-                           "Your account has been created successfully.\n\n" +
-                           "Please note: You cannot login yet. Your account is under review and will be verified within 2 business days.\n" +
-                           "You will receive an email once an Admin verifies your details.";
-
-                try
-                {
-                    await _emailService.SendEmailAsync(user.Email, subject, body);
-                }
-                catch
-                {
-                    // Email failed, but user is registered. We don't want to crash here.
-                }
+                await _emailService.SendEmailAsync(user.Email, subject, body);
+            }
+            catch
+            {
+                // ignore email errors
             }
 
-            return isSaved;
+            return true;
         }
+
+
 
         public async Task<bool> RegisterCandidateAsync(RegisterCandidateDto registerDto)
         {
@@ -102,10 +111,9 @@ namespace practice.Services
             if (await _repo_user.checkEmailPreExisting(registerDto.Email))
                 return false;
 
-            // Check if voter ID already exists
-            if (await _repo_user.checkVoterIdPreExisting(registerDto.VoterIdNumber))
-                return false;
-
+            // OPTIONAL (recommended): also prevent duplicate CNIC
+            // if (await _repo_user.checkCnicPreExisting(registerDto.cnic))
+            //     return false;
 
             var user = new User
             {
@@ -113,16 +121,26 @@ namespace practice.Services
                 Email = registerDto.Email,
                 PhoneNumber = registerDto.PhoneNumber,
                 cnic = registerDto.cnic,
-                VoterIdNumber = registerDto.VoterIdNumber,
+                VoterIdNumber = "", // temp, will be generated after saving
                 PasswordHash = BCrypt.Net.BCrypt.HashPassword(registerDto.Password),
                 Role = "Candidate",
-                IsVerified = false, // Will be verified by admin
+                IsVerified = false,
                 IsActive = true,
                 CreatedAt = DateTime.UtcNow
             };
 
+            // 1) Save user first so SQL generates user.Id
+            var userSaved = await _repo_user.AddUserAsync(user);
+            if (!userSaved) return false;
 
+            // 2) Generate voter id using generated Id
+            user.VoterIdNumber = $"VOT-{user.Id:D6}";
 
+            // 3) Update user with voter id
+            var userUpdated = await _repo_user.UpdateUserAsync(user);
+            if (!userUpdated) return false;
+
+            // 4) Now create candidate using the real user.Id
             var candidate = new Candidate
             {
                 UserId = user.Id,
@@ -132,32 +150,36 @@ namespace practice.Services
                 Biography = registerDto.Biography,
                 Education = registerDto.Education,
                 PreviousExperience = registerDto.PreviousExperience,
-                IsApproved = false, // Will be approved by admin
-                RegisteredAt = DateTime.UtcNow,
-                Election = null
+                IsApproved = false,
+                RegisteredAt = DateTime.UtcNow
             };
 
+            // IMPORTANT:
+            // You must have a repository method that saves candidate only, e.g. AddCandidateAsync(candidate)
+            // If you do not have it, add it in ICandidateRepository and implement it.
+            var candidateSaved = await _repo_candidate.AddCandidateAsync(candidate);
+            if (!candidateSaved) return false;
 
-            var isSaved = await _repo_candidate.RegisterCandidateAsync(user, candidate);
-            if (isSaved)
+            // Email (optional)
+            var subject = "Candidate Application Received";
+            var body = $"Hello {user.FullName},\n\n" +
+                       "Your application to register as a Candidate has been received.\n" +
+                       "The Election Commission (Admin) will review your Manifesto and details.\n\n" +
+                       "This process may take up to 2 business days. You will be notified via email upon approval.\n\n" +
+                       $"Your Voter ID is: {user.VoterIdNumber}";
+
+            try
             {
-                var subject = "Candidate Application Received";
-                var body = $"Hello {user.FullName},\n\n" +
-                           "Your application to register as a Candidate has been received.\n" +
-                           "The Election Commission (Admin) will review your Manifesto and details.\n\n" +
-                           "This process may take up to 2 business days. You will be notified via email upon approval.";
-
-                try
-                {
-                    await _emailService.SendEmailAsync(user.Email, subject, body);
-                }
-                catch
-                {
-                    // Ignore email errors
-                }
+                await _emailService.SendEmailAsync(user.Email, subject, body);
             }
-            return isSaved;
+            catch
+            {
+                // ignore email errors
+            }
+
+            return true;
         }
+
 
         public async Task<User?> GetUserByEmailAsync(string email)
         {
