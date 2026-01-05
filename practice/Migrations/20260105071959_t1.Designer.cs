@@ -12,8 +12,8 @@ using practice.Data;
 namespace practice.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20260104112228_clone")]
-    partial class clone
+    [Migration("20260105071959_t1")]
+    partial class t1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -137,13 +137,13 @@ namespace practice.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2026, 1, 4, 11, 22, 27, 716, DateTimeKind.Utc).AddTicks(673),
+                            CreatedAt = new DateTime(2026, 1, 5, 7, 19, 58, 736, DateTimeKind.Utc).AddTicks(8125),
                             Description = "National General Election for selecting representatives",
                             ElectionType = "General",
-                            EndDate = new DateTime(2026, 2, 4, 11, 22, 27, 716, DateTimeKind.Utc).AddTicks(618),
+                            EndDate = new DateTime(2026, 2, 5, 7, 19, 58, 736, DateTimeKind.Utc).AddTicks(8099),
                             IsActive = true,
                             ResultsPublished = false,
-                            StartDate = new DateTime(2026, 1, 4, 11, 22, 27, 716, DateTimeKind.Utc).AddTicks(615),
+                            StartDate = new DateTime(2026, 1, 5, 7, 19, 58, 736, DateTimeKind.Utc).AddTicks(8098),
                             Title = "General Election 2024"
                         });
                 });
@@ -215,12 +215,12 @@ namespace practice.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2026, 1, 4, 11, 22, 27, 715, DateTimeKind.Utc).AddTicks(9490),
+                            CreatedAt = new DateTime(2026, 1, 5, 7, 19, 58, 736, DateTimeKind.Utc).AddTicks(7479),
                             Email = "admin@votingsystem.com",
                             FullName = "System Administrator",
                             IsActive = true,
                             IsVerified = true,
-                            PasswordHash = "$2a$11$TQC3bSuS8iptPSYgQSkD8eOwTOeM6oOc/Kj6IN4RSuenXsvH3Mt32",
+                            PasswordHash = "$2a$11$Ie9FiigLO09EBksNO1WLj.2U3/QA5TsuYKGcYDwn5EJmCEq8dXloO",
                             PhoneNumber = "9999999999",
                             Role = "Admin"
                         });
