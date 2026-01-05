@@ -134,13 +134,13 @@ namespace practice.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2026, 1, 5, 12, 31, 46, 68, DateTimeKind.Utc).AddTicks(6369),
+                            CreatedAt = new DateTime(2026, 1, 5, 18, 38, 52, 731, DateTimeKind.Utc).AddTicks(146),
                             Description = "National General Election for selecting representatives",
                             ElectionType = "General",
-                            EndDate = new DateTime(2026, 2, 5, 12, 31, 46, 68, DateTimeKind.Utc).AddTicks(6313),
+                            EndDate = new DateTime(2026, 2, 5, 18, 38, 52, 731, DateTimeKind.Utc).AddTicks(107),
                             IsActive = true,
                             ResultsPublished = false,
-                            StartDate = new DateTime(2026, 1, 5, 12, 31, 46, 68, DateTimeKind.Utc).AddTicks(6311),
+                            StartDate = new DateTime(2026, 1, 5, 18, 38, 52, 731, DateTimeKind.Utc).AddTicks(105),
                             Title = "General Election 2024"
                         });
                 });
@@ -212,12 +212,12 @@ namespace practice.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2026, 1, 5, 12, 31, 46, 68, DateTimeKind.Utc).AddTicks(4276),
+                            CreatedAt = new DateTime(2026, 1, 5, 18, 38, 52, 730, DateTimeKind.Utc).AddTicks(9078),
                             Email = "admin@votingsystem.com",
                             FullName = "System Administrator",
                             IsActive = true,
                             IsVerified = true,
-                            PasswordHash = "$2a$11$jAJzVKn7Eie23u8fUcHTEeA9DfkXRH/UOUNc6NC7wnchzu/AMHYeq",
+                            PasswordHash = "$2a$11$HgGFhq7zs2CmaUVlxQ1TAer7b6B02QZxt2IytYUvb2Sxyc4TfanVW",
                             PhoneNumber = "9999999999",
                             Role = "Admin"
                         });

@@ -134,7 +134,7 @@ namespace practice.Services
             if (!userSaved) return false;
 
             // 2) Generate voter id using generated Id
-            user.VoterIdNumber = $"VOT-{user.Id:D6}";
+            user.VoterIdNumber = $"CAN-{user.Id:D6}";
 
             // 3) Update user with voter id
             var userUpdated = await _repo_user.UpdateUserAsync(user);

@@ -55,7 +55,7 @@ namespace practice.DTOs
         [RegularExpression(@"^\d{13}$", ErrorMessage = "CNIC Number must be exactly 13 digits")]
         public string cnic { get; set; } = string.Empty;
 
-        [Required]
+        //[Required]
         [StringLength(20)]
         public string VoterIdNumber { get; set; } = string.Empty;
 
