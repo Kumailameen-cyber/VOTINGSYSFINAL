@@ -123,5 +123,10 @@ namespace practice.Repository.Implementation
                 .Where(c => c.ElectionId == electionId && c.IsApproved)
                 .ToListAsync();
         }
+        public async Task<bool> AddCandidateAsync(Candidate candidate)
+        {
+            _context.Candidates.Add(candidate);
+            return await _context.SaveChangesAsync() > 0;
+        }
     }
 }
