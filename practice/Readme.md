@@ -29,3 +29,21 @@ The system provides a secure and user-friendly platform for conducting online el
 - Manage voters and candidates
 - Create and manage elections
 - View election results
+
+## Project Setup
+
+1. Clone the repository:
+   ```bash
+   git clone <repository-url>
+
+2. Open the project in Visual Studio 2022
+
+3. Update the database connection string in appsettings.json
+
+4. Apply migrations and update database:
+
+i) Update-Database
+ii) dotnet run
+
+---
+
