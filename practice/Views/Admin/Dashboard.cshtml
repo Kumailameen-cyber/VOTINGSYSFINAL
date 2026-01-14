@@ -1,15 +1,29 @@
 @{
     ViewData["Title"] = "Admin Dashboard";
     Layout = "~/Views/Shared/_Layout.cshtml";
+
+    // Total registered voters in the system
     var totalVoters = (int)ViewBag.TotalVoters;
+
+    // Total registered candidates
     var totalCandidates = (int)ViewBag.TotalCandidates;
+
+    // Number of voter accounts pending verification
     var pendingVerifications = (int)ViewBag.PendingVerifications;
+
+    // Number of candidate accounts pending approval
     var pendingApprovals = (int)ViewBag.PendingApprovals;
+
+    // Number of currently active elections
     var activeElections = (int)ViewBag.ActiveElections;
+
+    // Total votes cast across all elections
     var totalVotesCast = (int)ViewBag.TotalVotesCast;
 }
 
 <div class="container-fluid mt-4">
+
+    <!-- ================= Admin Dashboard Header ================= -->
     <div class="row mb-4">
         <div class="col-12">
             <div class="card bg-gradient-dark text-white shadow-lg border-0">
@@ -17,14 +31,18 @@
                     <h2 class="mb-2">
                         <i class="fas fa-tachometer-alt me-2"></i>Admin Dashboard
                     </h2>
-                    <p class="mb-0">Manage and monitor the Online Voting System</p>
+                    <p class="mb-0">
+                        Monitor and manage the Online Voting System effectively.
+                    </p>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Statistics Cards -->
+    <!-- ================= Statistics Cards ================= -->
     <div class="row mb-4" justify-content-center>
+
+        <!-- Total Voters -->
         <div class="col-xl-6 col-md-6 mb-4">
             <div class="card border-0 shadow h-100">
                 <div class="card-body">
@@ -45,6 +63,7 @@
             </div>
         </div>
 
+        <!-- Total Candidates -->
         <div class="col-xl-6 col-md-6 mb-4">
             <div class="card border-0 shadow h-100">
                 <div class="card-body">
@@ -65,12 +84,11 @@
             </div>
         </div>
 
-       
-
-        
     </div>
 
     <div class="row mb-4">
+
+        <!-- Active Elections -->
         <div class="col-xl-6 col-md-6 mb-4">
             <div class="card border-0 shadow h-100">
                 <div class="card-body">
@@ -91,6 +109,7 @@
             </div>
         </div>
 
+        <!-- Total Votes Cast -->
         <div class="col-xl-6 col-md-6 mb-4">
             <div class="card border-0 shadow h-100">
                 <div class="card-body">
@@ -110,9 +129,10 @@
                 </div>
             </div>
         </div>
+
     </div>
 
-    <!-- Quick Actions -->
+    <!-- ================= Quick Actions Section ================= -->
     <div class="row">
         <div class="col-12">
             <div class="card shadow border-0">
@@ -123,46 +143,59 @@
                 </div>
                 <div class="card-body">
                     <div class="row text-center">
+
+                        <!-- Manage Voters -->
                         <div class="col-md-3 mb-3">
                             <a asp-action="ManageUsers" class="btn btn-outline-primary btn-lg w-100 h-100 py-4">
                                 <i class="fas fa-users fa-3x mb-2 d-block"></i>
                                 Manage Voters
                             </a>
                         </div>
+
+                        <!-- Manage Candidates -->
                         <div class="col-md-3 mb-3">
                             <a asp-action="ManageCandidates" class="btn btn-outline-success btn-lg w-100 h-100 py-4">
                                 <i class="fas fa-user-tie fa-3x mb-2 d-block"></i>
                                 Manage Candidates
                             </a>
                         </div>
+
+                        <!-- Manage Elections -->
                         <div class="col-md-3 mb-3">
                             <a asp-action="ManageElections" class="btn btn-outline-danger btn-lg w-100 h-100 py-4">
                                 <i class="fas fa-poll fa-3x mb-2 d-block"></i>
                                 Manage Elections
                             </a>
                         </div>
+
+                        <!-- Create Election -->
                         <div class="col-md-3 mb-3">
                             <a asp-action="CreateElection" class="btn btn-outline-info btn-lg w-100 h-100 py-4">
                                 <i class="fas fa-plus-circle fa-3x mb-2 d-block"></i>
                                 Create Election
                             </a>
                         </div>
+
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
 </div>
 
 <style>
+    /* Gradient background for the dashboard header card */
     .bg-gradient-dark {
         background: linear-gradient(135deg, #232526 0%, #414345 100%);
     }
 
+    /* Reduce icon opacity for subtle styling */
     .opacity-50 {
         opacity: 0.5;
     }
 
+    /* Ensure the entire card footer is clickable when using stretched-link */
     .stretched-link::after {
         position: absolute;
         top: 0;
