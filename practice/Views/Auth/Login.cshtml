@@ -7,16 +7,25 @@
 <div class="container mt-5">
     <div class="row justify-content-center">
         <div class="col-md-6 col-lg-5">
+
+            <!-- ================= Login Card ================= -->
             <div class="card shadow-lg border-0 rounded-lg">
+
+                <!-- Card Header -->
                 <div class="card-header bg-primary text-white text-center py-4">
                     <h3 class="mb-0">
                         <i class="fas fa-sign-in-alt me-2"></i>Login to Voting System
                     </h3>
                 </div>
+
+                <!-- Card Body: Login Form -->
                 <div class="card-body p-4">
                     <form asp-action="Login" method="post">
+
+                        <!-- Display validation errors -->
                         <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
 
+                        <!-- Email Input -->
                         <div class="mb-3">
                             <label asp-for="Email" class="form-label fw-bold">
                                 <i class="fas fa-envelope me-1"></i>Email Address
@@ -25,6 +34,7 @@
                             <span asp-validation-for="Email" class="text-danger small"></span>
                         </div>
 
+                        <!-- Password Input -->
                         <div class="mb-4">
                             <label asp-for="Password" class="form-label fw-bold">
                                 <i class="fas fa-lock me-1"></i>Password
@@ -33,15 +43,19 @@
                             <span asp-validation-for="Password" class="text-danger small"></span>
                         </div>
 
+                        <!-- Submit Button -->
                         <div class="d-grid">
                             <button type="submit" class="btn btn-primary btn-lg">
                                 <i class="fas fa-sign-in-alt me-2"></i>Login
                             </button>
                         </div>
+
                     </form>
                 </div>
+
+                <!-- Card Footer: Registration Links -->
                 <div class="card-footer bg-light text-center py-3">
-                    <p class="mb-2">Don't have an account?</p>
+                    <p class="mb-2">Don't have an account yet?</p>
                     <div class="d-flex gap-2 justify-content-center">
                         <a asp-action="VoterRegister" class="btn btn-outline-success">
                             <i class="fas fa-user-plus me-1"></i>Register as Voter
@@ -51,21 +65,25 @@
                         </a>
                     </div>
                 </div>
+
             </div>
 
+            <!-- ================= Admin Credentials Info ================= -->
             <div class="mt-4 text-center">
                 <div class="card border-info">
                     <div class="card-body">
                         <h6 class="text-info mb-2"><i class="fas fa-info-circle me-1"></i>Admin Credentials</h6>
                         <p class="mb-1 small"><strong>Admin:</strong> admin@votingsystem.com / Admin@123</p>
-                        <p class="mb-0 small text-muted">Register as Voter or Candidate to test the system</p>
+                        <p class="mb-0 small text-muted">Use Voter or Candidate registration to test the system functionality</p>
                     </div>
                 </div>
             </div>
+
         </div>
     </div>
 </div>
 
+<!-- ================= Validation Scripts ================= -->
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
 }
