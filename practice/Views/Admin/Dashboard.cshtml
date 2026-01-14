@@ -48,134 +48,81 @@
 
 
 
-        <div class="col-xl-3 col-md-6">
+        <div class="row g-4 mb-5">
 
-            <div class="card card-hover border-0 shadow-sm h-100 overflow-hidden">
-
-                <div class="card-body p-4 position-relative">
-
-                    <div class="d-flex justify-content-between align-items-center mb-4">
-
-                        <div class="icon-box bg-blue-light text-blue rounded-4">
-
-                            <i class="fas fa-users fa-lg"></i>
-
+            <div class="col-xl-3 col-md-6">
+                <div class="card card-hover border-0 shadow-sm h-100 overflow-hidden">
+                    <div class="card-body p-4 position-relative text-center">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <div class="icon-box bg-blue-light text-blue rounded-4">
+                                <i class="fas fa-users fa-lg"></i>
+                            </div>
+                            <span class="badge bg-blue-subtle text-blue rounded-pill">Voters</span>
                         </div>
 
-                        <span class="badge bg-blue-subtle text-blue rounded-pill">Voters</span>
+                        <h2 class="fw-bold mb-1 text-dark display-6">@totalVoters</h2>
 
+                        <p class="fw-bold text-dark mb-0 fs-5">Voter Accounts</p>
+
+                        <a asp-controller="Admin" asp-action="ManageUsers" class="stretched-link"></a>
                     </div>
-
-                    <h2 class="fw-bold mb-1 text-dark">@totalVoters</h2>
-
-                    <p class="text-muted small mb-0">Registered accounts</p>
-
-
-
-                    <a asp-controller="Admin" asp-action="ManageUsers" class="stretched-link"></a>
-
                 </div>
-
             </div>
 
-        </div>
-
-
-
-        <div class="col-xl-3 col-md-6">
-
-            <div class="card card-hover border-0 shadow-sm h-100 overflow-hidden">
-
-                <div class="card-body p-4 position-relative">
-
-                    <div class="d-flex justify-content-between align-items-center mb-4">
-
-                        <div class="icon-box bg-green-light text-green rounded-4">
-
-                            <i class="fas fa-user-tie fa-lg"></i>
-
+            <div class="col-xl-3 col-md-6">
+                <div class="card card-hover border-0 shadow-sm h-100 overflow-hidden">
+                    <div class="card-body p-4 position-relative text-center">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <div class="icon-box bg-green-light text-green rounded-4">
+                                <i class="fas fa-user-tie fa-lg"></i>
+                            </div>
+                            <span class="badge bg-green-subtle text-green rounded-pill">Candidates</span>
                         </div>
 
-                        <span class="badge bg-green-subtle text-green rounded-pill">Candidates</span>
+                        <h2 class="fw-bold mb-1 text-dark display-6">@totalCandidates</h2>
 
+                        <p class="fw-bold text-dark mb-0 fs-5">Candidate Applications</p>
+
+                        <a asp-controller="Admin" asp-action="ManageCandidates" class="stretched-link"></a>
                     </div>
-
-                    <h2 class="fw-bold mb-1 text-dark">@totalCandidates</h2>
-
-                    <p class="text-muted small mb-0">Approved applications</p>
-
-
-
-                    <a asp-controller="Admin" asp-action="ManageCandidates" class="stretched-link"></a>
-
                 </div>
-
             </div>
 
-        </div>
-
-
-
-        <div class="col-xl-3 col-md-6">
-
-            <div class="card card-hover border-0 shadow-sm h-100 overflow-hidden">
-
-                <div class="card-body p-4 position-relative">
-
-                    <div class="d-flex justify-content-between align-items-center mb-4">
-
-                        <div class="icon-box bg-purple-light text-purple rounded-4">
-
-                            <i class="fas fa-poll fa-lg"></i>
-
+            <div class="col-xl-3 col-md-6">
+                <div class="card card-hover border-0 shadow-sm h-100 overflow-hidden">
+                    <div class="card-body p-4 position-relative text-center">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <div class="icon-box bg-purple-light text-purple rounded-4">
+                                <i class="fas fa-poll fa-lg"></i>
+                            </div>
+                            <span class="badge bg-purple-subtle text-purple rounded-pill">Live</span>
                         </div>
 
-                        <span class="badge bg-purple-subtle text-purple rounded-pill">Live</span>
+                        <h2 class="fw-bold mb-1 text-dark display-6">@activeElections</h2>
 
+                        <p class="fw-bold text-dark mb-0 fs-5">Ongoing Elections</p>
+
+                        <a asp-controller="Admin" asp-action="ManageElections" class="stretched-link"></a>
                     </div>
-
-                    <h2 class="fw-bold mb-1 text-dark">@activeElections</h2>
-
-                    <p class="text-muted small mb-0">Ongoing elections</p>
-
-
-
-                    <a asp-controller="Admin" asp-action="ManageElections" class="stretched-link"></a>
-
                 </div>
-
             </div>
 
-        </div>
-
-
-
-        <div class="col-xl-3 col-md-6">
-
-            <div class="card card-hover border-0 shadow-sm h-100 overflow-hidden">
-
-                <div class="card-body p-4 position-relative">
-
-                    <div class="d-flex justify-content-between align-items-center mb-4">
-
-                        <div class="icon-box bg-orange-light text-orange rounded-4">
-
-                            <i class="fas fa-vote-yea fa-lg"></i>
-
+            <div class="col-xl-3 col-md-6">
+                <div class="card card-hover border-0 shadow-sm h-100 overflow-hidden">
+                    <div class="card-body p-4 position-relative text-center">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <div class="icon-box bg-orange-light text-orange rounded-4">
+                                <i class="fas fa-vote-yea fa-lg"></i>
+                            </div>
+                            <span class="badge bg-orange-subtle text-orange rounded-pill">Turnout</span>
                         </div>
 
-                        <span class="badge bg-orange-subtle text-orange rounded-pill">Turnout</span>
+                        <h2 class="fw-bold mb-1 text-dark display-6">@totalVotesCast</h2>
 
+                        <p class="fw-bold text-dark mb-0 fs-5">Votes Recorded</p>
                     </div>
-
-                    <h2 class="fw-bold mb-1 text-dark">@totalVotesCast</h2>
-
-                    <p class="text-muted small mb-0">Votes recorded</p>
-
                 </div>
-
             </div>
-
         </div>
 
     </div>
@@ -192,99 +139,34 @@
 
     <div class="row g-4 justify-content-center">
 
-        <div class="col-xl-3 col-md-4 col-sm-6">
+        
 
-            <a asp-controller="Admin" asp-action="ManageVoters" class="card btn-action border-0 shadow-sm h-100 text-decoration-none">
 
-                <div class="card-body text-center p-4">
 
-                    <div class="action-icon mx-auto mb-3 bg-gradient-blue text-white shadow-lg">
+        
 
-                        <i class="fas fa-user-edit"></i>
 
+
+        <div class="row g-4 mb-5">
+            <div class="col-12">
+                <a asp-controller="Admin" asp-action="CreateElection" class="card btn-action border-0 shadow-lg text-decoration-none bg-gradient-green text-white overflow-hidden">
+                    <div class="card-body p-5 d-flex align-items-center justify-content-between">
+                        <div>
+                            <h1 class="fw-bold mb-1">Create New Election</h1>
+                            <p class="mb-0 fs-5 opacity-75">Initialize a new poll, set candidates, and schedule voting dates.</p>
+                        </div>
+
+                        <div class="icon-box bg-white text-green rounded-circle shadow-lg d-none d-md-flex" style="width: 100px; height: 100px;">
+                            <i class="fas fa-plus fa-3x"></i>
+                        </div>
                     </div>
-
-                    <h6 class="fw-bold text-dark">Manage Voters</h6>
-
-                    <small class="text-muted">Verify & Edit Users</small>
-
-                </div>
-
-            </a>
-
+                </a>
+            </div>
         </div>
 
 
 
-        <div class="col-xl-3 col-md-4 col-sm-6">
-
-            <a asp-controller="Admin" asp-action="ManageCandidates" class="card btn-action border-0 shadow-sm h-100 text-decoration-none">
-
-                <div class="card-body text-center p-4">
-
-                    <div class="action-icon mx-auto mb-3 bg-gradient-green text-white shadow-lg">
-
-                        <i class="fas fa-id-card-alt"></i>
-
-                    </div>
-
-                    <h6 class="fw-bold text-dark">Candidates</h6>
-
-                    <small class="text-muted">Review Applications</small>
-
-                </div>
-
-            </a>
-
-        </div>
-
-
-
-        <div class="col-xl-3 col-md-4 col-sm-6">
-
-            <a asp-controller="Admin" asp-action="CreateElection" class="card btn-action border-0 shadow-sm h-100 text-decoration-none">
-
-                <div class="card-body text-center p-4">
-
-                    <div class="action-icon mx-auto mb-3 bg-gradient-purple text-white shadow-lg">
-
-                        <i class="fas fa-plus"></i>
-
-                    </div>
-
-                    <h6 class="fw-bold text-dark">Create Election</h6>
-
-                    <small class="text-muted">Launch New Vote</small>
-
-                </div>
-
-            </a>
-
-        </div>
-
-
-
-        <div class="col-xl-3 col-md-4 col-sm-6">
-
-            <a asp-controller="Admin" asp-action="ManageElections" class="card btn-action border-0 shadow-sm h-100 text-decoration-none">
-
-                <div class="card-body text-center p-4">
-
-                    <div class="action-icon mx-auto mb-3 bg-gradient-orange text-white shadow-lg">
-
-                        <i class="fas fa-chart-pie"></i>
-
-                    </div>
-
-                    <h6 class="fw-bold text-dark">View Elections</h6>
-
-                    <small class="text-muted">View Analytics</small>
-
-                </div>
-
-            </a>
-
-        </div>
+        
 
     </div>
 
@@ -463,289 +345,3 @@
 </style>
 
 
-@* @{
-    ViewData["Title"] = "Admin Dashboard";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-
-    // Data from Controller
-    var totalVoters = (int)ViewBag.TotalVoters;
-    var totalCandidates = (int)ViewBag.TotalCandidates;
-    var activeElections = (int)ViewBag.ActiveElections;
-    var totalVotesCast = (int)ViewBag.TotalVotesCast;
-}
-
-<div class="dashboard-dark-wrapper">
-    <div class="container-fluid py-5 px-5">
-
-        <div class="row mb-5">
-            <div class="col-12 text-center">
-                <h1 class="fw-bold text-white display-5 mb-2">Admin Dashboard</h1>
-                <p class="text-secondary lead">Overview of system performance and statistics.</p>
-                <div class="d-flex justify-content-center">
-                    <div class="h-1 w-25 bg-primary rounded"></div>
-                </div>
-            </div>
-        </div>
-
-        <div class="row g-4 mb-5">
-
-            <div class="col-xl-3 col-md-6">
-                <div class="card card-dark card-hover border-0 shadow-sm h-100 overflow-hidden">
-                    <div class="card-body p-4 position-relative">
-                        <div class="d-flex justify-content-between align-items-center mb-4">
-                            <div class="icon-box bg-blue-dark text-blue rounded-4">
-                                <i class="fas fa-users fa-lg"></i>
-                            </div>
-                            <span class="badge bg-blue-subtle text-blue rounded-pill">Voters</span>
-                        </div>
-                        <h2 class="fw-bold mb-1 text-white">@totalVoters</h2>
-                        <p class="text-secondary small mb-0">Registered accounts</p>
-
-                        <a asp-controller="Admin" asp-action="ManageUsers" class="stretched-link"></a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-xl-3 col-md-6">
-                <div class="card card-dark card-hover border-0 shadow-sm h-100 overflow-hidden">
-                    <div class="card-body p-4 position-relative">
-                        <div class="d-flex justify-content-between align-items-center mb-4">
-                            <div class="icon-box bg-green-dark text-green rounded-4">
-                                <i class="fas fa-user-tie fa-lg"></i>
-                            </div>
-                            <span class="badge bg-green-subtle text-green rounded-pill">Candidates</span>
-                        </div>
-                        <h2 class="fw-bold mb-1 text-white">@totalCandidates</h2>
-                        <p class="text-secondary small mb-0">Approved applications</p>
-
-                        <a asp-controller="Admin" asp-action="ManageCandidates" class="stretched-link"></a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-xl-3 col-md-6">
-                <div class="card card-dark card-hover border-0 shadow-sm h-100 overflow-hidden">
-                    <div class="card-body p-4 position-relative">
-                        <div class="d-flex justify-content-between align-items-center mb-4">
-                            <div class="icon-box bg-purple-dark text-purple rounded-4">
-                                <i class="fas fa-poll fa-lg"></i>
-                            </div>
-                            <span class="badge bg-purple-subtle text-purple rounded-pill">Live</span>
-                        </div>
-                        <h2 class="fw-bold mb-1 text-white">@activeElections</h2>
-                        <p class="text-secondary small mb-0">Ongoing elections</p>
-
-                        <a asp-controller="Admin" asp-action="ManageElections" class="stretched-link"></a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-xl-3 col-md-6">
-                <div class="card card-dark card-hover border-0 shadow-sm h-100 overflow-hidden">
-                    <div class="card-body p-4 position-relative">
-                        <div class="d-flex justify-content-between align-items-center mb-4">
-                            <div class="icon-box bg-orange-dark text-orange rounded-4">
-                                <i class="fas fa-vote-yea fa-lg"></i>
-                            </div>
-                            <span class="badge bg-orange-subtle text-orange rounded-pill">Turnout</span>
-                        </div>
-                        <h2 class="fw-bold mb-1 text-white">@totalVotesCast</h2>
-                        <p class="text-secondary small mb-0">Votes recorded</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="text-center mb-4">
-            <h4 class="fw-bold text-white">Quick Actions</h4>
-        </div>
-
-        <div class="row g-4 justify-content-center">
-
-            <div class="col-xl-3 col-md-4 col-sm-6">
-                <a asp-controller="Admin" asp-action="ManageUsers" class="card card-dark btn-action border-0 shadow-sm h-100 text-decoration-none">
-                    <div class="card-body text-center p-4">
-                        <div class="action-icon mx-auto mb-3 bg-gradient-blue text-white shadow-lg">
-                            <i class="fas fa-user-edit"></i>
-                        </div>
-                        <h6 class="fw-bold text-white">Manage Voters</h6>
-                        <small class="text-secondary">Verify & Edit Users</small>
-                    </div>
-                </a>
-            </div>
-
-            <div class="col-xl-3 col-md-4 col-sm-6">
-                <a asp-controller="Admin" asp-action="ManageCandidates" class="card card-dark btn-action border-0 shadow-sm h-100 text-decoration-none">
-                    <div class="card-body text-center p-4">
-                        <div class="action-icon mx-auto mb-3 bg-gradient-green text-white shadow-lg">
-                            <i class="fas fa-id-card-alt"></i>
-                        </div>
-                        <h6 class="fw-bold text-white">Candidates</h6>
-                        <small class="text-secondary">Review Applications</small>
-                    </div>
-                </a>
-            </div>
-
-            <div class="col-xl-3 col-md-4 col-sm-6">
-                <a asp-controller="Admin" asp-action="CreateElection" class="card card-dark btn-action border-0 shadow-sm h-100 text-decoration-none">
-                    <div class="card-body text-center p-4">
-                        <div class="action-icon mx-auto mb-3 bg-gradient-purple text-white shadow-lg">
-                            <i class="fas fa-plus"></i>
-                        </div>
-                        <h6 class="fw-bold text-white">Create Election</h6>
-                        <small class="text-secondary">Launch New Vote</small>
-                    </div>
-                </a>
-            </div>
-
-            <div class="col-xl-3 col-md-4 col-sm-6">
-                <a asp-controller="Admin" asp-action="ManageElections" class="card card-dark btn-action border-0 shadow-sm h-100 text-decoration-none">
-                    <div class="card-body text-center p-4">
-                        <div class="action-icon mx-auto mb-3 bg-gradient-orange text-white shadow-lg">
-                            <i class="fas fa-chart-pie"></i>
-                        </div>
-                        <h6 class="fw-bold text-white">View Elections</h6>
-                        <small class="text-secondary">View Analytics</small>
-                    </div>
-                </a>
-            </div>
-        </div>
-
-    </div>
-</div>
-
-<style>
-    /* ================= DARK THEME OVERRIDES ================= */
-
-    /* Main Page Background */
-    .dashboard-dark-wrapper {
-        background-color: #151521; /* Very dark blue-grey background */
-        min-height: 100vh;
-        width: 100%;
-    }
-
-    /* Dark Card Styling */
-    .card-dark {
-        background-color: #1E1E2D; /* Lighter dark shade for cards */
-        color: #ffffff;
-    }
-
-    /* Muted Text for Dark Mode */
-    .text-secondary {
-        color: #a1a5b7 !important;
-    }
-
-    /* ================= COLORS & GRADIENTS ================= */
-    /* Increased opacity for icon backgrounds to stand out on dark cards */
-
-    /* Blue */
-    .text-blue {
-        color: #3E97FF !important;
-    }
-    /* Brighter blue for dark mode */
-    .bg-blue-dark {
-        background-color: rgba(62, 151, 255, 0.2);
-    }
-
-    .bg-blue-subtle {
-        background-color: rgba(62, 151, 255, 0.15);
-    }
-
-    .bg-gradient-blue {
-        background: linear-gradient(135deg, #3E97FF, #005FCE);
-    }
-
-    /* Green */
-    .text-green {
-        color: #1BC5BD !important;
-    }
-
-    .bg-green-dark {
-        background-color: rgba(27, 197, 189, 0.2);
-    }
-
-    .bg-green-subtle {
-        background-color: rgba(27, 197, 189, 0.15);
-    }
-
-    .bg-gradient-green {
-        background: linear-gradient(135deg, #1BC5BD, #0F6C68);
-    }
-
-    /* Purple */
-    .text-purple {
-        color: #8950FC !important;
-    }
-
-    .bg-purple-dark {
-        background-color: rgba(137, 80, 252, 0.2);
-    }
-
-    .bg-purple-subtle {
-        background-color: rgba(137, 80, 252, 0.15);
-    }
-
-    .bg-gradient-purple {
-        background: linear-gradient(135deg, #8950FC, #5C23B9);
-    }
-
-    /* Orange */
-    .text-orange {
-        color: #FFA800 !important;
-    }
-
-    .bg-orange-dark {
-        background-color: rgba(255, 168, 0, 0.2);
-    }
-
-    .bg-orange-subtle {
-        background-color: rgba(255, 168, 0, 0.15);
-    }
-
-    .bg-gradient-orange {
-        background: linear-gradient(135deg, #FFA800, #D96C00);
-    }
-
-    /* ================= COMPONENTS ================= */
-
-    .icon-box {
-        width: 50px;
-        height: 50px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    /* Action Buttons */
-    .btn-action {
-        transition: all 0.3s ease;
-        border-radius: 16px;
-    }
-
-        .btn-action:hover {
-            transform: translateY(-5px);
-            /* Changed from Green to a dark subtle shadow */
-            box-shadow: 0 10px 30px rgba(255, 255, 255, 1) !important;
-            background-color: #27273F; /* Slightly lighter on hover */
-        }
-
-    .action-icon {
-        width: 60px;
-        height: 60px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 1.5rem;
-    }
-
-    .card-hover {
-        transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s;
-        border-radius: 16px;
-    }
-
-        .card-hover:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 0.5rem 1.5rem rgba(255, 255, 255, 1) !important;
-        }
-</style> *@
