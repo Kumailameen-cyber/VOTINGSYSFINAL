@@ -129,7 +129,11 @@ namespace practice.Repository.Implementation
 
             // Always check for null!
             if (Voter == null) return false;
-
+            var userVotes = _context.Votes.Where(v => v.VoterId == userId);
+            if (userVotes.Any())
+            {
+                _context.Votes.RemoveRange(userVotes);
+            }
             _context.Users.Remove(Voter);
 
             // SaveChanges returns the number of rows affected
