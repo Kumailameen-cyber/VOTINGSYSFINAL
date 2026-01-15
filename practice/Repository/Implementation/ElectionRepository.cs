@@ -66,20 +66,22 @@ namespace practice.Repository.Implementation
                 .Where(v => v.ElectionId == electionId)
                 .CountAsync();
 
-            // 2. The complex LINQ query to group votes by candidate
+            // 2. Query Candidates based on ElectionId, NOT on if they have votes
             return await _context.Candidates
                 .Include(c => c.User)
                 .Include(c => c.Votes)
-                .Where(c => c.Votes.Any(v => v.ElectionId == electionId)) // Only get candidates who got votes (optional)
+                .Where(c => c.ElectionId == electionId && c.IsApproved) // <--- CHANGED THIS LINE
                 .Select(c => new VoteResultDto
                 {
                     CandidateId = c.Id,
                     CandidateName = c.User.FullName,
                     PartyName = c.PartyName,
                     PartySymbol = c.PartySymbol,
+
+                    // Count specific votes for this election
                     TotalVotes = c.Votes.Count(v => v.ElectionId == electionId),
 
-                    // Avoid divide by zero error
+                    // Safe percentage calculation
                     VotePercentage = totalVotes > 0
                         ? (c.Votes.Count(v => v.ElectionId == electionId) * 100.0 / totalVotes)
                         : 0

@@ -1,0 +1,92 @@
+﻿@model practice.DTOs.UpdateProfileDto
+
+@{
+    ViewData["Title"] = "Edit Profile";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+
+            <div class="card border-0 shadow-lg" style="border-radius: 16px; overflow: hidden;">
+
+                <div class="card-header text-white py-4 text-center" style="background-color: #16a34a;">
+                    <h3 class="mb-0 fw-bold"><i class="fas fa-user-edit me-2"></i>Update Your Profile</h3>
+                    <p class="mb-0 opacity-75 small">Update your personal contact details</p>
+                </div>
+
+                <div class="card-body p-5">
+
+                    @if (TempData["ErrorMessage"] != null)
+                    {
+                        <div class="alert alert-danger text-center">
+                            @TempData["ErrorMessage"]
+                        </div>
+                    }
+
+                    <form asp-action="EditProfile" method="post">
+                        <input type="hidden" asp-for="Id" />
+
+                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                        <div class="mb-4">
+                            <label asp-for="FullName" class="form-label fw-bold text-secondary">Full Name</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light border-end-0"><i class="fas fa-user text-success"></i></span>
+                                <input asp-for="FullName" class="form-control border-start-0 ps-0 bg-light" placeholder="Enter your full name" />
+                            </div>
+                            <span asp-validation-for="FullName" class="text-danger small mt-1 d-block"></span>
+                        </div>
+
+                        <div class="mb-4">
+                            <label asp-for="PhoneNumber" class="form-label fw-bold text-secondary">Phone Number</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light border-end-0"><i class="fas fa-phone text-success"></i></span>
+                                <input asp-for="PhoneNumber" class="form-control border-start-0 ps-0 bg-light" placeholder="923XXXXXXXXX" />
+                            </div>
+                            <span asp-validation-for="PhoneNumber" class="text-danger small mt-1 d-block"></span>
+                            <small class="text-muted">Format: 923001234567</small>
+                        </div>
+
+                        <div class="d-grid gap-3 mt-5">
+                            <button type="submit" class="btn btn-success btn-lg shadow-sm hover-effect">
+                                <i class="fas fa-save me-2"></i>Save Changes
+                            </button>
+
+                            <a asp-action="Dashboard" class="btn btn-light btn-lg text-secondary">
+                                <i class="fas fa-arrow-left me-2"></i>Cancel
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+
+<style>
+    /* Custom Focus Effects for Inputs */
+    .form-control:focus {
+        box-shadow: none;
+        border-color: #16a34a;
+    }
+
+    .input-group:focus-within .input-group-text {
+        border-color: #16a34a;
+    }
+
+    /* Button Hover Animation */
+    .hover-effect {
+        transition: transform 0.2s ease;
+    }
+
+        .hover-effect:hover {
+            transform: translateY(-2px);
+        }
+</style>

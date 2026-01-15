@@ -123,5 +123,30 @@ namespace practice.Services
 
                 return success ? "Success" : "Failed to record vote.";
         }
+
+
+
+        public async Task<bool> UpdateProfileAsync(UpdateProfileDto dto)
+        {
+            // 1. Get the real user from the DB using the Repository
+            var existingUser = await _userRepo.FindUserViaId(dto.Id);
+
+            if (existingUser == null)
+            {
+                return false;
+            }
+
+            // 2. Map data from DTO to the Entity
+            existingUser.FullName = dto.FullName;
+            existingUser.PhoneNumber = dto.PhoneNumber;
+
+            // Optional: Update timestamp
+            existingUser.UpdatedAt = DateTime.UtcNow;
+
+            // 3. Save changes via Repository
+            // This calls the generic UpdateAsync method you added to UserRepository
+            return await _userRepo.UpdateAsync(existingUser);
+        }
     }
+
 }

@@ -21,7 +21,11 @@
 
                         <div class="flex-grow-1">
                             <h2 class="fw-bold mb-0 text-dark">Welcome, @user?.FullName</h2>
-                            <p class="text-muted mb-0">@user?.Email</p>
+                            <p class="text-muted mb-2">@user?.Email</p>
+
+                            <a asp-action="EditProfile" class="btn btn-sm btn-outline-success rounded-pill px-3 shadow-sm transition-hover">
+                                <i class="fas fa-user-edit me-1"></i> Edit Profile
+                            </a>
                         </div>
 
                         <div class="mt-3 mt-md-0">
@@ -112,7 +116,7 @@
                                 </div>
                             </div>
 
-                            <div class="d-grid gap-2" style="background-color:forestgreen">
+                            <div class="d-grid gap-2">
                                 @if (hasVoted)
                                 {
                                     <button class="btn btn-secondary disabled py-3" style="opacity: 0.7;">
@@ -121,8 +125,9 @@
                                 }
                                 else
                                 {
-                                    <a asp-action="Vote" asp-route-electionId="@election.Id" class="btn  btn-lg py-3 shadow-success-hover text-white">
-                                        <i class="fas fa-vote-yea me-2" style="color : white"></i>Cast Your Vote
+                                    /* Note: Added forestgreen background directly to the button via CSS class or style */
+                                    <a asp-action="Vote" asp-route-electionId="@election.Id" class="btn btn-lg py-3 shadow-success-hover text-white" style="background-color: #16a34a;">
+                                        <i class="fas fa-vote-yea me-2"></i>Cast Your Vote
                                     </a>
                                 }
                             </div>
@@ -201,4 +206,27 @@
         box-shadow: 0 4px 14px 0 rgba(22, 163, 74, 0.39);
         transform: translateY(-1px);
     }
+
+    /* Transition for Edit Button */
+    .transition-hover {
+        transition: all 0.2s ease;
+    }
+
+        .transition-hover:hover {
+            transform: translateY(-2px);
+            background-color: #16a34a;
+            color: white;
+            box-shadow: 0 4px 6px rgba(22, 163, 74, 0.2);
+        }
+
+    /* Custom Outline Success Button to match theme */
+    .btn-outline-success {
+        color: #16a34a;
+        border-color: #16a34a;
+    }
+
+        .btn-outline-success:hover {
+            background-color: #16a34a;
+            color: white;
+        }
 </style>

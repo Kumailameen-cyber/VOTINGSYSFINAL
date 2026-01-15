@@ -32,6 +32,8 @@ namespace practice.Repository.Interface
         public Task<List<User>> GetAllUsersVotersAsync();
         public Task<bool> RemoveVoterAsync(int userId);
 
+        Task<bool> UpdateAsync(User user);
+
 
     }
 }

@@ -135,5 +135,20 @@ namespace practice.Repository.Implementation
             // SaveChanges returns the number of rows affected
             return await _context.SaveChangesAsync() > 0;
         }
+
+        public async Task<bool> UpdateAsync(User user)
+        {
+            try
+            {
+                _context.Users.Update(user);
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception)
+            {
+               
+                return false;
+            }
+        }
     }
 }

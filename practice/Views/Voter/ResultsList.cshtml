@@ -1,0 +1,29 @@
+﻿@model IEnumerable<practice.Models.Election>
+@{
+    ViewData["Title"] = "All Elections";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-4">
+    <h2 class="mb-4">Election Results</h2>
+    <div class="row">
+        @foreach (var election in Model)
+        {
+            <div class="col-md-4 mb-4">
+                <div class="card shadow-sm h-100">
+                    <div class="card-header @(election.IsActive ? "bg-success" : "bg-secondary") text-white">
+                        <h5 class="mb-0">@election.Title</h5>
+                    </div>
+                    <div class="card-body">
+                        <p>@election.Description</p>
+                        <p class="small text-muted">@election.ElectionType</p>
+
+                        <a asp-action="Results" asp-route-electionId="@election.Id" class="btn btn-outline-primary w-100">
+                            View Results
+                        </a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
