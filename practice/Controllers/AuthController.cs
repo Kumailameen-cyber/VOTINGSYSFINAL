@@ -9,11 +9,15 @@ namespace practice.Controllers
     {
         private readonly IAuthService _authService;
         private readonly ICandidateService _candidateService;
+        private readonly IAdminService _AdminService;
+        
 
-        public AuthController(IAuthService authService,ICandidateService candidateService)
+        public AuthController(IAuthService authService,ICandidateService candidateService, IAdminService adminService)
         {
             _candidateService = candidateService;
             _authService = authService;
+            _AdminService = adminService;
+
         }
 
         // GET: Login Page
@@ -66,10 +70,10 @@ namespace practice.Controllers
                 HttpOnly = true,
                 Secure = true, // Ensure this is true if using HTTPS
                 SameSite = SameSiteMode.Strict,
-                Expires = DateTimeOffset.UtcNow.AddHours(24)
+                Expires = DateTimeOffset.UtcNow.AddHours(0.5)
             });
 
-            // 6. Store user info in session
+            //// 6. Store user info in session
             HttpContext.Session.SetString("UserId", result.UserId.ToString());
             HttpContext.Session.SetString("FullName", result.FullName);
             HttpContext.Session.SetString("Email", result.Email);
@@ -81,12 +85,17 @@ namespace practice.Controllers
             // 7. Redirect to the appropriate dashboard
             if (result.Role == "Candidate")
             {
-               
+
                 var candidate = await _candidateService.GetCandidateByUserIdServiceAsync(result.UserId);
                 bool status = await _candidateService.ChangeStatusaftertime(candidate);
-                
+
             }
-            return RedirectToDashboard(result.Role);
+            else if (result.Role=="Admin") {
+            var elections = await _AdminService.ElectionTimeCheckerAsync();
+
+
+            }
+                return RedirectToDashboard(result.Role);
         }
         // GET: Voter Registration Page
         [HttpGet]

@@ -8,6 +8,7 @@ namespace practice.Repository.Interface
     public interface IElectionRepository
     {
         public Task<int> ActiveElectionAsync();
+        public Task<bool> ElectionTimeCheckerAsync();
 
         public Task<int> TotalVotesCast();
       

@@ -9,7 +9,7 @@ namespace practice.Models
         public int Id { get; set; }
 
         [ForeignKey("Election")]
-        public int ElectionId { get; set; }
+        public int? ElectionId { get; set; }
 
         [ForeignKey("Voter")]
         public int VoterId { get; set; }

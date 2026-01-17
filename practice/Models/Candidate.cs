@@ -7,9 +7,7 @@ namespace practice.Models
     {
         [Key]
         public int Id { get; set; }
-
-        [ForeignKey("User")]
-        public int UserId { get; set; }
+             
 
         [Required]
         [StringLength(100)]
@@ -42,13 +40,15 @@ namespace practice.Models
 
         public DateTime RegisteredAt { get; set; } = DateTime.UtcNow;
 
-        // Navigation properties
+        
+        [ForeignKey("User")]
+        public int UserId { get; set; }
         public virtual User User { get; set; } = null!;
         public virtual ICollection<Vote> Votes { get; set; } = new List<Vote>();
 
         [ForeignKey("Election")]
-        public int? ElectionId { get; set; }  // Links candidate to a specific election
+        public int? ElectionId { get; set; }  
 
-        public virtual Election? Election { get; set; } // Navigation property
+        public virtual Election? Election { get; set; } 
     }
 }

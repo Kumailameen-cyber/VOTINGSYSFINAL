@@ -167,6 +167,7 @@ namespace practice.Repository.Implementation
         public async Task<bool> ChangeStatusaftertime(int candidate)
         {
             var can = await _context.Candidates.FindAsync(candidate);
+            if (can == null) return false;
             if(can.ElectionId.HasValue)
             {
                 var election = await _context.Elections.FindAsync(can.ElectionId);

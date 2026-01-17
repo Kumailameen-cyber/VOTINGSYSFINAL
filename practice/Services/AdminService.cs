@@ -59,7 +59,10 @@ namespace practice.Services
         {
             return await _electionRepo.GetAllElectionsAsync();
         }
-
+        public async Task<bool> ElectionTimeCheckerAsync()
+        {
+            return await _electionRepo.ElectionTimeCheckerAsync();
+        }
         public async Task<Election?> GetElectionByIdAsync(int id)
         {
             return await _electionRepo.GetElectionByIdAsync(id);

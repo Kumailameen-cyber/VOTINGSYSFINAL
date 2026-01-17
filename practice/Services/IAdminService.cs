@@ -6,6 +6,7 @@ namespace practice.Services
     public interface IAdminService
     {
         public Task<DashboardStatsDto> GetDashboardStatsAsync();
+        public Task<bool> ElectionTimeCheckerAsync();
 
         
         public Task<List<User>> GetAllUsersAsync();

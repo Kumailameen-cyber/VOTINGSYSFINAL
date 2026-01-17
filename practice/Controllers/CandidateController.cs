@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using practice.DTOs;
 using practice.Models;
 using practice.Services;
@@ -25,8 +26,9 @@ namespace practice.Controllers
         public async Task<IActionResult> Dashboard()
         {
             var data = await _candidateService.GetDashboardAsync(GetUserId());
+            
 
-            if (data == null)
+            if (data == null || data.Candidate==null)
             {
                 TempData["ErrorMessage"] = "Candidate profile not found.";
                 return RedirectToAction("Login", "Auth");
