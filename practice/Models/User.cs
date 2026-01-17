@@ -1,7 +1,11 @@
+using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 
 namespace practice.Models
 {
+    [Index(nameof(Email), IsUnique = true)]
+    [Index(nameof(cnic), IsUnique = true)]
+    [Index(nameof(PhoneNumber), IsUnique = true)]
     public class User
     {
         [Key]
@@ -13,6 +17,7 @@ namespace practice.Models
         public string FullName { get; set; } = string.Empty;
 
         [Required]
+        
         [EmailAddress]
         [StringLength(100)]
         [RegularExpression(@"^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$",
@@ -32,8 +37,10 @@ namespace practice.Models
         public string Role { get; set; } = "Voter"; // Voter, Candidate, Admin
 
         [StringLength(13)]
+        [Required]
+
         [RegularExpression(@"^\d{13}$", ErrorMessage = "CNIC Number must be exactly 13 digits")]
-        public string? cnic { get; set; }
+        public string cnic { get; set; } = string.Empty;
 
         [StringLength(20)]
         public string? VoterIdNumber { get; set; }

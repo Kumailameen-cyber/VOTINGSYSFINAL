@@ -1,0 +1,539 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - Online Voting System</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        @@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #ffffff;
+            color: #1a1a1a;
+            overflow-x: hidden;
+        }
+
+        /* Animated gradient background */
+        .hero-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #f8faf9 0%, #ffffff 50%, #f0f7f4 100%);
+            z-index: -2;
+        }
+
+        /* Floating particles effect */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.15;
+        }
+
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #228B22, #006400);
+            animation: float 20s infinite;
+        }
+
+            .particle:nth-child(1) {
+                width: 80px;
+                height: 80px;
+                left: 10%;
+                animation-delay: 0s;
+            }
+
+            .particle:nth-child(2) {
+                width: 60px;
+                height: 60px;
+                left: 80%;
+                animation-delay: 4s;
+            }
+
+            .particle:nth-child(3) {
+                width: 40px;
+                height: 40px;
+                left: 50%;
+                animation-delay: 8s;
+            }
+
+            .particle:nth-child(4) {
+                width: 100px;
+                height: 100px;
+                left: 30%;
+                animation-delay: 12s;
+            }
+
+            .particle:nth-child(5) {
+                width: 50px;
+                height: 50px;
+                left: 70%;
+                animation-delay: 16s;
+            }
+
+        @@keyframes float {
+            0%, 100%
+
+        {
+            transform: translateY(0) translateX(0) scale(1);
+            opacity: 0.3;
+        }
+
+        25% {
+            transform: translateY(-100px) translateX(50px) scale(1.1);
+            opacity: 0.5;
+        }
+
+        50% {
+            transform: translateY(-200px) translateX(-50px) scale(0.9);
+            opacity: 0.3;
+        }
+
+        75% {
+            transform: translateY(-100px) translateX(-100px) scale(1.05);
+            opacity: 0.4;
+        }
+
+        }
+
+        /* Hero Section */
+        .hero-section {
+            background: linear-gradient(135deg, #228B22 0%, #006400 100%);
+            padding: 5rem 0 4rem;
+            margin-bottom: 4rem;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(34, 139, 34, 0.3);
+        }
+
+            .hero-section::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: -100%;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+                animation: shimmer 3s infinite;
+            }
+
+        @@keyframes shimmer {
+            0%
+
+        {
+            left: -100%;
+        }
+
+        100% {
+            left: 100%;
+        }
+
+        }
+
+        .hero-section h1 {
+            color: #ffffff;
+            font-size: 3.5rem;
+            font-weight: 800;
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            animation: fadeInUp 0.8s ease-out;
+            text-align: left;
+        }
+
+        .hero-section p {
+            color: rgba(255, 255, 255, 0.95);
+            font-size: 1.3rem;
+            max-width: 700px;
+            margin: 1.5rem auto 0;
+            animation: fadeInUp 0.8s ease-out 0.2s backwards;
+        }
+
+        @@keyframes fadeInUp {
+            from
+
+        {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        }
+
+        /* Content Cards */
+        .content-card {
+            background: #ffffff;
+            border: 3px solid #228B22;
+            border-radius: 24px;
+            padding: 3rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 30px rgba(34, 139, 34, 0.15);
+            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+            .content-card::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: -100%;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(90deg, transparent, rgba(34, 139, 34, 0.05), transparent);
+                transition: left 0.8s;
+            }
+
+            .content-card:hover {
+                transform: translateY(-10px);
+                box-shadow: 0 20px 50px rgba(34, 139, 34, 0.25);
+            }
+
+                .content-card:hover::before {
+                    left: 100%;
+                }
+
+            .content-card h2 {
+                color: #228B22;
+                font-size: 2rem;
+                font-weight: 800;
+                margin-bottom: 1.5rem;
+                display: flex;
+                align-items: center;
+                gap: 1rem;
+            }
+
+                .content-card h2 i {
+                    font-size: 2.5rem;
+                }
+
+            .content-card p {
+                color: #374151;
+                font-size: 1.1rem;
+                line-height: 1.8;
+                margin-bottom: 1rem;
+            }
+
+            .content-card ul {
+                color: #374151;
+                font-size: 1.1rem;
+                line-height: 1.8;
+                margin-left: 1.5rem;
+            }
+
+                .content-card ul li {
+                    margin-bottom: 0.8rem;
+                }
+
+        /* Feature Grid */
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .feature-item {
+            background: #ffffff;
+            border: 3px solid #228B22;
+            border-radius: 20px;
+            padding: 2.5rem 2rem;
+            text-align: center;
+            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 8px 20px rgba(34, 139, 34, 0.15);
+        }
+
+            .feature-item:hover {
+                transform: translateY(-15px) scale(1.03);
+                box-shadow: 0 25px 50px rgba(34, 139, 34, 0.3);
+            }
+
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 1.5rem;
+            background: linear-gradient(135deg, #228B22 0%, #006400 100%);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 20px rgba(34, 139, 34, 0.4);
+            transition: all 0.5s ease;
+        }
+
+        .feature-item:hover .feature-icon {
+            transform: scale(1.2) rotate(5deg);
+        }
+
+        .feature-icon i {
+            font-size: 2.5rem;
+            color: #ffffff;
+        }
+
+        .feature-item h3 {
+            color: #228B22;
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .feature-item p {
+            color: #6b7280;
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        /* Stats Section */
+        .stats-section {
+            background: linear-gradient(135deg, #228B22 0%, #006400 100%);
+            border-radius: 24px;
+            padding: 3rem;
+            margin: 3rem 0;
+            box-shadow: 0 15px 40px rgba(34, 139, 34, 0.4);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+        }
+
+        .stat-item {
+            text-align: center;
+            color: #ffffff;
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .stat-label {
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        /* Responsive */
+        @@media (max-width: 768px) {
+            .hero-section h1
+
+        {
+            font-size: 2.5rem;
+        }
+
+        .hero-section p {
+            font-size: 1.1rem;
+        }
+
+        .content-card {
+            padding: 2rem;
+        }
+
+            .content-card h2 {
+                font-size: 1.6rem;
+            }
+
+        }
+
+        /* Home Button */
+        .home-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: #ffffff;
+            color: #228B22;
+            padding: 0.8rem 1.8rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            border: 2px solid #ffffff;
+        }
+
+            .home-btn:hover {
+                transform: translateY(-3px) scale(1.05);
+                box-shadow: 0 8px 25px rgba(255, 255, 255, 0.3);
+                color: #228B22;
+                background: #ffffff;
+            }
+
+            .home-btn i {
+                font-size: 1.1rem;
+                transition: transform 0.3s ease;
+            }
+
+            .home-btn:hover i {
+                transform: translateX(-3px);
+            }
+    </style>
+</head>
+<body>
+    <div class="hero-bg"></div>
+    <div class="particles">
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+    </div>
+
+    <!-- Hero Section -->
+    <div class="hero-section">
+        <div class="container">
+            <a  class="home-btn mb-4" asp-action="Index" asp-controller="Home">
+                <i class="fas fa-home"></i>
+                <span>Home</span>
+            </a>
+            <h1 class="text-center">About Our Voting System</h1>
+            <p class="text-center">
+                Empowering democracy through secure, transparent, and accessible digital voting solutions
+            </p>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container py-5">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="content-card" style="animation: fadeInUp 0.8s ease-out;">
+                    <h2><i class="fas fa-bullseye"></i> Our Mission</h2>
+                    <p>
+                        We are committed to revolutionizing the democratic process by providing a cutting-edge online voting platform that ensures every voice is heard. Our mission is to make voting accessible, secure, and transparent for all citizens, regardless of their location or circumstances.
+                    </p>
+                    <p>
+                        Through innovative technology and unwavering dedication to electoral integrity, we strive to strengthen democracy and increase civic participation in communities worldwide.
+                    </p>
+                </div>
+
+                <div class="content-card" style="animation: fadeInUp 0.8s ease-out 0.2s backwards;">
+                    <h2><i class="fas fa-eye"></i> Our Vision</h2>
+                    <p>
+                        We envision a future where digital voting is the standard, enabling seamless democratic participation across all levels of government and organizations. Our platform aims to eliminate barriers to voting while maintaining the highest standards of security and transparency.
+                    </p>
+                </div>
+
+                <div class="content-card" style="animation: fadeInUp 0.8s ease-out 0.4s backwards;">
+                    <h2><i class="fas fa-heart"></i> Our Values</h2>
+                    <ul>
+                        <li><strong>Security First:</strong> We employ military-grade encryption and multi-factor authentication to protect every vote.</li>
+                        <li><strong>Transparency:</strong> Our open and auditable processes ensure complete visibility into the voting system.</li>
+                        <li><strong>Accessibility:</strong> We design with inclusivity in mind, making voting possible for everyone.</li>
+                        <li><strong>Integrity:</strong> We maintain the highest ethical standards in all aspects of our operations.</li>
+                        <li><strong>Innovation:</strong> We continuously improve our technology to stay ahead of emerging threats.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stats Section -->
+        <div class="stats-section">
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-number">99.9%</div>
+                    <div class="stat-label">Uptime Guarantee</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">256-bit</div>
+                    <div class="stat-label">Encryption Security</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">24/7</div>
+                    <div class="stat-label">Support Available</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">100%</div>
+                    <div class="stat-label">Vote Accuracy</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Features Grid -->
+        <div class="content-card" style="animation: fadeInUp 0.8s ease-out 0.6s backwards;">
+            <h2><i class="fas fa-shield-alt"></i> Why Choose Us</h2>
+            <div class="feature-grid">
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-lock"></i>
+                    </div>
+                    <h3>Bank-Level Security</h3>
+                    <p>Advanced encryption and security protocols protect every aspect of the voting process.</p>
+                </div>
+
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-user-shield"></i>
+                    </div>
+                    <h3>Voter Privacy</h3>
+                    <p>Anonymous ballot casting ensures your vote remains private and confidential.</p>
+                </div>
+
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-check-double"></i>
+                    </div>
+                    <h3>Verified Results</h3>
+                    <p>Real-time auditing and verification guarantee accurate vote counting.</p>
+                </div>
+
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <h3>Multi-Platform</h3>
+                    <p>Vote securely from any device - desktop, tablet, or mobile phone.</p>
+                </div>
+
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-universal-access"></i>
+                    </div>
+                    <h3>Accessibility</h3>
+                    <p>Designed to be usable by everyone, including those with disabilities.</p>
+                </div>
+
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-headset"></i>
+                    </div>
+                    <h3>24/7 Support</h3>
+                    <p>Our dedicated team is always ready to assist you throughout the voting process.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-card" style="animation: fadeInUp 0.8s ease-out 0.8s backwards;">
+            <h2><i class="fas fa-users"></i> Our Commitment to You</h2>
+            <p>
+                We understand that trust is earned, not given. That's why we've built our system with transparency at its core. Every vote is encrypted, verified, and auditable, ensuring that the democratic process remains pure and untampered.
+            </p>
+            <p>
+                Our team of security experts, election officials, and technology specialists work around the clock to maintain the integrity of our platform. We regularly undergo independent security audits and welcome scrutiny from election monitoring organizations.
+            </p>
+            <p>
+                Join thousands of satisfied voters who have experienced the convenience and security of digital voting. Together, we're building a stronger democracy, one vote at a time.
+            </p>
+        </div>
+    </div>
+</body>
+</html>

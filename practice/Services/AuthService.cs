@@ -51,11 +51,12 @@ namespace practice.Services
             // Check if email already exists
             if (await _repo_user.checkEmailPreExisting(registerDto.Email))
                 return false;
-
-            // also prevent duplicate CNIC
+            if (await _repo_user.checkNumberPreExisting(registerDto.PhoneNumber))
+                return false;
+            //also prevent duplicate CNIC
             // If you don't have this method, comment this out or implement it in repository.
-            // if (await _repo_user.checkCnicPreExisting(registerDto.cnic))
-            //     return false;
+            if (await _repo_user.checkCnicPreExisting(registerDto.cnic))
+                return false;
 
             var user = new User
             {
@@ -110,7 +111,10 @@ namespace practice.Services
             // Check if email already exists
             if (await _repo_user.checkEmailPreExisting(registerDto.Email))
                 return false;
-
+            if (await _repo_user.checkCnicPreExisting(registerDto.cnic))
+                return false;
+            if (await _repo_user.checkNumberPreExisting(registerDto.PhoneNumber))
+                return false;
             // OPTIONAL (recommended): also prevent duplicate CNIC
             // if (await _repo_user.checkCnicPreExisting(registerDto.cnic))
             //     return false;

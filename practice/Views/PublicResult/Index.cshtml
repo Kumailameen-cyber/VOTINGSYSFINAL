@@ -1,0 +1,43 @@
+﻿@model IEnumerable<practice.Models.Election>
+@{
+    ViewData["Title"] = "Election Archive";
+    Layout = "~/Views/Shared/_Layout.cshtml"; // Uses your public/main layout
+}
+
+<div class="container mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2><i class="fas fa-archive text-success"></i> Election Archive</h2>
+        <a asp-controller="Home" asp-action="Index" class="btn btn-outline-secondary">
+            <i class="fas fa-arrow-left"></i> Back to Home
+        </a>
+    </div>
+
+    @if (!Model.Any())
+    {
+        <div class="alert alert-info">No election results have been published yet.</div>
+    }
+    else
+    {
+        <div class="row">
+            @foreach (var election in Model)
+            {
+                <div class="col-md-4 mb-4">
+                    <div class="card shadow-sm h-100 border-success">
+                        <div class="card-header bg-success text-white">
+                            <h5 class="mb-0">@election.Title</h5>
+                        </div>
+                        <div class="card-body">
+                            <p>@election.Description</p>
+                            <p class="text-muted small">
+                                Ended: @election.EndDate.ToString("MMM dd, yyyy")
+                            </p>
+                            <a asp-action="Details" asp-route-id="@election.Id" class="btn btn-success w-100">
+                                View Final Results
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>

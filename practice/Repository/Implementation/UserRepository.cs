@@ -17,7 +17,14 @@ namespace practice.Repository.Implementation
         {
             return await _context.Users.AnyAsync(u => u.Email == email);
         }
-
+        public async Task<bool> checkNumberPreExisting(string number)
+        {
+            return await _context.Users.AnyAsync(u => u.PhoneNumber == number);
+        }
+        public async Task<bool> checkCnicPreExisting(string cnic)
+        {
+            return await _context.Users.AnyAsync(u => u.cnic == cnic);
+        }
         public async Task<User?> FindUserWithEmailAndActive(string email)
         {
             return await _context.Users

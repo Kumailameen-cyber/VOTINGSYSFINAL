@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using practice.Data;
 
@@ -11,9 +12,11 @@ using practice.Data;
 namespace practice.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260115205133_init")]
+    partial class init
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -338,7 +341,6 @@ namespace practice.Migrations
                         .HasColumnType("nvarchar(20)");
 
                     b.Property<string>("cnic")
-                        .IsRequired()
                         .HasMaxLength(13)
                         .HasColumnType("nvarchar(13)");
 
@@ -347,15 +349,9 @@ namespace practice.Migrations
                     b.HasIndex("Email")
                         .IsUnique();
 
-                    b.HasIndex("PhoneNumber")
-                        .IsUnique();
-
                     b.HasIndex("VoterIdNumber")
                         .IsUnique()
                         .HasFilter("[VoterIdNumber] IS NOT NULL");
-
-                    b.HasIndex("cnic")
-                        .IsUnique();
 
                     b.ToTable("Users");
 
@@ -370,8 +366,7 @@ namespace practice.Migrations
                             IsVerified = true,
                             PasswordHash = "$2a$11$seX7Ayuffe0Hdpmt0v2gt.CWydeU.5JDXsKyHadXWPxNFvR8JFzmu",
                             PhoneNumber = "923001234567",
-                            Role = "Admin",
-                            cnic = ""
+                            Role = "Admin"
                         },
                         new
                         {

@@ -111,6 +111,7 @@ namespace practice.Controllers
 
             return View(results); // This loads your existing Results.cshtml
         }
+        
 
 
         // GET: Edit Profile Page

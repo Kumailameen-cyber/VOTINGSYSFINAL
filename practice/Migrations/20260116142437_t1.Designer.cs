@@ -12,8 +12,8 @@ using practice.Data;
 namespace practice.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20260115182123_seed")]
-    partial class seed
+    [Migration("20260116142437_t1")]
+    partial class t1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -341,6 +341,7 @@ namespace practice.Migrations
                         .HasColumnType("nvarchar(20)");
 
                     b.Property<string>("cnic")
+                        .IsRequired()
                         .HasMaxLength(13)
                         .HasColumnType("nvarchar(13)");
 
@@ -349,9 +350,15 @@ namespace practice.Migrations
                     b.HasIndex("Email")
                         .IsUnique();
 
+                    b.HasIndex("PhoneNumber")
+                        .IsUnique();
+
                     b.HasIndex("VoterIdNumber")
                         .IsUnique()
                         .HasFilter("[VoterIdNumber] IS NOT NULL");
+
+                    b.HasIndex("cnic")
+                        .IsUnique();
 
                     b.ToTable("Users");
 
@@ -366,7 +373,8 @@ namespace practice.Migrations
                             IsVerified = true,
                             PasswordHash = "$2a$11$seX7Ayuffe0Hdpmt0v2gt.CWydeU.5JDXsKyHadXWPxNFvR8JFzmu",
                             PhoneNumber = "923001234567",
-                            Role = "Admin"
+                            Role = "Admin",
+                            cnic = ""
                         },
                         new
                         {

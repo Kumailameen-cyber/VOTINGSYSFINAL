@@ -11,6 +11,8 @@ namespace practice.Repository.Interface
         public Task<User?> FindUserWithEmail(string email);
 
         public Task<bool> checkEmailPreExisting(string email);
+        public Task<bool> checkCnicPreExisting(string cnic);
+        public Task<bool> checkNumberPreExisting(string number);
 
         public Task<bool> checkVoterIdPreExisting(string voterId);
 

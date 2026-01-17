@@ -36,12 +36,45 @@
         <nav class="navbar navbar-expand-lg navbar-dark shadow-sm" style="background-color:forestgreen">
             <div class="container-fluid px-4 position-relative">
 
-                <a class="navbar-brand p-0">
-                    <img src="~/images/logo.png" alt="Logo" style="height: 50px; width: auto;"/>
+                @* --- DYNAMIC LINK LOGIC START --- *@
+                @{
+                    // Default to Home Page
+                    string brandController = "Home";
+                    string brandAction = "Index";
+                    var userRole = Context.Session.GetString("Role");
+
+                    // If logged in, redirect to specific dashboards
+                    if (User.Identity?.IsAuthenticated == true)
+                    {
+                        if (userRole == "Admin")
+                        {
+                            brandController = "Admin";
+                            brandAction = "Dashboard";
+                        }
+                        else if (userRole == "Voter")
+                        {
+                            brandController = "Voter";
+                            brandAction = "Dashboard";
+                        }
+                        else if (userRole == "Candidate")
+                        {
+                            brandController = "Candidate";
+                            brandAction = "Dashboard";
+                        }
+                    }
+                }
+                @* --- DYNAMIC LINK LOGIC END --- *@
+
+                @* 1. LOGO LINK (Dynamic) *@
+                <a class="navbar-brand p-0" asp-controller="@brandController" asp-action="@brandAction">
+                    <img src="~/images/logo.png" alt="Logo" style="height: 50px; width: auto;" />
                 </a>
 
+                @* 2. CENTER TITLE LINK (Dynamic) *@
                 <div class="position-absolute start-50 translate-middle-x text-white fw-bold fs-5 text-nowrap">
-                    <a asp-controller="Home" asp-action="Index" class="text-white text-decoration-none"> Online Voting System </a>
+                    <a asp-controller="@brandController" asp-action="@brandAction" class="text-white text-decoration-none">
+                        Online Voting System
+                    </a>
                 </div>
 
                 <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -52,10 +85,9 @@
                     <ul class="navbar-nav ms-auto">
                         @if (User.Identity?.IsAuthenticated == true)
                         {
-                            var role = Context.Session.GetString("Role") ?? "";
                             var fullName = Context.Session.GetString("FullName") ?? "User";
 
-                            @if (role == "Admin")
+                            @if (userRole == "Admin")
                             {
                                 <li class="nav-item">
                                     <a class="nav-link" asp-controller="Admin" asp-action="Dashboard">
@@ -64,7 +96,7 @@
                                 </li>
 
                             }
-                            else if (role == "Voter")
+                            else if (userRole == "Voter")
                             {
                                 <li class="nav-item">
                                     <a class="nav-link" asp-controller="Voter" asp-action="Dashboard">
@@ -77,7 +109,7 @@
                                     </a>
                                 </li>
                             }
-                            else if (role == "Candidate")
+                            else if (userRole == "Candidate")
                             {
                                 <li class="nav-item">
                                     <a class="nav-link" asp-controller="Candidate" asp-action="Dashboard">

@@ -99,7 +99,7 @@ namespace practice.Controllers
 
             if (!result)
             {
-                ModelState.AddModelError(string.Empty, "Registration failed. Email or Voter ID may already exist.");
+                ModelState.AddModelError(string.Empty, "Registration failed. Email or Number or CNIC may already exist.");
                 return View(registerDto);
             }
 
