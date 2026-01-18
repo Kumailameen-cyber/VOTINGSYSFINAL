@@ -112,5 +112,12 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 // TEMP: Generate a hash to see it in the console
 Console.WriteLine("Generated Hash: " + BCrypt.Net.BCrypt.HashPassword("Pass@123"));
-
+// AUTOMATIC MIGRATION
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    // REPLACE 'OnlineVotingSystem.Data.ApplicationDbContext' with your actual Context name if different
+    var context = services.GetRequiredService<practice.Data.ApplicationDbContext>();
+    context.Database.Migrate();
+}
 app.Run();
