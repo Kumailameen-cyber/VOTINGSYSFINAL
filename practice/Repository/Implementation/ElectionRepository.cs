@@ -108,6 +108,7 @@ namespace practice.Repository.Implementation
                     CandidateName = c.User.FullName,
                     PartyName = c.PartyName,
                     PartySymbol = c.PartySymbol,
+                    PhotoUrl = c.ProfileImageUrl ?? "",
 
                     // Count specific votes for this election
                     TotalVotes = c.Votes.Count(v => v.ElectionId == electionId),

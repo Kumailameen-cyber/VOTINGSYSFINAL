@@ -19,6 +19,7 @@ namespace practice.DTOs
         public string? PartySymbol { get; set; }
         public int TotalVotes { get; set; }
         public double VotePercentage { get; set; }
+        public string PhotoUrl { get; set; }
     }
 
     public class CandidateDto

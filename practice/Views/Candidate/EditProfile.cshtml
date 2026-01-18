@@ -19,6 +19,16 @@
                     <form asp-action="EditProfile" method="post">
                         <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
 
+                        <div class="mb-3">
+                            <label asp-for="ProfileImageUrl" class="form-label fw-bold">
+                                <i class="fas fa-camera me-1"></i>Profile Picture Link (URL)
+                            </label>
+                            <input asp-for="ProfileImageUrl" class="form-control" placeholder="https://example.com/my-image.jpg" />
+                            <div class="form-text text-muted">
+                                Paste a direct link to an image (ending in .jpg, .png) from Google Images or another site.
+                            </div>
+                            <span asp-validation-for="ProfileImageUrl" class="text-danger small"></span>
+                        </div>
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label asp-for="PartyName" class="form-label fw-bold">
@@ -69,8 +79,6 @@
                             </div>
                         </div>
 
-                       
-
                         <div class="d-grid gap-2">
                             <button type="submit" class="btn text-white" style="background-color:forestgreen ">
                                 <i class="fas fa-save me-2"></i>Save Changes
@@ -95,14 +103,12 @@
     .card-hover {
         transition: transform 0.2s ease, box-shadow 0.2s ease;
         border-radius: 16px;
-        /* Optional: Add a base shadow so it doesn't look flat before hover */
         box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.1);
     }
 
         /* Hover State */
         .card-hover:hover {
             transform: translateY(-5px);
-            /* The specific bright green shadow you requested */
             box-shadow: 0 10px 25px rgba(46, 204, 113, 0.6) !important;
         }
 </style>
